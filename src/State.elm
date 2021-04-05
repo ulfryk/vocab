@@ -6,7 +6,8 @@ import Set exposing (Set, empty, member)
 
 type alias CardInput = { aSide: String, bSide: String }
 type alias Card = { id: String, aSide: String, bSide: String }
-type Scope = Splash | Editing CardInput | Playing Bool Card | Done
+type Showing = ASide | BSide | Both
+type Scope = Splash | Editing CardInput | Playing Showing Card | Done
 type alias Model = { cards: List Card, hidden: Set String, archived: Set String, scope: Scope, next: Int }
 
 mock = [

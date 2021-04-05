@@ -5256,6 +5256,8 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
+var $author$project$State$ASide = {$: 'ASide'};
+var $author$project$State$Both = {$: 'Both'};
 var $author$project$State$Done = {$: 'Done'};
 var $author$project$State$Playing = F2(
 	function (a, b) {
@@ -5703,7 +5705,7 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								scope: A2($author$project$State$Playing, true, card)
+								scope: A2($author$project$State$Playing, $author$project$State$Both, card)
 							}),
 						$elm$core$Platform$Cmd$none);
 				default:
@@ -5716,7 +5718,7 @@ var $author$project$Main$update = F2(
 								model,
 								{
 									next: n,
-									scope: A2($author$project$State$Playing, false, card)
+									scope: A2($author$project$State$Playing, $author$project$State$ASide, card)
 								}),
 							$elm$core$Platform$Cmd$none);
 					} else {
@@ -5734,8 +5736,6 @@ var $author$project$Main$update = F2(
 	});
 var $author$project$Play$Start = {$: 'Start'};
 var $elm$html$Html$button = _VirtualDom_node('button');
-var $elm$html$Html$div = _VirtualDom_node('div');
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $author$project$Play$Drop = function (a) {
 	return {$: 'Drop', a: a};
 };
@@ -5745,6 +5745,7 @@ var $author$project$Play$Next = function (a) {
 var $author$project$Play$Show = function (a) {
 	return {$: 'Show', a: a};
 };
+var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -5767,92 +5768,191 @@ var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$HandleCardHtml$handleCard = F2(
 	function (show, card) {
-		return show ? A2(
-			$elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$p,
+		switch (show.$) {
+			case 'Both':
+				return A2(
+					$elm$html$Html$div,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(card.bSide)
-						])),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Events$onClick(
-							$author$project$Play$Next(card.id))
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('next')
-						])),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Events$onClick(
-							$author$project$Play$Drop(card.id))
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('archive')
-						]))
-				])) : A2(
-			$elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$p,
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(card.aSide + (' --> ' + card.bSide))
+								])),
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Events$onClick(
+									$author$project$Play$Next(card.id))
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('next')
+								])),
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Events$onClick(
+									$author$project$Play$Drop(card.id))
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('archive')
+								]))
+						]));
+			case 'ASide':
+				return A2(
+					$elm$html$Html$div,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(card.aSide)
-						])),
-					A2(
-					$elm$html$Html$button,
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(card.aSide + ' --> '),
+									A2(
+									$elm$html$Html$button,
+									_List_fromArray(
+										[
+											$elm$html$Html$Events$onClick(
+											$author$project$Play$Show(card))
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text('show')
+										]))
+								]))
+						]));
+			default:
+				return A2(
+					$elm$html$Html$div,
+					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$Events$onClick(
-							$author$project$Play$Show(card))
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$button,
+									_List_fromArray(
+										[
+											$elm$html$Html$Events$onClick(
+											$author$project$Play$Show(card))
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text('show')
+										])),
+									$elm$html$Html$text(' --> ' + card.bSide)
+								]))
+						]));
+		}
+	});
+var $author$project$Layout$blockCls = 'layout';
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $author$project$Layout$elemClass = function (name) {
+	return $elm$html$Html$Attributes$class($author$project$Layout$blockCls + ('__' + name));
+};
+var $elm$html$Html$footer = _VirtualDom_node('footer');
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $elm$html$Html$h3 = _VirtualDom_node('h3');
+var $elm$html$Html$header = _VirtualDom_node('header');
+var $elm$html$Html$main_ = _VirtualDom_node('main');
+var $elm$html$Html$small = _VirtualDom_node('small');
+var $elm$core$Debug$toString = _Debug_toString;
+var $author$project$Layout$layout = F2(
+	function (model, content) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class($author$project$Layout$blockCls)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$header,
+					_List_fromArray(
+						[
+							$author$project$Layout$elemClass('header')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('show')
+							A2(
+							$elm$html$Html$h1,
+							_List_fromArray(
+								[
+									$author$project$Layout$elemClass('heading')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Vocab '),
+									A2(
+									$elm$html$Html$small,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$elm$html$Html$text(
+											'(' + ($elm$core$Debug$toString(model.next) + ')'))
+										]))
+								])),
+							A2(
+							$elm$html$Html$h3,
+							_List_fromArray(
+								[
+									$author$project$Layout$elemClass('info')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Learn the words!')
+								]))
+						])),
+					A2(
+					$elm$html$Html$main_,
+					_List_fromArray(
+						[
+							$author$project$Layout$elemClass('main')
+						]),
+					content),
+					A2(
+					$elm$html$Html$footer,
+					_List_fromArray(
+						[
+							$author$project$Layout$elemClass('footer')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('© Ulfryk 2021')
 						]))
 				]));
 	});
 var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $elm$core$Debug$toString = _Debug_toString;
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$view = function (model) {
 	return A2(
-		$elm$html$Html$div,
-		_List_Nil,
+		$author$project$Layout$layout,
+		model,
 		_List_fromArray(
 			[
-				A2(
-				$elm$html$Html$h1,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Vocab'),
-						$elm$html$Html$text(
-						$elm$core$Debug$toString(model.next))
-					])),
-				A2(
-				$elm$html$Html$p,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Learn the words!')
-					])),
 				function () {
 				var _v0 = model.scope;
 				switch (_v0.$) {

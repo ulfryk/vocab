@@ -1,0 +1,35 @@
+* { box-sizing: border-box }
+
+.layout {
+    margin: 0 auto;
+    max-width: 90vw;
+    padding: 50px 0;
+    width: 800px;
+}
+
+
+.layout__heading,
+.layout__info,
+.layout__footer {
+    text-align: center;
+}
+
+.layout__header {
+    /* -- */
+}
+
+.layout__heading {
+    /* -- */
+}
+
+.layout__info {
+    /* -- */
+}
+
+.layout__main {
+    /* -- */
+}
+
+.layout__footer {
+    /* -- */
+}
