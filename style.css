@@ -35,6 +35,7 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
     background-color: var(--ligth);
     margin: 0 auto;
     padding: 20px 0 10px;
+    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
@@ -49,6 +50,21 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
         max-width: 90vw;
         width: 800px;
         height: auto;
+    }
+}
+
+.layout__progress {
+    background-color: var(--mid);
+    max-width: 30px;
+    width: 1vw;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+@media (min-width: 796px) {
+    .layout__progress {
+        right: 20px;
     }
 }
 

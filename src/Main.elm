@@ -53,9 +53,9 @@ view : Model -> Html Msg
 view model =
     layout model [
       case model.scope of
-        Splash -> button [ onClick (Play Start) ] [ text "start"]
+        Splash -> button [ onClick <| Play Start ] [ text "start"]
         Editing _ -> text "…"
-        Playing show card -> Html.map (\ a -> Play a) (handleCard show card)
+        Playing show card -> Html.map Play <| handleCard show card
         Done -> p [] [ text "congratulations" ]
       ,
       ul [] (List.map (\c -> li [] [ text (c.id ++ ":: " ++ c.aSide ++ " / " ++ c.bSide) ]) (getAvailableCards model))

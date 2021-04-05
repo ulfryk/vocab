@@ -5875,8 +5875,21 @@ var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
-var $elm$html$Html$small = _VirtualDom_node('small');
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
 var $elm$core$Debug$toString = _Debug_toString;
+var $author$project$Layout$progress = function (m) {
+	var total = $elm$core$List$length(m.cards);
+	var done = A3($elm$core$Basics$composeL, $elm$core$List$length, $author$project$State$getAvailableCards, m);
+	var amount = $elm$core$Debug$toString(((done * 100) / total) | 0);
+	return amount + '%';
+};
+var $elm$html$Html$small = _VirtualDom_node('small');
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $author$project$Layout$layout = F2(
 	function (model, content) {
 		return A2(
@@ -5940,7 +5953,18 @@ var $author$project$Layout$layout = F2(
 					_List_fromArray(
 						[
 							$elm$html$Html$text('© Ulfryk 2021')
-						]))
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$author$project$Layout$elemClass('progress'),
+							A2(
+							$elm$html$Html$Attributes$style,
+							'bottom',
+							$author$project$Layout$progress(model))
+						]),
+					_List_Nil)
 				]));
 	});
 var $elm$html$Html$li = _VirtualDom_node('li');
@@ -5975,9 +5999,7 @@ var $author$project$Main$view = function (model) {
 						var card = _v0.b;
 						return A2(
 							$elm$html$Html$map,
-							function (a) {
-								return $author$project$Main$Play(a);
-							},
+							$author$project$Main$Play,
 							A2($author$project$HandleCardHtml$handleCard, show, card));
 					default:
 						return A2(
