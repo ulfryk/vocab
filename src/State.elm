@@ -20,17 +20,19 @@ mock = [
 initial : Model
 initial = { cards = mock, hidden = empty, archived = empty, scope = Splash, next = -1 }
 
+isPlayed : Scope -> String -> Bool
+isPlayed scope id =
+    case scope of
+        Playing _ card -> id == card.id
+        _ -> False
+
+isAvailable : Model -> Card -> Bool
+isAvailable { cards, hidden, archived, scope } { id } =
+  (not <| member id hidden) && (not <| member id archived) && (not <| isPlayed scope id)
+
 getAvailableCards : Model -> List Card
-getAvailableCards { cards, hidden, archived, scope } =
-    filter ( \c ->  (
-        not (member c.id hidden)
-    ) && (
-        not (member c.id archived)
-    ) && (
-        case scope of
-           Playing _ card -> c.id /= card.id
-           _ -> True
-    )) cards
+getAvailableCards model =
+    filter (isAvailable model) model.cards
 
 getNthCard : Int -> Model -> Maybe Card
 getNthCard n = head << drop n << getAvailableCards
