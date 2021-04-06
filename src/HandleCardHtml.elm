@@ -3,7 +3,7 @@ module HandleCardHtml exposing (..)
 import Html exposing (Html, button, div, p, text)
 import Html.Events exposing (onClick)
 import Play exposing (PlayMsg(..))
-import State exposing (Card, Showing(..))
+import State exposing (Card, Showing(..), cardId)
 
 handleCard : Showing -> Card -> Html PlayMsg
 handleCard show card =
@@ -11,8 +11,9 @@ handleCard show card =
           Both ->
             div [] [
               p [] [ text (card.aSide ++ " --> " ++ card.bSide) ],
-              button [ onClick (Next card.id)  ] [ text "next" ],
-              button [ onClick (Drop card.id) ] [ text "archive" ]
+              button [ onClick (Drop <| cardId card)  ] [ text "perfect" ],
+              button [ onClick (Next <| cardId card)  ] [ text "good" ],
+              button [ onClick (Fail <| cardId card) ] [ text "No Idea! :(" ]
             ]
           ASide ->
             div [] [

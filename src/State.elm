@@ -2,37 +2,66 @@ module State exposing (..)
 
 import List exposing (drop, filter, head, length)
 import Random exposing (Generator)
-import Set exposing (Set, empty, member)
+import Set exposing (Set, empty, member, union)
 
-type alias CardInput = { aSide: String, bSide: String }
-type alias Card = { id: String, aSide: String, bSide: String }
+type alias Card = { aSide: String, bSide: String }
+
 type Showing = ASide | BSide | Both
-type Scope = Splash | Editing CardInput | Playing Showing Card | Done
-type alias Model = { cards: List Card, hidden: Set String, archived: Set String, scope: Scope, next: Int }
+
+type Scope = Splash | Editing Card | Playing Showing Card | Done
+
+type alias GameStats = { perfect: Set String, good: Set String, bad: Set String }
+
+type alias Model = { cards: List Card, game: GameStats, archived: Set String, scope: Scope }
 
 mock = [
-  {id = "0000", aSide = "dupa", bSide = "arse"},
-  {id = "0010", aSide = "fiut", bSide = "dick"},
-  {id = "0100", aSide = "kutasiarz", bSide = "asshole"},
-  {id = "0011", aSide = "zjeb", bSide = "cunt"},
-  {id = "0101", aSide = "cipka", bSide = "pussy"}]
+  { aSide = "dupa", bSide = "arse" },
+  { aSide = "fiut", bSide = "dick" },
+  { aSide = "kutasiarz", bSide = "asshole" },
+  { aSide = "zjeb", bSide = "cunt" },
+  { aSide = "cipka", bSide = "pussy" }]
+
+cardId : Card -> String
+cardId { aSide, bSide } = aSide ++ ":" ++ bSide
+
+initialGameStats : GameStats
+initialGameStats = { perfect = empty, good = empty, bad = empty }
 
 initial : Model
-initial = { cards = mock, hidden = empty, archived = empty, scope = Splash, next = -1 }
+initial = {
+   cards = mock,
+   game = initialGameStats,
+   archived = empty,
+   scope = Splash }
 
-isPlayed : Scope -> String -> Bool
-isPlayed scope id =
+isPlayed : Scope -> Card -> Bool
+isPlayed scope c =
     case scope of
-        Playing _ card -> id == card.id
+        Playing _ card -> (cardId c) == (cardId card)
         _ -> False
 
+
+isArchived : Model -> Card -> Bool
+isArchived { archived } c = member (cardId c) archived
+
+isOutOfGame : GameStats -> Card -> Bool
+isOutOfGame { perfect, good, bad } c =
+    let done = union perfect <| union good bad in
+    member (cardId c) done
+
 isAvailable : Model -> Card -> Bool
-isAvailable { cards, hidden, archived, scope } { id } =
-  (not <| member id hidden) && (not <| member id archived) && (not <| isPlayed scope id)
+isAvailable ({ game, scope } as model) c =
+  (not <| isOutOfGame game c) &&
+  (not <| isArchived model c) &&
+  (not <| isPlayed scope c)
 
 getAvailableCards : Model -> List Card
-getAvailableCards model =
-    filter (isAvailable model) model.cards
+getAvailableCards ({ cards } as model) =
+    filter (isAvailable model) cards
+
+getPlayableCards : Model -> List Card
+getPlayableCards ({ cards } as model) =
+    filter (not << isArchived model) cards
 
 getNthCard : Int -> Model -> Maybe Card
 getNthCard n = head << drop n << getAvailableCards

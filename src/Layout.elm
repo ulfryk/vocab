@@ -24,10 +24,7 @@ layout : Model -> List (Html a) -> Html a
 layout model content =
   div [ class blockCls ] [
     header [ elemClass "header" ] [
-      h1 [ elemClass "heading"] [
-        text "Vocab ",
-        small [] [text ( "(" ++ (fromInt model.next) ++ ")" )]
-      ],
+      h1 [ elemClass "heading"] [ text "Vocab" ],
       h3 [ elemClass "info"] [ text "Learn the words!" ]
     ],
     main_ [ elemClass "main" ] content,
