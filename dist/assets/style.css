@@ -112,5 +112,14 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
 
 
 .word-card {
-    text-align: center;
+    display: flex;
+    min-height: 80px;
 }
+.word-card__pair {
+    padding: 30px 0;
+}
+
+.words-pair {}
+.words-pair__word {}
+.words-pair__word--left {}
+.words-pair__word--right {}

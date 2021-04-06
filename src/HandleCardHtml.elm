@@ -1,7 +1,7 @@
 module HandleCardHtml exposing (..)
 
-import BEM exposing (bem, getElemClassFactory, getRootClass)
-import Html exposing (Html, button, div, p, text)
+import BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
+import Html exposing (Html, button, div, p, span, text)
 import Html.Events exposing (onClick)
 
 import Play exposing (PlayMsg(..))
@@ -13,6 +13,7 @@ elemClass = getElemClassFactory bemTools
 
 pairBemTools = bem "words-pair"
 pairClass = getRootClass pairBemTools
+pairElemModClass = getElemModsClassFactory pairBemTools
 
 handleCard : Showing -> Card -> Html PlayMsg
 handleCard show card =
@@ -29,8 +30,8 @@ handleCard show card =
       ASide ->
         div [ blockClass ] [
           p [ elemClass "pair", pairClass ] [
-            text (card.aSide ++ " --> "),
-            button [ onClick (Show card) ] [ text "show"]
+            span [ pairElemModClass "word" ["left"] ] [ text card.aSide ] ,
+            span [ pairElemModClass "word" ["right"] ] [ button [ onClick (Show card) ] [ text "show"] ]
           ]
         ]
       BSide ->
