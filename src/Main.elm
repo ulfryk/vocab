@@ -1,20 +1,18 @@
 module Main exposing (..)
 
 import Browser
-import HandleCardHtml exposing (handleCard)
-import Html exposing (Html, button, li, p, text, ul)
-import Html.Events exposing (onClick)
-import Layout exposing (layout)
-import List
+import Html exposing (Html, text)
 
+import State exposing (Card, Model, Scope(..), Showing(..), initial)
 import Manage exposing (ManageMsg)
 import Play exposing (PlayMsg(..), updateOnPlay)
-import Random exposing (Generator)
-import Set exposing (insert, union)
-import State exposing (Card, Model, Scope(..), Showing(..), getNthCard, getPlayableCards, initial, initialGameStats, rollRandomCardIndex)
+
+import Layout exposing (layout)
+import HandleCardHtml exposing (handleCard)
+import DoneHtml exposing (doneView)
+import SplashHtml exposing (splashView)
 
 type Msg = Play PlayMsg | Manage ManageMsg
-
 
 initialModel : () -> (Model, Cmd Msg)
 initialModel _ = (initial, Cmd.none)
@@ -38,8 +36,8 @@ view : Model -> Html Msg
 view model =
     layout model [
       case model.scope of
-        Splash -> button [ onClick <| Play Start ] [ text "start"]
+        Splash -> Html.map Play <| splashView model
         Editing _ -> text "…"
         Playing show card -> Html.map Play <| handleCard show card
-        Done -> p [] [ text "done ", button [ onClick <| Play End ] [ text "finish"] ]
+        Done -> Html.map Play <| doneView model
   ]
