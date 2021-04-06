@@ -109,3 +109,8 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
         right: 0;
     }
 }
+
+
+.word-card {
+    text-align: center;
+}

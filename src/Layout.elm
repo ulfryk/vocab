@@ -1,15 +1,16 @@
 module Layout exposing (..)
 
+import BEM exposing (bem, getElemClassFactory, getRootClass)
 import Html exposing (Attribute, Html, div, footer, h1, h3, header, main_, p, small, text)
 import Html.Attributes exposing (class, style)
 import List exposing (length)
-import State exposing (Model, getAvailableCards)
 import String exposing (fromInt)
 
-blockCls = "layout"
+import State exposing (Model, getAvailableCards)
 
-elemClass : String -> Attribute msg
-elemClass name = class (blockCls ++ "__" ++ name)
+bemTools = bem "layout"
+blockClass = getRootClass bemTools
+elemClass = getElemClassFactory bemTools
 
 progress : Model -> String
 progress m =
@@ -22,7 +23,7 @@ progress m =
 
 layout : Model -> List (Html a) -> Html a
 layout model content =
-  div [ class blockCls ] [
+  div [ blockClass ] [
     header [ elemClass "header" ] [
       h1 [ elemClass "heading"] [ text "Vocab" ],
       h3 [ elemClass "info"] [ text "Learn the words!" ]
