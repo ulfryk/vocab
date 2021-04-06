@@ -20,16 +20,6 @@ mock = [
 initial : Model
 initial = { cards = mock, hidden = empty, archived = empty, scope = Splash, next = -1 }
 
---
---getFirstCard : List Card -> Scope
---getFirstCard list =
---    let topmost = head list
---    in
---    case topmost of
---        Just card -> Playing False card
---        Nothing -> Splash
-
-
 getAvailableCards : Model -> List Card
 getAvailableCards { cards, hidden, archived, scope } =
     filter ( \c ->  (
@@ -38,12 +28,12 @@ getAvailableCards { cards, hidden, archived, scope } =
         not (member c.id archived)
     ) && (
         case scope of
-           Playing _ card -> not (c.id == card.id)
+           Playing _ card -> c.id /= card.id
            _ -> True
     )) cards
 
 getNthCard : Int -> Model -> Maybe Card
-getNthCard n m = head (drop n (getAvailableCards m))
+getNthCard n = head << drop n << getAvailableCards
 
 rollRandomCardIndex : Model -> Generator Int
-rollRandomCardIndex m = Random.int 0 ((length (getAvailableCards m)) - 1)
+rollRandomCardIndex m = Random.int 0 <| (length <| getAvailableCards m) - 1

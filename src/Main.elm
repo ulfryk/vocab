@@ -1,10 +1,8 @@
 module Main exposing (..)
 
 import Browser
-import Debug exposing (toString)
 import HandleCardHtml exposing (handleCard)
-import Html exposing (Html, button, div, h1, li, p, small, text, ul)
-import Html.Attributes exposing (class)
+import Html exposing (Html, button, li, p, text, ul)
 import Html.Events exposing (onClick)
 import Layout exposing (layout)
 import List
@@ -18,7 +16,7 @@ import State exposing (Card, Model, Scope(..), Showing(..), getAvailableCards, g
 type Msg = Play PlayMsg | Manage ManageMsg
 
 playNthCard : Int -> Msg
-playNthCard n = Play (SetNth n)
+playNthCard n = Play <| SetNth n
 
 initialModel : () -> (Model, Cmd Msg)
 initialModel _ = (initial, Cmd.none)
@@ -38,10 +36,10 @@ update msg model =
             End -> ({ model | scope = Splash }, Cmd.none)
             Next id ->
                 let ml = { model | hidden = insert id model.hidden } in
-                (ml, Random.generate playNthCard (rollRandomCardIndex ml) )
+                (ml, Random.generate playNthCard <| rollRandomCardIndex ml)
             Drop id ->
                 let ml = { model | archived = insert id model.hidden } in
-                (ml, Random.generate playNthCard (rollRandomCardIndex ml) )
+                (ml, Random.generate playNthCard <| rollRandomCardIndex ml)
             Show card -> ({ model | scope = Playing Both card }, Cmd.none)
             SetNth n ->
                 case (getNthCard n model) of
