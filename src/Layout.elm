@@ -1,12 +1,13 @@
 module Layout exposing (..)
 
-import BEM exposing (bem, getElemClassFactory, getRootClass)
-import Html exposing (Attribute, Html, div, footer, h1, h3, header, main_, p, small, text)
-import Html.Attributes exposing (class, style)
+import Html exposing (Attribute, Html, div, footer, h1, h3, header, main_, text)
+import Html.Attributes exposing (style)
 import List exposing (length)
 import String exposing (fromInt)
 
-import State exposing (Model, getAvailableCards)
+import BEM exposing (bem, getElemClassFactory, getRootClass)
+import Play exposing (getAvailableCards)
+import State exposing (Model)
 
 bemTools = bem "layout"
 blockClass = getRootClass bemTools
@@ -15,7 +16,7 @@ elemClass = getElemClassFactory bemTools
 progress : Model -> String
 progress m =
     let total = length m.cards
-        done = length << getAvailableCards <| m
+        done = length << getAvailableCards m.archived m.cards <| m.game
         amount = fromInt <| (done * 100) // total
     in
     amount ++ "%"

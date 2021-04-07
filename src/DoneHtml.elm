@@ -1,17 +1,17 @@
 module DoneHtml exposing (..)
 
-import BEM exposing (bem, getElemClassFactory, getRootClass)
 import Html exposing (Html, button, p, section, text)
-
 import Html.Events exposing (onClick)
+
+import BEM exposing (bem, getElemClassFactory, getRootClass)
 import Play exposing (PlayMsg(..))
-import State exposing (Model)
+import GameModel exposing (GameStats)
 
 bemTools = bem "all-done"
 blockClass = getRootClass bemTools
 elemClass = getElemClassFactory bemTools
 
-doneView : Model -> Html PlayMsg
+doneView : GameStats -> Html PlayMsg
 doneView m =
     section [ blockClass ] [
       p [ elemClass "info" ] [ text "All done!" ],

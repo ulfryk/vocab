@@ -1,9 +1,10 @@
 module Main exposing (..)
 
 import Browser
+import GameModel exposing (GameStats)
 import Html exposing (Html, text)
 
-import State exposing (Card, Model, Scope(..), Showing(..), initial)
+import State exposing (Model, Scope(..), initial)
 import Manage exposing (ManageMsg)
 import Play exposing (PlayMsg(..), updateOnPlay)
 
@@ -20,24 +21,25 @@ initialModel _ = (initial, Cmd.none)
 subscriptions : Model ->  Sub Msg
 subscriptions _ = Sub.none
 
-mapSubUpdateCmd : (a -> Msg) -> (Model, Cmd a) -> (Model, Cmd Msg)
-mapSubUpdateCmd mapper (m, c) = (m, Cmd.map mapper c)
+liftPlayUpdate : Model -> (a -> Msg) -> (GameStats, Cmd a) -> (Model, Cmd Msg)
+liftPlayUpdate model mapper (game, command) = ({ model | game = game}, Cmd.map mapper command)
 
 main =
   Browser.element { init = initialModel, update = update, view = view, subscriptions = subscriptions }
 
 update : Msg -> Model -> (Model, Cmd Msg)
-update msg ({ game, archived } as model) =
+update msg ({ game, archived, cards } as model) =
   case msg of
-    Play m -> mapSubUpdateCmd Play <| updateOnPlay m model
-    Manage m -> (model, Cmd.none)
+    Play m -> case m of
+        GameEnd arch -> ({ model | archived = arch, scope = Splash }, Cmd.none)
+        _ -> liftPlayUpdate model Play <| updateOnPlay m archived cards game
+    Manage _ -> (model, Cmd.none)
 
 view : Model -> Html Msg
 view model =
     layout model [
       case model.scope of
         Splash -> Html.map Play <| splashView model
+        Playing -> Html.map Play <| handleCard model.game
         Editing _ -> text "…"
-        Playing show card -> Html.map Play <| handleCard show card
-        Done -> Html.map Play <| doneView model
   ]
