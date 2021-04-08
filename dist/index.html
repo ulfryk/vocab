@@ -1,18 +1,49 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Main</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link type="text/css" rel="stylesheet" href="assets/style.css" />
-  <script src="assets/elm.js"></script>
+    <meta charset="utf-8"/>
+    <title>Main</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link type="text/css" rel="stylesheet" href="assets/style.css"/>
+    <script src="assets/elm.js"></script>
 </head>
 
 <body>
 <script>
-const root = document.createElement('pre');
-document.body.append(root);
-Elm.Main.init({ node: root });
+    const cardsMock = [
+        {aSide: "dupa", bSide: "arse"},
+        {aSide: "fiut", bSide: "dick"},
+        {aSide: "kutasiarz", bSide: "asshole"},
+        {aSide: "zjeb", bSide: "cunt"},
+        {aSide: "cipka", bSide: "pussy"}]
+    const encode = data => {
+        try {
+            return JSON.stringify(data);
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
+    }
+    const decode = value => {
+        try {
+            return JSON.parse(value);
+        } catch (e) {
+            console.error(e);
+            return cardsMock;
+        }
+    }
+    const key = 'trudnasprawatakieaplickacjewelmie:vocab';
+    const root = document.createElement('pre');
+    document.body.append(root);
+    const app = Elm.Main.init({
+        node: root,
+        flags: decode(localStorage.getItem(key))
+    });
+    app.ports.syncData.subscribe(data => {
+        console.log(data);
+        localStorage.setItem(key, encode(data));
+    });
+
 </script>
 </body>
 </html>

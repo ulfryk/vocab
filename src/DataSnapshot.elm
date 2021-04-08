@@ -18,11 +18,11 @@ cardDecoder =
       |> required "aSide" D.string
       |> required "bSide" D.string
 
-cardEncoder : Card -> Value
-cardEncoder { aSide, bSide } =
+encodeCard : Card -> Value
+encodeCard { aSide, bSide } =
     E.object [
         ( "aSide", E.string aSide),
-        ("bSide", E.string bSide )]
+        ( "bSide", E.string bSide )]
 
 dataSnapshotDecoder : Decoder DataSnapshot
 dataSnapshotDecoder =
@@ -31,9 +31,9 @@ dataSnapshotDecoder =
         |> required "archived" (D.map S.fromList <| D.list D.string)
 
 
-dataSnapshotEncoder : DataSnapshot -> Value
-dataSnapshotEncoder { cards, archived } =
+encodeDataSnapshot : DataSnapshot -> Value
+encodeDataSnapshot { cards, archived } =
     E.object [
-    ( "cards", E.array cardEncoder <| A.fromList cards ),
+    ( "cards", E.array encodeCard <| A.fromList cards ),
     ( "archived", E.array E.string <| A.fromList << S.toList <| archived )]
 
