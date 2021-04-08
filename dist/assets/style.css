@@ -291,3 +291,14 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
 .all-done__action:active {
     opacity: 1;
 }
+
+
+table {
+    margin: 0 auto 20px;
+    width: 90%;
+}
+
+table th,
+table td {
+    text-align: center;
+}

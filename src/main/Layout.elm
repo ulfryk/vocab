@@ -1,13 +1,13 @@
 module Layout exposing (..)
 
-import Html exposing (Attribute, Html, div, footer, h1, h3, header, main_, text)
+import Html exposing (Attribute, Html, div, footer, h1, h3, header, i, main_, text)
 import Html.Attributes exposing (style)
 import List exposing (length)
 import String exposing (fromInt)
 
 import BEM exposing (bem, getElemClassFactory, getRootClass)
 import PlayMsg exposing (getAvailableCards)
-import State exposing (Model)
+import State exposing (Model, Scope(..))
 
 bemTools = bem "layout"
 blockClass = getRootClass bemTools
@@ -31,5 +31,7 @@ layout model content =
     ],
     main_ [ elemClass "main" ] content,
     footer [ elemClass "footer" ] [ text "© Ulfryk 2021" ],
-    div [ elemClass "progress", style "bottom" <| progress model ] []
+    case model.scope of
+        Playing -> div [ elemClass "progress", style "bottom" <| progress model ] []
+        _ -> i [] []
     ]
