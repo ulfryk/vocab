@@ -237,7 +237,7 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
     padding: 40px 10vw;
 }
 
-.splash__start {
+.splash__action {
     background-color: var(--contrast);
     border: none;
     border-radius: 4px;
@@ -251,11 +251,14 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
     padding: 0 20px;
     transition: opacity .3s ease;
 }
-.splash__start:hover {
+.splash__action + .splash__action {
+    margin-top: 20px;
+}
+.splash__action:hover {
     opacity: .95;
 }
-.splash__start:focus,
-.splash__start:active {
+.splash__action:focus,
+.splash__action:active {
     opacity: 1;
 }
 

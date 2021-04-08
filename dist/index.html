@@ -3,13 +3,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link type="text/css" rel="stylesheet" href="assets/style.css"/>
 <script src="assets/elm.js"></script></head><body><script>
-eval(atob('CmNvbnN0IGNhcmRzTW9jaz0nVzNzaVlWTnBaR1VpT2lKa2RYQmhJaXdpWWxOcFpHVWlPaUpoY25ObEluMHNleUpoVTJsa1pTSTZJbVpwZFh'+
-'RaUxDSmlVMmxrWlNJNkltUnBZMnNpZlN4JysKJzdJbUZUYVdSbElqb2lhM1YwWVhOcFlYSjZJaXdpWWxOcFpHVWlPaUpoYzNOb2IyeGxJbjBzZXlKaFUy'+
-'bGtaU0k2SW5wcVpXSWlMQ0ppVTJsa1pTSTZJbU4xYm5RaWZTeDdJbUZUYVcnKwonUmxJam9pWTJsd2EyRWlMQ0ppVTJsa1pTSTZJbkIxYzNONUluMWQnO'+
-'2NvbnN0IGtleT0ndHJ1ZG5hc3ByYXdhdGFraWVhcGxpY2thY2pld2VsbWllOnZvY2FiJzsKY29uc3QgZW5jb2RlPWRhdGE9Pnt0cnl7cmV0dXJuIEpTT0'+
-'4uc3RyaW5naWZ5KGRhdGEpO31jYXRjaChlKXtjb25zb2xlLmVycm9yKGUpO3JldHVybiBudWxsO319CmNvbnN0IGRlY29kZT12YWx1ZT0+e3RyeXtyZXR'+
-'1cm4gSlNPTi5wYXJzZSh2YWx1ZSk7fWNhdGNoKGUpe2NvbnNvbGUuZXJyb3IoZSk7cmV0dXJuIGJ0b2EoY2FyZHNNb2NrKTt9fQpjb25zdCByb290PWRv'+
-'Y3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3ByZScpO2RvY3VtZW50LmJvZHkuYXBwZW5kKHJvb3QpOwpjb25zdCBhcHA9RWxtLk1haW4uaW5pdCh7bm9kZTpyb'+
-'290LGZsYWdzOmRlY29kZShsb2NhbFN0b3JhZ2UuZ2V0SXRlbShrZXkpKX0pOwphcHAucG9ydHMuc3luY0RhdGEuc3Vic2NyaWJlKGRhdGEgPT57Y2'+
-'9uc29sZS5sb2coZGF0YSk7bG9jYWxTdG9yYWdlLnNldEl0ZW0oa2V5LCBlbmNvZGUoZGF0YSkpO30pOwo='));
+const cardsMock='W3siYVNpZGUiOiJkdXBhIiwiYlNpZGUiOiJhcnNlIn0seyJhU2lkZSI6ImZpdXQiLCJiU2lkZSI6ImRpY2sifSx'+
+'7ImFTaWRlIjoia3V0YXNpYXJ6IiwiYlNpZGUiOiJhc3Nob2xlIn0seyJhU2lkZSI6InpqZWIiLCJiU2lkZSI6ImN1bnQifSx7ImFTaW'+
+'RlIjoiY2lwa2EiLCJiU2lkZSI6InB1c3N5In1d';const key='trudnasprawatakieaplickacjewelmie:vocab';
+const encode=data=>{try{return JSON.stringify(data);}catch(e){console.error(e);return null;}}
+const decode=value=>{try{return JSON.parse(value)}catch(e){console.error(e);return null;}}
+const node=document.createElement('pre');document.body.append(node);
+const flags=decode(localStorage.getItem(key)||`{"cards":${atob(cardsMock)},"archived":[]}`);
+const app=Elm.Main.init({node,flags});
+app.ports.syncData.subscribe(data =>{console.log(data);localStorage.setItem(key, encode(data));});
 </script></body></html>
