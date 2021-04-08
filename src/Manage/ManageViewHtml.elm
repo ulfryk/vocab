@@ -7,11 +7,25 @@ import Manage.ManageMsg exposing (ManageMsg(..))
 import Card exposing (Card, cardId)
 import Set exposing (Set, member)
 
-stringFromBool : Bool -> String
-stringFromBool value =
+cardStateText : Bool -> String
+cardStateText value =
   case value of
-     True -> "True"
-     False -> "False"
+     True -> "archived: "
+     False -> "available: "
+
+cardActionText : Bool -> String
+cardActionText value =
+  case value of
+     True -> "Unarchive"
+     False -> "Archive"
+
+cardState : Set String -> Card -> List (Html ManageMsg)
+cardState archived card =
+    let isArchived = member (cardId card) <| archived in
+    [
+        text <| cardStateText isArchived,
+        button [ onClick <| ToggleArchived (not isArchived ) card ] [ text <| cardActionText isArchived ]
+    ]
 
 manageView : Set String -> List Card -> Html ManageMsg
 manageView archived cards =
@@ -29,7 +43,7 @@ manageView archived cards =
                 tr [] [
                     td [] [ text c.aSide ],
                     td [] [ text c.bSide ],
-                    td [] [ text << stringFromBool << member (cardId c) <| archived ]
+                    td [] << cardState archived <| c
                 ]
             ) cards
         ],
