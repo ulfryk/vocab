@@ -4,7 +4,7 @@ import BEM exposing (bem, getElemClassFactory, getRootClass)
 import Html exposing (Html, button, div, text)
 
 import Html.Events exposing (onClick)
-import Play exposing (PlayMsg(..))
+import PlayMsg exposing (PlayMsg(..))
 import State exposing (Model)
 
 bemTools = bem "splash"

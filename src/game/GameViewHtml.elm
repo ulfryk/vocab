@@ -1,12 +1,13 @@
-module HandleCardHtml exposing (..)
+module GameViewHtml exposing (..)
 
-import BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
-import DoneHtml exposing (doneView)
+import Card exposing (cardId)
 import Html exposing (Html, button, div, p, span, text)
 import Html.Events exposing (onClick)
 
-import Play exposing (PlayMsg(..))
-import GameModel exposing (Card, Current(..), GameStats, Showing(..), cardId)
+import BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
+import DoneHtml exposing (doneView)
+import PlayMsg exposing (PlayMsg(..))
+import GameModel exposing (Current(..), GameStats, Showing(..))
 
 bemTools = bem "word-card"
 blockClass = getRootClass bemTools
@@ -20,8 +21,8 @@ actionsBemTools = bem "word-actions"
 actionsClass = getRootClass actionsBemTools
 actionsElemModClass = getElemModsClassFactory actionsBemTools
 
-handleCard : GameStats -> Html PlayMsg
-handleCard ({ current } as game) =
+gameView : GameStats -> Html PlayMsg
+gameView ({ current } as game) =
     case current of
       GameModel.Answer card ->
         div [ blockClass ] [

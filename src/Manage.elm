@@ -1,5 +1,5 @@
 module Manage exposing (..)
 
-import GameModel exposing (Card)
+import Card exposing (Card)
 
-type ManageMsg = Edit | Cancel | Update Card | Delete String | Save Card
+type ManageMsg = Edit | Cancel | Archive Card

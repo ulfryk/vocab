@@ -8,9 +8,9 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import State exposing (Model, Scope(..), initial)
 import Manage exposing (ManageMsg)
-import Play exposing (PlayMsg(..), updateOnPlay)
+import PlayMsg exposing (PlayMsg(..), updateOnPlay)
 import Layout exposing (layout)
-import HandleCardHtml exposing (handleCard)
+import GameViewHtml exposing (gameView)
 import SplashHtml exposing (splashView)
 
 type Msg = Play PlayMsg | Manage ManageMsg
@@ -51,6 +51,6 @@ view model =
     layout model [
       case model.scope of
         Splash -> Html.map Play <| splashView model
-        Playing -> Html.map Play <| handleCard model.game
+        Playing -> Html.map Play <| gameView model.game
         Editing _ -> text "…"
   ]

@@ -4,7 +4,7 @@ import Html exposing (Html, button, p, section, text)
 import Html.Events exposing (onClick)
 
 import BEM exposing (bem, getElemClassFactory, getRootClass)
-import Play exposing (PlayMsg(..))
+import PlayMsg exposing (PlayMsg(..))
 import GameModel exposing (GameStats)
 
 bemTools = bem "all-done"

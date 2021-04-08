@@ -6,7 +6,7 @@ import List exposing (length)
 import String exposing (fromInt)
 
 import BEM exposing (bem, getElemClassFactory, getRootClass)
-import Play exposing (getAvailableCards)
+import PlayMsg exposing (getAvailableCards)
 import State exposing (Model)
 
 bemTools = bem "layout"

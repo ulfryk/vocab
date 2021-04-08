@@ -2,7 +2,8 @@ module State exposing (..)
 
 import Set exposing (Set, empty)
 
-import GameModel exposing (Card, Current(..), GameStats, Showing, initialGameStats)
+import Card exposing (Card)
+import GameModel exposing (Current(..), GameStats, Showing, initialGameStats)
 
 type Scope = Splash | Editing Card | Playing
 
