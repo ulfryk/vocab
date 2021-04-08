@@ -7,10 +7,8 @@ import Html exposing (Html, text)
 import State exposing (Model, Scope(..), initial)
 import Manage exposing (ManageMsg)
 import Play exposing (PlayMsg(..), updateOnPlay)
-
 import Layout exposing (layout)
 import HandleCardHtml exposing (handleCard)
-import DoneHtml exposing (doneView)
 import SplashHtml exposing (splashView)
 
 type Msg = Play PlayMsg | Manage ManageMsg
