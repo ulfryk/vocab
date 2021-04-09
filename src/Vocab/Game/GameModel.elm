@@ -1,4 +1,4 @@
-module GameModel exposing (..)
+module Vocab.Game.GameModel exposing (..)
 
 import Set exposing (Set, empty)
 

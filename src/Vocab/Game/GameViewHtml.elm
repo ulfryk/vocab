@@ -1,14 +1,15 @@
-module GameViewHtml exposing (..)
+module Vocab.Game.GameViewHtml exposing (..)
 
-import Vocab.DTO.Card exposing (cardId)
 import Html exposing (Html, button, div, p, span, text)
 import Html.Attributes exposing (disabled)
 import Html.Events exposing (onClick)
+import Core.BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
 
-import BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
-import DoneHtml exposing (doneView)
-import PlayMsg exposing (PlayMsg(..))
-import GameModel exposing (Current(..), GameStats, Showing(..))
+import Vocab.DTO.Card exposing (cardId)
+import Vocab.Game.DoneHtml exposing (doneView)
+import Vocab.Game.GameModel exposing (Current(..), GameStats, Showing(..), Current(..))
+import Vocab.Game.PlayMsg exposing (PlayMsg(..))
+
 
 bemTools = bem "word-card"
 blockClass = getRootClass bemTools
@@ -31,7 +32,7 @@ actionsView d card =
 
 gameView : GameStats -> Html PlayMsg
 gameView ({ current } as game) = case current of
-      GameModel.Answer card ->
+      Answer card ->
         div [ blockClass ] [
           p [ elemClass "pair", pairClass ] [
             span [ pairElemModClass "word" ["left"] ] [ text card.aSide ] ,
@@ -39,7 +40,7 @@ gameView ({ current } as game) = case current of
           ],
           actionsView False card
         ]
-      GameModel.Question side card -> case side of
+      Question side card -> case side of
         ASide ->
           div [ blockClass ] [
             p [ elemClass "pair", pairClass ] [
@@ -56,5 +57,5 @@ gameView ({ current } as game) = case current of
             ],
             actionsView True card
           ]
-      GameModel.NoMoreCards -> doneView game
+      NoMoreCards -> doneView game
 

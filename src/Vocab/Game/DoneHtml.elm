@@ -1,11 +1,12 @@
-module DoneHtml exposing (..)
+module Vocab.Game.DoneHtml exposing (..)
 
 import Html exposing (Html, button, p, section, text)
 import Html.Events exposing (onClick)
+import Core.BEM exposing (bem, getElemClassFactory, getRootClass)
 
-import BEM exposing (bem, getElemClassFactory, getRootClass)
-import PlayMsg exposing (PlayMsg(..))
-import GameModel exposing (GameStats)
+import Vocab.Game.PlayMsg exposing (PlayMsg(..))
+import Vocab.Game.GameModel exposing (GameStats)
+
 
 bemTools = bem "all-done"
 blockClass = getRootClass bemTools

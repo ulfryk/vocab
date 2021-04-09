@@ -6,18 +6,18 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import Set exposing (insert, remove)
 
-import State exposing (Model, Scope(..), initial)
-import Layout exposing (layout)
-
 import Vocab.DTO.Card exposing (cardId)
 import Vocab.DTO.DataSnapshot exposing (DataSnapshot, dataSnapshotDecoder, encodeDataSnapshot)
-import Base.SplashMsg exposing (SplashMsg(..))
-import Base.SplashHtml exposing (splashView)
-import GameModel exposing (GameStats)
-import PlayMsg exposing (PlayMsg(..), updateOnPlay)
-import GameViewHtml exposing (gameView)
-import Manage.ManageViewHtml exposing (manageView)
-import Manage.ManageMsg exposing (ManageMsg(..))
+import Vocab.Base.SplashMsg exposing (SplashMsg(..))
+import Vocab.Base.SplashHtml exposing (splashView)
+import Vocab.Game.GameModel exposing (GameStats)
+import Vocab.Game.PlayMsg exposing (PlayMsg(..), updateOnPlay)
+import Vocab.Game.GameViewHtml exposing (gameView)
+import Vocab.Manage.ManageViewHtml exposing (manageView)
+import Vocab.Manage.ManageMsg exposing (ManageMsg(..))
+import Vocab.State exposing (Model, Scope(..), initial)
+import Vocab.Layout exposing (layout)
+
 
 type Msg = Play PlayMsg | Manage ManageMsg | Basic SplashMsg
 

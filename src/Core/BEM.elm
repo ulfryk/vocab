@@ -1,4 +1,4 @@
-module BEM exposing (..)
+module Core.BEM exposing (..)
 
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
@@ -15,7 +15,6 @@ bem base = (
 bemElementClass : String -> String -> List String -> Attribute msg
 bemElementClass base name =
     class << foldl (\ e a -> base ++ "__" ++ name ++ "--" ++ e ++ " " ++ a) (base ++ "__" ++ name)
-
 
 getRootClass : BemTools a -> Attribute a
 getRootClass (r, _, _) = r

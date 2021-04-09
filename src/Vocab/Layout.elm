@@ -1,13 +1,13 @@
-module Layout exposing (..)
+module Vocab.Layout exposing (..)
 
 import Html exposing (Attribute, Html, div, footer, h1, h3, header, i, main_, text)
 import Html.Attributes exposing (style)
 import List exposing (length)
 import String exposing (fromInt)
+import Core.BEM exposing (bem, getElemClassFactory, getRootClass)
 
-import BEM exposing (bem, getElemClassFactory, getRootClass)
-import PlayMsg exposing (getAvailableCards)
-import State exposing (Model, Scope(..))
+import Vocab.Game.PlayMsg exposing (getAvailableCards)
+import Vocab.State exposing (Model, Scope(..))
 
 bemTools = bem "layout"
 blockClass = getRootClass bemTools

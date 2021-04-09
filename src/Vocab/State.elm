@@ -1,10 +1,10 @@
-module State exposing (..)
+module Vocab.State exposing (..)
 
 import Json.Decode exposing (Error)
 import Set exposing (Set, empty)
 
 import Vocab.DTO.Card exposing (Card)
-import GameModel exposing (Current(..), GameStats, Showing, initialGameStats)
+import Vocab.Game.GameModel exposing (Current(..), GameStats, Showing, initialGameStats)
 
 type Scope = Splash | Editing | Playing
 

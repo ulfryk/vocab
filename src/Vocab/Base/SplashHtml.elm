@@ -1,10 +1,10 @@
-module Base.SplashHtml exposing (..)
+module Vocab.Base.SplashHtml exposing (..)
 
-import BEM exposing (bem, getElemClassFactory, getRootClass)
 import Html exposing (Html, button, div, text)
-
 import Html.Events exposing (onClick)
-import Base.SplashMsg exposing (SplashMsg(..))
+import Core.BEM exposing (bem, getElemClassFactory, getRootClass)
+
+import Vocab.Base.SplashMsg exposing (SplashMsg(..))
 
 bemTools = bem "splash"
 blockClass = getRootClass bemTools

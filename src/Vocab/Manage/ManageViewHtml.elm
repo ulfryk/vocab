@@ -1,4 +1,4 @@
-module Manage.ManageViewHtml exposing (..)
+module Vocab.Manage.ManageViewHtml exposing (..)
 
 import Html exposing (Html, button, footer, h4, section, table, tbody, td, text, th, thead, tr)
 import Html.Events exposing (onClick)
@@ -6,7 +6,7 @@ import List exposing (map)
 import Set exposing (Set, member)
 
 import Vocab.DTO.Card exposing (Card, cardId)
-import Manage.ManageMsg exposing (ManageMsg(..))
+import Vocab.Manage.ManageMsg exposing (ManageMsg(..))
 
 cardStateText : Bool -> String
 cardStateText value =

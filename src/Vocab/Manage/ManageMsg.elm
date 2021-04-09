@@ -1,4 +1,4 @@
-module Manage.ManageMsg exposing (..)
+module Vocab.Manage.ManageMsg exposing (..)
 
 import Vocab.DTO.Card exposing (Card)
 

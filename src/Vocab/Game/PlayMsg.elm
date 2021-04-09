@@ -1,4 +1,4 @@
-module PlayMsg exposing (..)
+module Vocab.Game.PlayMsg exposing (..)
 
 import Vocab.DTO.Card exposing (Card, cardId)
 import List exposing (drop, filter, head, length)
@@ -6,7 +6,7 @@ import Random exposing (Generator)
 import Set exposing (Set, insert, member, union)
 import Task exposing (succeed)
 
-import GameModel exposing (Current(..), GameStats, Showing(..), initialGameStats)
+import Vocab.Game.GameModel exposing (Current(..), GameStats, Showing(..), initialGameStats)
 
 type PlayMsg = Start | Show Card | Fail String | Next String | Drop String | SetNth Int | End | GameEnd (Set String)
 
