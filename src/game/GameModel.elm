@@ -2,7 +2,7 @@ module GameModel exposing (..)
 
 import Set exposing (Set, empty)
 
-import Card exposing (Card)
+import Vocab.DTO.Card exposing (Card)
 
 type Showing = ASide | BSide
 type Current = Question Showing Card | Answer Card | NoMoreCards

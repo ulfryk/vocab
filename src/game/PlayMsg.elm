@@ -1,6 +1,6 @@
 module PlayMsg exposing (..)
 
-import Card exposing (Card, cardId)
+import Vocab.DTO.Card exposing (Card, cardId)
 import List exposing (drop, filter, head, length)
 import Random exposing (Generator)
 import Set exposing (Set, insert, member, union)

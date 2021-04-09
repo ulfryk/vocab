@@ -1,22 +1,23 @@
 port module Main exposing (..)
 
 import Browser
-import Card exposing (cardId)
 import Html exposing (Html)
 import Json.Decode as Decode
 import Json.Encode as Encode
-
-import GameModel exposing (GameStats)
-import Manage.ManageViewHtml exposing (manageView)
 import Set exposing (insert, remove)
-import SplashMsg exposing (SplashMsg(..))
+
 import State exposing (Model, Scope(..), initial)
-import DataSnapshot exposing (DataSnapshot, dataSnapshotDecoder, encodeDataSnapshot)
-import Manage.ManageMsg exposing (ManageMsg(..))
-import PlayMsg exposing (PlayMsg(..), updateOnPlay)
 import Layout exposing (layout)
+
+import Vocab.DTO.Card exposing (cardId)
+import Vocab.DTO.DataSnapshot exposing (DataSnapshot, dataSnapshotDecoder, encodeDataSnapshot)
+import Base.SplashMsg exposing (SplashMsg(..))
+import Base.SplashHtml exposing (splashView)
+import GameModel exposing (GameStats)
+import PlayMsg exposing (PlayMsg(..), updateOnPlay)
 import GameViewHtml exposing (gameView)
-import SplashHtml exposing (splashView)
+import Manage.ManageViewHtml exposing (manageView)
+import Manage.ManageMsg exposing (ManageMsg(..))
 
 type Msg = Play PlayMsg | Manage ManageMsg | Basic SplashMsg
 
@@ -60,7 +61,7 @@ view : Model -> Html Msg
 view model =
     layout model [
       case model.scope of
-        Splash -> Html.map Basic <| splashView model
+        Splash -> Html.map Basic <| splashView ()
         Playing -> Html.map Play <| gameView model.game
         Editing -> Html.map Manage <| manageView model.archived model.cards
   ]

@@ -1,4 +1,4 @@
-module DataSnapshot exposing (..)
+module Vocab.DTO.DataSnapshot exposing (..)
 
 import Array as A
 import Set as S exposing (Set)
@@ -6,7 +6,7 @@ import Json.Encode as E
 import Json.Decode as D exposing (Decoder)
 import Json.Decode.Pipeline exposing (required)
 
-import Card exposing (Card, cardDecoder, encodeCard)
+import Vocab.DTO.Card exposing (Card, cardDecoder, encodeCard)
 
 type alias DataSnapshot = {
   cards: List Card,

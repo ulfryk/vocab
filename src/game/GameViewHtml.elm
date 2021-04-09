@@ -1,6 +1,6 @@
 module GameViewHtml exposing (..)
 
-import Card exposing (cardId)
+import Vocab.DTO.Card exposing (cardId)
 import Html exposing (Html, button, div, p, span, text)
 import Html.Attributes exposing (disabled)
 import Html.Events exposing (onClick)

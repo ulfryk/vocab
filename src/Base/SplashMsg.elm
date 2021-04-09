@@ -1,3 +1,3 @@
-module SplashMsg exposing (..)
+module Base.SplashMsg exposing (..)
 
 type SplashMsg = StartGame | StartEditing

@@ -1,18 +1,17 @@
-module SplashHtml exposing (..)
+module Base.SplashHtml exposing (..)
 
 import BEM exposing (bem, getElemClassFactory, getRootClass)
 import Html exposing (Html, button, div, text)
 
 import Html.Events exposing (onClick)
-import SplashMsg exposing (SplashMsg(..))
-import State exposing (Model)
+import Base.SplashMsg exposing (SplashMsg(..))
 
 bemTools = bem "splash"
 blockClass = getRootClass bemTools
 elemClass = getElemClassFactory bemTools
 
-splashView : Model -> Html SplashMsg
-splashView m =
+splashView : () -> Html SplashMsg
+splashView _ =
     div [ blockClass ] [
       button [ onClick StartGame, elemClass "action" ] [ text "Start" ],
       button [ onClick StartEditing, elemClass "action" ] [ text "Manage" ]

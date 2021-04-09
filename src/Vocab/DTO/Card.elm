@@ -1,4 +1,4 @@
-module Card exposing (..)
+module Vocab.DTO.Card exposing (..)
 
 import Json.Decode as D exposing (Decoder)
 import Json.Decode.Pipeline exposing (required)

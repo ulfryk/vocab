@@ -1,5 +1,5 @@
 module Manage.ManageMsg exposing (..)
 
-import Card exposing (Card)
+import Vocab.DTO.Card exposing (Card)
 
 type ManageMsg = Done | ToggleArchived Bool Card
