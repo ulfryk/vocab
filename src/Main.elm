@@ -2,11 +2,11 @@ port module Main exposing (..)
 
 import Browser
 import Html exposing (Html)
-import Json.Decode as Decode
+import Json.Decode as Decode exposing (Error)
 import Json.Encode as Encode
-import Set exposing (insert, remove)
+import Set exposing (empty, insert, remove)
 
-import Vocab.DTO.Card exposing (cardId)
+import Vocab.DTO.Card exposing (Card, cardDecoder, cardId)
 import Vocab.DTO.DataSnapshot exposing (DataSnapshot, dataSnapshotDecoder, encodeDataSnapshot)
 import Vocab.Base.SplashMsg exposing (SplashMsg(..))
 import Vocab.Base.SplashHtml exposing (splashView)
@@ -19,9 +19,11 @@ import Vocab.State exposing (Model, Scope(..), initial)
 import Vocab.Layout exposing (layout)
 
 
-type Msg = Play PlayMsg | Manage ManageMsg | Basic SplashMsg
+type Msg = Play PlayMsg | Manage ManageMsg | Basic SplashMsg | Loaded (List Card) | Errored Error
 
 port syncData : Encode.Value -> Cmd msg
+port loadExternalData : () -> Cmd msg
+port loadedExternalData : (Decode.Value -> msg) -> Sub msg
 
 initialModel : Decode.Value -> (Model, Cmd Msg)
 initialModel flags =
@@ -31,7 +33,14 @@ initialModel flags =
         Err err -> ({ initial | error = Just err }, Cmd.none)
 
 subscriptions : Model ->  Sub Msg
-subscriptions _ = Sub.none
+subscriptions _ =
+  let fromJson = Decode.decodeValue (Decode.list cardDecoder) in
+  loadedExternalData (\val ->
+    case fromJson val of
+        Ok data -> Loaded data
+        Err err -> Errored err
+  )
+
 
 liftPlayUpdate : Model -> (a -> Msg) -> (GameStats, Cmd a) -> (Model, Cmd Msg)
 liftPlayUpdate model mapper (game, command) = ({ model | game = game}, Cmd.map mapper command)
@@ -52,9 +61,14 @@ update msg ({ game, archived, cards } as model) =
         ToggleArchived toggle card -> case toggle of
             True -> ({ model | archived = insert (cardId card) archived }, Cmd.none)
             False -> ({ model | archived = remove (cardId card) archived }, Cmd.none)
+        LoadExternalData -> ({ model | loading = True }, loadExternalData () )
     Basic m -> case m of
         StartGame -> liftPlayUpdate { model | scope = Playing } Play <| updateOnPlay Start archived cards game
         StartEditing -> ({ model | scope = Editing }, Cmd.none)
+    Loaded data -> ({ model | loading = False , archived = empty, cards = data }, Cmd.none )
+    Errored error ->  ({ model | loading = False , error = Just error }, Cmd.none )
+
+
 
 
 view : Model -> Html Msg

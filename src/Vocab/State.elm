@@ -8,7 +8,7 @@ import Vocab.Game.GameModel exposing (Current(..), GameStats, Showing, initialGa
 
 type Scope = Splash | Editing | Playing
 
-type alias Model = { cards: List Card, game: GameStats, archived: Set String, scope: Scope, error: Maybe Error }
+type alias Model = { cards: List Card, game: GameStats, archived: Set String, scope: Scope, error: Maybe Error, loading : Bool }
 
 initial : Model
 initial = {
@@ -16,4 +16,5 @@ initial = {
    game = initialGameStats,
    archived = empty,
    scope = Splash,
-   error = Nothing }
+   error = Nothing,
+   loading = False }

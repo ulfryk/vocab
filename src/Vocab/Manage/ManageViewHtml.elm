@@ -1,6 +1,6 @@
 module Vocab.Manage.ManageViewHtml exposing (..)
 
-import Html exposing (Html, button, footer, h4, section, table, tbody, td, text, th, thead, tr)
+import Html exposing (Html, button, footer, h4, hr, section, table, tbody, td, text, th, thead, tr)
 import Html.Events exposing (onClick)
 import List exposing (map)
 import Set exposing (Set, member)
@@ -32,6 +32,8 @@ manageView : Set String -> List Card -> Html ManageMsg
 manageView archived cards =
     section [] [
         h4 [] [ text "Edit"],
+        button [onClick LoadExternalData ] [ text "Load data" ],
+        hr [] [],
         table [] [
             thead [] [
                 tr [] [

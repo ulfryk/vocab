@@ -2,6 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"/><title>Main</title>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link type="text/css" rel="stylesheet" href="assets/style.css"/>
+<script></script>
 <script src="assets/elm.js"></script></head><body><script>
 const cardsMock='W3siYVNpZGUiOiJkdXBhIiwiYlNpZGUiOiJhcnNlIn0seyJhU2lkZSI6ImZpdXQiLCJiU2lkZSI6ImRpY2sifSx'+
 '7ImFTaWRlIjoia3V0YXNpYXJ6IiwiYlNpZGUiOiJhc3Nob2xlIn0seyJhU2lkZSI6InpqZWIiLCJiU2lkZSI6ImN1bnQifSx7ImFTaW'+
@@ -12,4 +13,12 @@ const node=document.createElement('pre');document.body.append(node);
 const flags=decode(localStorage.getItem(key)||`{"cards":${atob(cardsMock)},"archived":[]}`);
 const app=Elm.Main.init({node,flags});
 app.ports.syncData.subscribe(data =>{console.log(data);localStorage.setItem(key, encode(data));});
+const update = data => {
+    app.ports.loadedExternalData.send(data);
+}
+const dataUri = atob('aHR0cHM6Ly9zaGVldHMuZ29vZ2xlYXBpcy5jb20vdjQvc3ByZWFkc2hlZXRzLzFEY3R4VkZpbWk0azdjeW1'+
+'mR0VWNkUzT2RtWlZmdkxUeTQ2T3U1X0VGYkNZL3ZhbHVlcy9BOkM/a2V5PUFJemFTeUNCbWlld0RxRzlxTHJ6VmxCd0ZhV096MWl3Wm1nd3JRaw==')
+app.ports.loadExternalData.subscribe(() => {
+fetch(dataUri).then(r=>r.json()).then(d=>d.values.slice(1).map(([aSide,bSide]) => ({ aSide, bSide})))
+.then(update).catch(e=>{console.error(e);});})
 </script></body></html>
