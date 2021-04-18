@@ -3,6 +3,7 @@
   "short_name": "Vocab",
   "prefer_related_applications": true,
   "related_applications": [],
+  "display": "fullscreen",
   "icons": [
   {
    "src": "assets\/icons\/android-icon-36x36.png",
