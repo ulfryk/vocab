@@ -191,7 +191,8 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
 .word-actions {
     display: flex;
     height: 52px;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+    justify-content: flex-end;
     margin: 0 auto 5px;
     width: 90%;
 }
@@ -219,9 +220,14 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
         font-size: 1.5em;
     }
 }
+.word-actions__action:not(:first-child) {
+    margin-left: 10px;
+}
 
 .word-actions__action--perfect {
     background-color: var(--contrast);
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .word-actions__action--good {

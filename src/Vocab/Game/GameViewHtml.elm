@@ -25,9 +25,9 @@ actionsElemModClass = getElemModsClassFactory actionsBemTools
 
 actionsView d card =
           div [ elemClass "actions", actionsClass ] [
-            button [ disabled d, onClick (Drop <| cardId card), actionsElemModClass "action" ["perfect"] ] [ text "perfect" ],
-            button [ disabled d, onClick (Next <| cardId card), actionsElemModClass "action" ["good"]  ] [ text "good" ],
-            button [ disabled d, onClick (Fail <| cardId card), actionsElemModClass "action" ["fail"] ] [ text "No Idea! :(" ]
+            button [ disabled d, onClick (Drop <| cardId card), actionsElemModClass "action" ["perfect"] ] [ text "OK!" ],
+            --button [ disabled d, onClick (Next <| cardId card), actionsElemModClass "action" ["good"]  ] [ text "good" ],
+            button [ disabled d, onClick (Fail <| cardId card), actionsElemModClass "action" ["fail"] ] [ text "No Idea…" ]
           ]
 
 gameView : GameStats -> Html PlayMsg
