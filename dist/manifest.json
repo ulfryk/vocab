@@ -1,6 +1,9 @@
 {
  "name": "Vocab",
- "icons": [
+  "short_name": "Vocab",
+  "prefer_related_applications": true,
+  "related_applications": [],
+  "icons": [
   {
    "src": "assets\/icons\/android-icon-36x36.png",
    "sizes": "36x36",
