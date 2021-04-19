@@ -1,11 +1,15 @@
 module Vocab.Manage.ManageViewHtml exposing (..)
 
-import Html exposing (Html, button, footer, h4, hr, section, table, tbody, td, text, th, thead, tr)
-import Html.Events exposing (onClick)
+import Html exposing (Html, button, footer, h4, hr, input, section, table, tbody, td, text, th, thead, tr)
+import Html.Attributes exposing (disabled, placeholder, value)
+import Html.Events exposing (onClick, onInput)
 import List exposing (map)
+import Maybe exposing (withDefault)
 import Set exposing (Set, member)
 
+import String exposing (isEmpty)
 import Vocab.DTO.Card exposing (Card, cardId)
+import Vocab.Manage.ManageModel exposing (ManageModel)
 import Vocab.Manage.ManageMsg exposing (ManageMsg(..))
 
 cardStateText : Bool -> String
@@ -28,18 +32,20 @@ cardState archived card =
         button [ onClick <| ToggleArchived (not isArchived ) card ] [ text <| cardActionText isArchived ]
     ]
 
-manageView : Set String -> List Card -> Html ManageMsg
-manageView archived cards =
+manageView : Set String -> List Card -> ManageModel -> Html ManageMsg
+manageView archived cards { apiKey, dataId } =
     section [] [
         h4 [] [ text "Edit"],
-        button [onClick LoadExternalData ] [ text "Load data" ],
+        input [ placeholder "Api Key", onInput SetApiKey, value <| withDefault "" apiKey  ] [],
+        input [ placeholder "Data Id", onInput SetDataId, value <| withDefault "" dataId  ] [],
+        button [onClick LoadExternalData, disabled ((isEmpty <| withDefault "" apiKey) || (isEmpty <| withDefault "" dataId)) ] [ text "Load data" ],
         hr [] [],
         table [] [
             thead [] [
                 tr [] [
                     th [] [ text "A Side" ],
                     th [] [ text "B Side" ],
-                    th [] [ text "Archived" ]
+                    th [] [ text "Archived", button [ onClick UnArchiveAll ] [ text "Unarchive All"] ]
                 ]
             ],
             tbody [] <| map ( \c ->

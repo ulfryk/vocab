@@ -34,6 +34,8 @@ const decode = value => {
     }
 }
 
+const dataUri = (id, key) => `https://sheets.googleapis.com/v4/spreadsheets/${id}/values/A:D?key=${key}`
+
 async function initApp() {
     const db = ImmortalDB.ImmortalDB
     const node = document.createElement('pre');
@@ -49,9 +51,14 @@ async function initApp() {
         app.ports.loadedExternalData.send(data);
         return data;
     }
-    app.ports.loadExternalData.subscribe(() => {
-        fetch(atob(U)).then(r => r.json())
+    app.ports.loadExternalData.subscribe(({apiKey, dataId}) => {
+        if (!apiKey || !dataId) {
+            console.error(`Wrong creds: apiKey: ${apiKey}, dataId: ${dataId}`);
+            return;
+        }
+        fetch(dataUri(dataId?.trim(), apiKey?.trim())).then(r => r.json())
             .then(d => d.values.slice(1)
+                .filter(([a, _, b]) => !!a && !!b)
                 .map(([aSide, fon, bSide, desc]) => ({aSide, bSide})))
             .then(update)
             .then(cards => ({cards, archived: []}))
