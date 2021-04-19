@@ -49,9 +49,8 @@ async function initApp() {
         app.ports.loadedExternalData.send(data);
         return data;
     }
-    const dataUri = 'https://sheets.googleapis.com/v4/spreadsheets/1PoYeHseRbHRfD_SZJdvofzeCqb9i-KoWlNu1RISPlcs/values/A:D?key=AIzaSyCBmiewDqG9qLrzVlBwFaWOz1iwZmgwrQk';
     app.ports.loadExternalData.subscribe(() => {
-        fetch(dataUri).then(r => r.json())
+        fetch(atob(U)).then(r => r.json())
             .then(d => d.values.slice(1)
                 .map(([aSide, fon, bSide, desc]) => ({aSide, bSide})))
             .then(update)
