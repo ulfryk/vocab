@@ -39,7 +39,7 @@ const dataUri = (id, key) => `https://sheets.googleapis.com/v4/spreadsheets/${id
 async function initApp() {
     const db = ImmortalDB.ImmortalDB
     const node = document.createElement('pre');
-    const flags = await db.get(key).then(v => v || `{"cards":${atob(cardsMock)},"archived":[]}`).then(decode);
+    const flags = await db.get(key).then(v => v || `{"cards":${atob(cardsMock)},"archived":[],"creds":{}}`).then(decode);
     const save = data => {
         console.log(data);
         db.set(key, encode(data));

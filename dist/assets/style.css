@@ -17,6 +17,12 @@ html {
     font-family: sans-serif;
 }
 
+@media (min-width: 796px) {
+    html {
+        height: auto;
+    }
+}
+
 body {
     height: 100%;
     margin: 0;
@@ -25,6 +31,7 @@ body {
 
 @media (min-width: 796px) {
     body {
+        height: auto;
         padding: 5vh 0;
     }
 }
@@ -43,6 +50,7 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow: auto;
 }
 
 @media (min-width: 796px) {
@@ -50,8 +58,10 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
         border-radius: 20px;
         box-shadow: 1px 2px 12px var(--dark);
         max-width: 90vw;
+        margin-bottom: 40px;
         width: 800px;
         height: auto;
+        overflow: unset;
     }
 }
 
@@ -120,6 +130,7 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
         left: 0;
         position: fixed;
         right: 0;
+        z-index: -1;
     }
 }
 

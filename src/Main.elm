@@ -31,7 +31,7 @@ initialModel : Decode.Value -> (Model, Cmd Msg)
 initialModel flags =
     let data = Decode.decodeValue dataSnapshotDecoder flags in
     case data of
-        Ok value -> ({ initial | cards = value.cards, archived = value.archived }, Cmd.none)
+        Ok value -> ({ initial | cards = value.cards, archived = value.archived, manage = value.creds }, Cmd.none)
         Err err -> ({ initial | error = Just err }, Cmd.none)
 
 subscriptions : Model ->  Sub Msg
@@ -51,7 +51,7 @@ main =
   Browser.element { init = initialModel, update = update, view = view, subscriptions = subscriptions }
 
 updateAndSync : Model -> (Model, Cmd Msg)
-updateAndSync ({ cards, archived } as model) = (model, syncData <| encodeDataSnapshot { cards = cards, archived = archived })
+updateAndSync ({ cards, archived, manage } as model) = (model, syncData <| encodeDataSnapshot { cards = cards, archived = archived, creds = manage })
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg ({ game, archived, cards } as model) =
