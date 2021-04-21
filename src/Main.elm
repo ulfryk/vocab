@@ -4,6 +4,7 @@ import Browser
 import Html exposing (Html)
 import Json.Decode as Decode exposing (Error)
 import Json.Encode as Encode
+import List exposing (filter)
 import Set exposing (empty, insert, remove)
 
 import Vocab.DTO.Card exposing (Card, cardDecoder, cardId)
@@ -12,7 +13,7 @@ import Vocab.DTO.DataSnapshot exposing (DataSnapshot, dataSnapshotDecoder, encod
 import Vocab.Base.SplashMsg exposing (SplashMsg(..))
 import Vocab.Base.SplashHtml exposing (splashView)
 import Vocab.Game.GameModel exposing (GameStats)
-import Vocab.Game.PlayMsg exposing (PlayMsg(..), updateOnPlay)
+import Vocab.Game.PlayMsg exposing (PlayMsg(..), isArchived, updateOnPlay)
 import Vocab.Game.GameViewHtml exposing (gameView)
 import Vocab.Manage.ManageModel exposing (setApiKey, setDataId)
 import Vocab.Manage.ManageViewHtml exposing (manageView)
@@ -26,6 +27,7 @@ type Msg = Play PlayMsg | Manage ManageMsg | Basic SplashMsg | Loaded (List Card
 port syncData : Encode.Value -> Cmd msg
 port loadExternalData : Encode.Value -> Cmd msg
 port loadedExternalData : (Decode.Value -> msg) -> Sub msg
+port resetAll : () -> Cmd msg
 
 initialModel : Decode.Value -> (Model, Cmd Msg)
 initialModel flags =
@@ -68,6 +70,7 @@ update msg ({ game, archived, cards } as model) =
         UnArchiveAll -> updateAndSync { model | archived = empty }
         SetApiKey key -> ({ model | manage = setApiKey model.manage key }, Cmd.none)
         SetDataId id -> ({ model | manage = setDataId model.manage id  }, Cmd.none)
+        Reset -> (initial, resetAll ())
     Basic m -> case m of
         StartGame -> liftPlayUpdate { model | scope = Playing } Play <| updateOnPlay Start archived cards game
         StartEditing -> ({ model | scope = Editing }, Cmd.none)
@@ -82,6 +85,6 @@ view model =
     layout model [
       case model.scope of
         Splash -> Html.map Basic <| splashView ()
-        Playing -> Html.map Play <| gameView model.game
+        Playing -> Html.map Play <| gameView (filter (\c -> not (isArchived model.archived c)) model.cards) <| model.game
         Editing -> Html.map Manage <| manageView model.archived model.cards model.manage
   ]

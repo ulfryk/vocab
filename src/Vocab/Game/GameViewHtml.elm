@@ -1,11 +1,11 @@
 module Vocab.Game.GameViewHtml exposing (..)
 
-import Html exposing (Html, button, div, p, span, text)
+import Html exposing (Html, button, div, p, small, span, text)
 import Html.Attributes exposing (disabled)
 import Html.Events exposing (onClick)
 import Core.BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
 
-import Vocab.DTO.Card exposing (cardId)
+import Vocab.DTO.Card exposing (Card, cardId)
 import Vocab.Game.DoneHtml exposing (doneView)
 import Vocab.Game.GameModel exposing (Current(..), GameStats, Showing(..), Current(..))
 import Vocab.Game.PlayMsg exposing (PlayMsg(..))
@@ -24,14 +24,14 @@ actionsClass = getRootClass actionsBemTools
 actionsElemModClass = getElemModsClassFactory actionsBemTools
 
 actionsView d card =
-          div [ elemClass "actions", actionsClass ] [
-            button [ disabled d, onClick (Drop <| cardId card), actionsElemModClass "action" ["perfect"] ] [ text "OK! (hide)" ],
-            --button [ disabled d, onClick (Next <| cardId card), actionsElemModClass "action" ["good"]  ] [ text "good" ],
-            button [ disabled d, onClick (Fail <| cardId card), actionsElemModClass "action" ["fail"] ] [ text "No Idea… (keep)" ]
-          ]
+  div [ elemClass "actions", actionsClass ] [
+    button [ disabled d, onClick (Drop <| cardId card), actionsElemModClass "action" ["perfect"] ] [ text " OK! ", small [] [ text " (hide) " ] ],
+    button [ disabled d, onClick (Next <| cardId card), actionsElemModClass "action" ["good"]  ] [ text " Good ", small [] [ text " (keep) "  ] ],
+    button [ disabled d, onClick (Fail <| cardId card), actionsElemModClass "action" ["fail"] ] [ text " No Idea… ", small [] [ text " (keep) "  ] ]
+  ]
 
-gameView : GameStats -> Html PlayMsg
-gameView ({ current } as game) = case current of
+gameView : List Card -> GameStats -> Html PlayMsg
+gameView cards ({ current } as game) = case current of
       Answer card ->
         div [ blockClass ] [
           p [ elemClass "pair", pairClass ] [
@@ -57,5 +57,5 @@ gameView ({ current } as game) = case current of
             ],
             actionsView True card
           ]
-      NoMoreCards -> doneView game
+      NoMoreCards -> doneView cards game
 

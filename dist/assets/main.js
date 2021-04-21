@@ -66,5 +66,8 @@ async function initApp() {
             .catch(e => {
                 console.error(e);
             });
-    })
+    });
+    app.ports.resetAll.subscribe(() => {
+        db.remove(key);
+    });
 }

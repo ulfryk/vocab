@@ -36,6 +36,10 @@ manageView : Set String -> List Card -> ManageModel -> Html ManageMsg
 manageView archived cards { apiKey, dataId } =
     section [] [
         h4 [] [ text "Edit"],
+        hr [] [],
+        button [ onClick Reset ] [ text "Reset" ],
+        text " (it will erase all data)",
+        hr [] [],
         input [ placeholder "Api Key", onInput SetApiKey, value <| withDefault "" apiKey  ] [],
         input [ placeholder "Data Id", onInput SetDataId, value <| withDefault "" dataId  ] [],
         button [onClick LoadExternalData, disabled ((isEmpty <| withDefault "" apiKey) || (isEmpty <| withDefault "" dataId)) ] [ text "Load data" ],
