@@ -70,7 +70,7 @@ rollRandomCardIndex archived cards game =
 
 updateGameAndRollNextIndex : Set String -> List Card -> GameStats -> ( GameStats, Cmd PlayMsg )
 updateGameAndRollNextIndex archived cards game =
-    ( game, Random.generate SetNth <| rollRandomCardIndex archived cards game )
+    ( { game | countDown = game.countDown - 1 }, Random.generate SetNth <| rollRandomCardIndex archived cards game )
 
 
 updateCurrent : GameStats -> Current -> ( GameStats, Cmd PlayMsg )

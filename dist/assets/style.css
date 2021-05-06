@@ -357,5 +357,14 @@ table {
 
 table th,
 table td {
-    text-align: center;
+    text-align: left;
+}
+
+table th:last-child button,
+table td:last-child button {
+    float: right;
+}
+
+table tr.archived {
+    opacity: .4;
 }

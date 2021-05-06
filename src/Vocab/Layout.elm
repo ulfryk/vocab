@@ -3,9 +3,8 @@ module Vocab.Layout exposing (..)
 import Core.BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
 import Html exposing (Attribute, Html, div, footer, h1, h3, header, i, main_, text)
 import Html.Attributes exposing (style)
-import List exposing (length)
 import String exposing (fromInt)
-import Vocab.Game.PlayMsg exposing (getAvailableCards)
+import Vocab.Game.GameModel exposing (statsLength)
 import Vocab.State exposing (Model, Scope(..))
 
 
@@ -29,10 +28,10 @@ progress : Model -> String
 progress m =
     let
         total =
-            length m.cards
+            statsLength m.game + m.game.countDown
 
         done =
-            length << getAvailableCards m.archived m.cards <| m.game
+            statsLength m.game
 
         amount =
             fromInt <| (done * 100) // total
@@ -60,7 +59,7 @@ layout model content =
         , footer [ elemClass "footer" ] [ text "© Ulfryk 2021" ]
         , case model.scope of
             Playing ->
-                div [ elemClass "progress", style "bottom" <| progress model ] []
+                div [ elemClass "progress", style "height" <| progress model ] []
 
             _ ->
                 i [] []

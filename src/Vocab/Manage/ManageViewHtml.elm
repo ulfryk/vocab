@@ -1,7 +1,7 @@
 module Vocab.Manage.ManageViewHtml exposing (..)
 
-import Html exposing (Html, button, footer, h4, hr, input, section, table, tbody, td, text, th, thead, tr)
-import Html.Attributes exposing (disabled, placeholder, value)
+import Html exposing (Attribute, Html, button, footer, h4, hr, input, section, table, tbody, td, text, th, thead, tr)
+import Html.Attributes exposing (class, disabled, placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import List exposing (map)
 import Maybe exposing (withDefault)
@@ -32,15 +32,29 @@ cardActionText value =
             "Archive"
 
 
+isCardArchived : Set String -> Card -> Bool
+isCardArchived archived card =
+    member (cardId card) <| archived
+
+
 cardState : Set String -> Card -> List (Html ManageMsg)
 cardState archived card =
     let
         isArchived =
-            member (cardId card) <| archived
+            isCardArchived archived card
     in
     [ text <| cardStateText isArchived
     , button [ onClick <| ToggleArchived (not isArchived) card ] [ text <| cardActionText isArchived ]
     ]
+
+
+lineClass : Set String -> Card -> Attribute msg
+lineClass a c =
+    if isCardArchived a c then
+        class "archived"
+
+    else
+        class "available"
 
 
 manageView : Set String -> List Card -> ManageModel -> Html ManageMsg
@@ -66,7 +80,7 @@ manageView archived cards { apiKey, dataId } =
             , tbody [] <|
                 map
                     (\c ->
-                        tr []
+                        tr [ lineClass archived c ]
                             [ td [] [ text c.aSide ]
                             , td [] [ text c.bSide ]
                             , td [] << cardState archived <| c

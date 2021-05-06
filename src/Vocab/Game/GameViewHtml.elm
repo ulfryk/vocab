@@ -55,36 +55,40 @@ actionsView d card =
 
 
 gameView : List Card -> GameStats -> Html PlayMsg
-gameView cards ({ current } as game) =
-    case current of
-        Answer card ->
-            div [ blockClass ]
-                [ p [ elemClass "pair", pairClass ]
-                    [ span [ pairElemModClass "word" [ "left" ] ] [ text card.aSide ]
-                    , span [ pairElemModClass "word" [ "right" ] ] [ text card.bSide ]
+gameView cards ({ current, countDown } as game) =
+    if countDown == 0 then
+        doneView cards game
+
+    else
+        case current of
+            Answer card ->
+                div [ blockClass ]
+                    [ p [ elemClass "pair", pairClass ]
+                        [ span [ pairElemModClass "word" [ "left" ] ] [ text card.aSide ]
+                        , span [ pairElemModClass "word" [ "right" ] ] [ text card.bSide ]
+                        ]
+                    , actionsView False card
                     ]
-                , actionsView False card
-                ]
 
-        Question side card ->
-            case side of
-                ASide ->
-                    div [ blockClass ]
-                        [ p [ elemClass "pair", pairClass ]
-                            [ span [ pairElemModClass "word" [ "left" ] ] [ text card.aSide ]
-                            , span [ pairElemModClass "word" [ "right" ] ] [ button [ onClick (Show card) ] [ text "? ? ?" ] ]
+            Question side card ->
+                case side of
+                    ASide ->
+                        div [ blockClass ]
+                            [ p [ elemClass "pair", pairClass ]
+                                [ span [ pairElemModClass "word" [ "left" ] ] [ text card.aSide ]
+                                , span [ pairElemModClass "word" [ "right" ] ] [ button [ onClick (Show card) ] [ text "? ? ?" ] ]
+                                ]
+                            , actionsView True card
                             ]
-                        , actionsView True card
-                        ]
 
-                BSide ->
-                    div [ blockClass ]
-                        [ p [ elemClass "pair", pairClass ]
-                            [ span [ pairElemModClass "word" [ "left" ] ] [ button [ onClick (Show card) ] [ text "? ? ?" ] ]
-                            , span [ pairElemModClass "word" [ "right" ] ] [ text card.bSide ]
+                    BSide ->
+                        div [ blockClass ]
+                            [ p [ elemClass "pair", pairClass ]
+                                [ span [ pairElemModClass "word" [ "left" ] ] [ button [ onClick (Show card) ] [ text "? ? ?" ] ]
+                                , span [ pairElemModClass "word" [ "right" ] ] [ text card.bSide ]
+                                ]
+                            , actionsView True card
                             ]
-                        , actionsView True card
-                        ]
 
-        NoMoreCards ->
-            doneView cards game
+            NoMoreCards ->
+                doneView cards game

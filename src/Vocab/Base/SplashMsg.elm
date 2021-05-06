@@ -2,5 +2,5 @@ module Vocab.Base.SplashMsg exposing (..)
 
 
 type SplashMsg
-    = StartGame
+    = StartGame Int
     | StartEditing

@@ -21,6 +21,7 @@ elemClass =
 splashView : () -> Html SplashMsg
 splashView _ =
     div [ blockClass ]
-        [ button [ onClick StartGame, elemClass "action" ] [ text "Start" ]
+        [ button [ onClick <| StartGame 10, elemClass "action" ] [ text "Start 10" ]
+        , button [ onClick <| StartGame 30, elemClass "action" ] [ text "Start 30" ]
         , button [ onClick StartEditing, elemClass "action" ] [ text "Manage" ]
         ]

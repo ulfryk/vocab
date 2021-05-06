@@ -1,6 +1,6 @@
 module Vocab.Game.GameModel exposing (..)
 
-import Set exposing (Set, empty)
+import Set exposing (Set, empty, size)
 import Vocab.DTO.Card exposing (Card)
 
 
@@ -16,9 +16,14 @@ type Current
 
 
 type alias GameStats =
-    { perfect : Set String, good : Set String, bad : Set String, current : Current }
+    { perfect : Set String, good : Set String, bad : Set String, current : Current, countDown : Int }
 
 
 initialGameStats : GameStats
 initialGameStats =
-    { perfect = empty, good = empty, bad = empty, current = NoMoreCards }
+    { perfect = empty, good = empty, bad = empty, current = NoMoreCards, countDown = 0 }
+
+
+statsLength : GameStats -> Int
+statsLength { perfect, good, bad } =
+    size perfect + size good + size bad

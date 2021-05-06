@@ -127,8 +127,8 @@ update msg ({ game, archived, cards } as model) =
 
         Basic m ->
             case m of
-                StartGame ->
-                    liftPlayUpdate { model | scope = Playing } Play <| updateOnPlay Start archived cards game
+                StartGame count ->
+                    liftPlayUpdate { model | scope = Playing } Play <| updateOnPlay Start archived cards { game | countDown = count }
 
                 StartEditing ->
                     ( { model | scope = Editing }, Cmd.none )
