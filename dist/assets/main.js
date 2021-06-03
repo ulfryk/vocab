@@ -11,11 +11,7 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-const cardsMock = 'W3siYVNpZGUiOiJkdXBhIiwiYlNpZGUiOiJhcnNlIn0seyJhU2lkZSI6ImZpdXQiLCJiU2lkZSI6ImRpY2sifSx' +
-    '7ImFTaWRlIjoia3V0YXNpYXJ6IiwiYlNpZGUiOiJhc3Nob2xlIn0seyJhU2lkZSI6InpqZWIiLCJiU2lkZSI6ImN1bnQifSx7ImFTaW' +
-    'RlIjoiY2lwa2EiLCJiU2lkZSI6InB1c3N5In1d';
-
-const key = 'trudnasprawatakieaplickacjewelmie:vocab';
+const dataKey = 'trudnasprawatakieaplickacjewelmie:vocab';
 
 const encode = data => {
     try {
@@ -34,15 +30,15 @@ const decode = value => {
     }
 }
 
-const dataUri = (id, key) => `https://sheets.googleapis.com/v4/spreadsheets/${id}/values/A:D?key=${key}`
+const dataUri = (id, key, sheet = 'Sheet1') => `https://sheets.googleapis.com/v4/spreadsheets/${id}/values/${sheet}!A:D?key=${key}`
 
 async function initApp() {
     const db = ImmortalDB.ImmortalDB
     const node = document.createElement('pre');
-    const flags = await db.get(key).then(v => v || `{"cards":${atob(cardsMock)},"archived":[],"creds":{}}`).then(decode);
+    const flags = await db.get(dataKey).then(v => v || `{"cards":[],"archived":[],"creds":{}}`).then(decode);
     const save = data => {
         console.log(data);
-        db.set(key, encode(data));
+        db.set(dataKey, encode(data));
     };
     document.body.replaceChild(node, document.getElementById('loading'));
     const app = Elm.Main.init({node, flags});
@@ -51,12 +47,12 @@ async function initApp() {
         app.ports.loadedExternalData.send(data);
         return data;
     }
-    app.ports.loadExternalData.subscribe(({apiKey, dataId}) => {
+    app.ports.loadExternalData.subscribe(({apiKey, dataId, sheet}) => {
         if (!apiKey || !dataId) {
             console.error(`Wrong creds: apiKey: ${apiKey}, dataId: ${dataId}`);
             return;
         }
-        fetch(dataUri(dataId?.trim(), apiKey?.trim())).then(r => r.json())
+        fetch(dataUri(dataId?.trim(), apiKey?.trim(), sheet?.trim() || undefined)).then(r => r.json())
             .then(d => d.values.slice(1)
                 .filter(([a, _, b]) => !!a && !!b)
                 .map(([aSide, fon, bSide, desc]) => ({aSide, bSide})))
@@ -68,6 +64,6 @@ async function initApp() {
             });
     });
     app.ports.resetAll.subscribe(() => {
-        db.remove(key);
+        db.remove(dataKey);
     });
 }

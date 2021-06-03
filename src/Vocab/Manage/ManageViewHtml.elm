@@ -1,7 +1,7 @@
 module Vocab.Manage.ManageViewHtml exposing (..)
 
-import Html exposing (Attribute, Html, button, footer, h4, hr, input, section, table, tbody, td, text, th, thead, tr)
-import Html.Attributes exposing (class, disabled, placeholder, value)
+import Html exposing (Attribute, Html, br, button, footer, h4, hr, input, label, option, section, select, table, tbody, td, text, th, thead, tr)
+import Html.Attributes exposing (class, disabled, placeholder, style, value)
 import Html.Events exposing (onClick, onInput)
 import List exposing (map)
 import Maybe exposing (withDefault)
@@ -60,14 +60,30 @@ lineClass a c =
 manageView : Set String -> List Card -> ManageModel -> Html ManageMsg
 manageView archived cards { apiKey, dataId } =
     section []
-        [ h4 [] [ text "Edit" ]
+        [ h4 [] [ text "Edit", button [ onClick Done, style "float" "right" ] [ text "back" ] ]
         , hr [] []
         , button [ onClick Reset ] [ text "Reset" ]
         , text " (it will erase all data)"
         , hr [] []
+        , br [] []
+        , label [] [ text "Api Key: " ]
         , input [ placeholder "Api Key", onInput SetApiKey, value <| withDefault "" apiKey ] []
+        , br [] []
+        , br [] []
+        , label [] [ text "Data Id: " ]
         , input [ placeholder "Data Id", onInput SetDataId, value <| withDefault "" dataId ] []
+        , br [] []
+        , br [] []
+        , label [] [ text "Sheet: " ]
+        , select [ onInput SetSheet ]
+            [ option [] [ text "Select" ]
+            , option [ value "Sheet1" ] [ text "Sheet1" ]
+            , option [ value "Sheet2" ] [ text "Sheet2" ]
+            ]
+        , br [] []
+        , br [] []
         , button [ onClick LoadExternalData, disabled ((isEmpty <| withDefault "" apiKey) || (isEmpty <| withDefault "" dataId)) ] [ text "Load data" ]
+        , br [] []
         , hr [] []
         , table []
             [ thead []

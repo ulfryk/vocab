@@ -15,7 +15,7 @@ import Vocab.Game.GameModel exposing (GameStats)
 import Vocab.Game.GameViewHtml exposing (gameView)
 import Vocab.Game.PlayMsg exposing (PlayMsg(..), isArchived, updateOnPlay)
 import Vocab.Layout exposing (layout)
-import Vocab.Manage.ManageModel exposing (setApiKey, setDataId)
+import Vocab.Manage.ManageModel exposing (setApiKey, setDataId, setSheet)
 import Vocab.Manage.ManageMsg exposing (ManageMsg(..))
 import Vocab.Manage.ManageViewHtml exposing (manageView)
 import Vocab.State exposing (Model, Scope(..), initial)
@@ -121,6 +121,9 @@ update msg ({ game, archived, cards } as model) =
 
                 SetDataId id ->
                     ( { model | manage = setDataId model.manage id }, Cmd.none )
+
+                SetSheet sheet ->
+                    ( { model | manage = setSheet model.manage sheet }, Cmd.none )
 
                 Reset ->
                     ( initial, resetAll () )
