@@ -4,7 +4,7 @@ import Http exposing (Error)
 import Result
 import Vocab.Client.SheetData exposing (SheetData, fromRawData)
 import Vocab.DTO.CardsDTO exposing (CardsDTO)
-import Vocab.DTO.SheetsDTO exposing (SheetDTO, extractSheetsData)
+import Vocab.DTO.SheetsDTO exposing (SheetsDataDTO, extractSheetsData)
 
 
 type ClientMsg
@@ -12,7 +12,7 @@ type ClientMsg
     | GotSheetData (Result Error SheetData)
 
 
-gotSheets : Result Error SheetDTO -> ClientMsg
+gotSheets : Result Error SheetsDataDTO -> ClientMsg
 gotSheets =
     GotSheets << Result.map extractSheetsData
 
