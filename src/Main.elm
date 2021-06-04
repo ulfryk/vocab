@@ -91,9 +91,12 @@ main =
     Browser.element { init = initialModel, update = update, view = view, subscriptions = subscriptions }
 
 
-updateAndSync : Model -> ( Model, Cmd Msg )
-updateAndSync ({ cards, archived, manage } as model) =
-    ( model, syncData <| encodeDataSnapshot { archived = archived, creds = manage } )
+updateAndSync : Model -> List (Cmd Msg) -> ( Model, Cmd Msg )
+updateAndSync ({ cards, archived, manage } as model) commands =
+    ( model
+    , Cmd.batch
+        ([ syncData <| encodeDataSnapshot { archived = archived, creds = manage } ] ++ commands)
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -102,7 +105,7 @@ update msg ({ game, archived, cards } as model) =
         Play m ->
             case m of
                 GameEnd arch ->
-                    updateAndSync { model | archived = arch, scope = Splash }
+                    updateAndSync { model | archived = arch, scope = Splash } []
 
                 _ ->
                     liftPlayUpdate model Play <| updateOnPlay m archived (getCards model) game
@@ -118,7 +121,7 @@ update msg ({ game, archived, cards } as model) =
                             ( { model | archived = remove (cardId card) archived }, Cmd.none )
 
                 UnArchiveAll ->
-                    updateAndSync { model | archived = empty }
+                    updateAndSync { model | archived = empty } []
 
                 SetApiKey key ->
                     ( { model | manage = setApiKey model.manage key }, Cmd.none )
@@ -130,10 +133,10 @@ update msg ({ game, archived, cards } as model) =
                     ( initial, resetAll () )
 
                 Save ->
-                    updateAndSync { model | scope = Splash }
+                    updateAndSync { model | scope = Splash } [ callForData model.manage ]
 
                 Done ->
-                   ({ model | scope = Splash }, callForData model.manage)
+                    updateAndSync { model | scope = Splash } [ callForData model.manage ]
 
         Basic m ->
             case m of
@@ -147,7 +150,7 @@ update msg ({ game, archived, cards } as model) =
                     ( { model | sheet = Just sheet }, Cmd.none )
 
         Loaded sheet newCards ->
-            updateAndSync { model | loading = False, archived = empty, cards = Dict.insert sheet newCards model.cards }
+            updateAndSync { model | loading = False, archived = empty, cards = Dict.insert sheet newCards model.cards } []
 
         Errored error ->
             ( { model | loading = False, error = Just error }, Cmd.none )

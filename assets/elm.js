@@ -6797,16 +6797,23 @@ var $author$project$Vocab$DTO$DataSnapshot$encodeDataSnapshot = function (_v0) {
 			]));
 };
 var $author$project$Main$syncData = _Platform_outgoingPort('syncData', $elm$core$Basics$identity);
-var $author$project$Main$updateAndSync = function (model) {
-	var cards = model.cards;
-	var archived = model.archived;
-	var manage = model.manage;
-	return _Utils_Tuple2(
-		model,
-		$author$project$Main$syncData(
-			$author$project$Vocab$DTO$DataSnapshot$encodeDataSnapshot(
-				{archived: archived, creds: manage})));
-};
+var $author$project$Main$updateAndSync = F2(
+	function (model, commands) {
+		var cards = model.cards;
+		var archived = model.archived;
+		var manage = model.manage;
+		return _Utils_Tuple2(
+			model,
+			$elm$core$Platform$Cmd$batch(
+				_Utils_ap(
+					_List_fromArray(
+						[
+							$author$project$Main$syncData(
+							$author$project$Vocab$DTO$DataSnapshot$encodeDataSnapshot(
+								{archived: archived, creds: manage}))
+						]),
+					commands)));
+	});
 var $author$project$Vocab$Game$GameModel$ASide = {$: 'ASide'};
 var $author$project$Vocab$Game$GameModel$Answer = function (a) {
 	return {$: 'Answer', a: a};
@@ -7230,10 +7237,12 @@ var $author$project$Main$update = F2(
 				var m = msg.a;
 				if (m.$ === 'GameEnd') {
 					var arch = m.a;
-					return $author$project$Main$updateAndSync(
+					return A2(
+						$author$project$Main$updateAndSync,
 						_Utils_update(
 							model,
-							{archived: arch, scope: $author$project$Vocab$State$Splash}));
+							{archived: arch, scope: $author$project$Vocab$State$Splash}),
+						_List_Nil);
 				} else {
 					return A3(
 						$author$project$Main$liftPlayUpdate,
@@ -7276,10 +7285,12 @@ var $author$project$Main$update = F2(
 								$elm$core$Platform$Cmd$none);
 						}
 					case 'UnArchiveAll':
-						return $author$project$Main$updateAndSync(
+						return A2(
+							$author$project$Main$updateAndSync,
 							_Utils_update(
 								model,
-								{archived: $elm$core$Set$empty}));
+								{archived: $elm$core$Set$empty}),
+							_List_Nil);
 					case 'SetApiKey':
 						var key = m.a;
 						return _Utils_Tuple2(
@@ -7303,16 +7314,25 @@ var $author$project$Main$update = F2(
 							$author$project$Vocab$State$initial,
 							$author$project$Main$resetAll(_Utils_Tuple0));
 					case 'Save':
-						return $author$project$Main$updateAndSync(
-							_Utils_update(
-								model,
-								{scope: $author$project$Vocab$State$Splash}));
-					default:
-						return _Utils_Tuple2(
+						return A2(
+							$author$project$Main$updateAndSync,
 							_Utils_update(
 								model,
 								{scope: $author$project$Vocab$State$Splash}),
-							$author$project$Main$callForData(model.manage));
+							_List_fromArray(
+								[
+									$author$project$Main$callForData(model.manage)
+								]));
+					default:
+						return A2(
+							$author$project$Main$updateAndSync,
+							_Utils_update(
+								model,
+								{scope: $author$project$Vocab$State$Splash}),
+							_List_fromArray(
+								[
+									$author$project$Main$callForData(model.manage)
+								]));
 				}
 			case 'Basic':
 				var m = msg.a;
@@ -7352,14 +7372,16 @@ var $author$project$Main$update = F2(
 			case 'Loaded':
 				var sheet = msg.a;
 				var newCards = msg.b;
-				return $author$project$Main$updateAndSync(
+				return A2(
+					$author$project$Main$updateAndSync,
 					_Utils_update(
 						model,
 						{
 							archived: $elm$core$Set$empty,
 							cards: A3($elm$core$Dict$insert, sheet, newCards, model.cards),
 							loading: false
-						}));
+						}),
+					_List_Nil);
 			case 'Errored':
 				var error = msg.a;
 				return _Utils_Tuple2(
