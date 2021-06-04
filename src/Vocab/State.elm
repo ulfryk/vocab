@@ -1,6 +1,7 @@
 module Vocab.State exposing (..)
 
 import Dict exposing (Dict, fromList, get)
+import Http
 import Json.Decode exposing (Error)
 import Maybe exposing (andThen, withDefault)
 import Set exposing (Set, empty)
@@ -24,6 +25,7 @@ type alias Model =
     , manage : ManageModel
     , loading : Bool
     , error : Maybe Error
+    , httpError : Maybe Http.Error
     }
 
 
@@ -37,6 +39,7 @@ initial =
     , error = Nothing
     , manage = initialManageModel
     , loading = False
+    , httpError = Nothing
     }
 
 getCards : Model -> List Card

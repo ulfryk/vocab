@@ -1,14 +1,10 @@
 module Vocab.Client.ClientMsg exposing (..)
 
 import Http exposing (Error)
-import Result exposing (map)
-import Vocab.DTO.Card exposing (Card)
+import Result
+import Vocab.Client.SheetData exposing (SheetData, fromRawData)
 import Vocab.DTO.CardsDTO exposing (CardsDTO)
-import Vocab.DTO.SheetsDTO exposing (SheetDTO)
-
-
-type alias SheetData =
-    SheetData String (List Card)
+import Vocab.DTO.SheetsDTO exposing (SheetDTO, extractSheetsData)
 
 
 type ClientMsg
@@ -17,10 +13,10 @@ type ClientMsg
 
 
 gotSheets : Result Error SheetDTO -> ClientMsg
-gotSheets result =
-    GotSheets <| map (\data -> data.sheets) result
+gotSheets =
+    GotSheets << Result.map extractSheetsData
 
 
-gotSheetData : Result Error CardsDTO -> ClientMsg
-gotSheetData result =
-    GotSheetData <| map (\data -> data.values) result
+gotSheetData : String -> Result Error CardsDTO -> ClientMsg
+gotSheetData sheet =
+    GotSheetData << Result.map (fromRawData sheet)

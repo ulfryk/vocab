@@ -1,7 +1,5 @@
 module Vocab.DTO.SheetsDTO exposing (..)
 
--- https://sheets.googleapis.com/v4/spreadsheets/{id}/?key={key}
-
 import Json.Decode as D exposing (Decoder)
 import Json.Decode.Pipeline exposing (required)
 
@@ -12,6 +10,8 @@ type alias SheetDTO =
     , spreadsheetUrl : String
     }
 
+extractSheetsData : SheetDTO -> List String
+extractSheetsData { sheets } = sheets
 
 sheetsDecoder : Decoder SheetDTO
 sheetsDecoder =

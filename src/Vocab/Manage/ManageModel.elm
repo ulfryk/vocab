@@ -1,5 +1,8 @@
 module Vocab.Manage.ManageModel exposing (..)
 
+import Maybe exposing (withDefault)
+import Vocab.Client.Credentials exposing (Credentials)
+
 
 type alias ManageModel =
     { apiKey : Maybe String, dataId : Maybe String }
@@ -18,3 +21,8 @@ setApiKey model apiKey =
 setDataId : ManageModel -> String -> ManageModel
 setDataId model dataId =
     { model | dataId = Just dataId }
+
+
+toCredentials : ManageModel -> Credentials
+toCredentials { apiKey, dataId } =
+    { id = withDefault "" dataId, key = withDefault "" apiKey }

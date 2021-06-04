@@ -3,18 +3,23 @@ port module Main exposing (..)
 import Browser
 import Dict exposing (keys)
 import Html exposing (Html)
+import Http
 import Json.Decode as Decode exposing (Error)
 import Json.Encode as Encode
 import Set exposing (empty, insert, remove)
+import Task
 import Vocab.Base.SplashHtml exposing (splashView)
 import Vocab.Base.SplashMsg exposing (SplashMsg(..))
+import Vocab.Client.ApiClient exposing (apiGetCards)
+import Vocab.Client.ClientMsg exposing (ClientMsg(..))
+import Vocab.Client.SheetData exposing (SheetData(..))
 import Vocab.DTO.Card exposing (Card, cardId)
 import Vocab.DTO.DataSnapshot exposing (DataSnapshot, dataSnapshotDecoder, encodeDataSnapshot)
 import Vocab.Game.GameModel exposing (GameStats)
 import Vocab.Game.GameViewHtml exposing (gameView)
 import Vocab.Game.PlayMsg exposing (PlayMsg(..), updateOnPlay)
 import Vocab.Layout exposing (layout)
-import Vocab.Manage.ManageModel exposing (setApiKey, setDataId)
+import Vocab.Manage.ManageModel exposing (setApiKey, setDataId, toCredentials)
 import Vocab.Manage.ManageMsg exposing (ManageMsg(..))
 import Vocab.Manage.ManageViewHtml exposing (manageView)
 import Vocab.State exposing (Model, Scope(..), getCards, initial)
@@ -26,12 +31,20 @@ type Msg
     | Basic SplashMsg
     | Loaded String (List Card)
     | Errored Error
+    | ApiFailed Http.Error
+    | Api ClientMsg
 
 
 port syncData : Encode.Value -> Cmd msg
 
 
 port resetAll : () -> Cmd msg
+
+
+sendMsg : msg -> Cmd msg
+sendMsg msg =
+    Task.succeed msg
+        |> Task.perform identity
 
 
 initialModel : Decode.Value -> ( Model, Cmd Msg )
@@ -119,6 +132,35 @@ update msg ({ game, archived, cards } as model) =
 
         Errored error ->
             ( { model | loading = False, error = Just error }, Cmd.none )
+
+        Api clientMsg ->
+            case clientMsg of
+                GotSheets result ->
+                    case result of
+                        Ok sheets ->
+                            ( model
+                            , Cmd.batch
+                                (List.map
+                                    (\s -> Cmd.map Api (apiGetCards (toCredentials model.manage) s))
+                                    sheets
+                                )
+                            )
+
+                        Err error ->
+                            ( model, sendMsg <| ApiFailed error )
+
+                GotSheetData result ->
+                    case result of
+                        Ok data ->
+                            case data of
+                                SheetData s c ->
+                                    ( { model | cards = Dict.insert s c model.cards }, Cmd.none )
+
+                        Err error ->
+                            ( model, sendMsg <| ApiFailed error )
+
+        ApiFailed error ->
+            ( { model | httpError = Just error }, Cmd.none )
 
 
 view : Model -> Html Msg
