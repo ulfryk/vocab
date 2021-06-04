@@ -287,6 +287,11 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
     opacity: .8;
     transition: opacity .3s ease;
 }
+
+.splash__selector-input--unselected {
+    color: var(--mid);
+}
+
 .splash__selector-input:hover {
     opacity: .95;
 }
@@ -297,6 +302,11 @@ html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label {
 
 .splash__selector-input option {
     text-align: center;
+    color: var(--text);
+}
+
+.splash__selector-input option:first-child {
+    color: var(--mid);
 }
 
 .splash__counter {

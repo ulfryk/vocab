@@ -10,10 +10,11 @@ import Set exposing (empty, insert, remove)
 import Task
 import Vocab.Base.SplashHtml exposing (splashView)
 import Vocab.Base.SplashMsg exposing (SplashMsg(..))
-import Vocab.Client.ApiClient exposing (apiGetCards)
+import Vocab.Client.ApiClient exposing (apiGetCards, apiGetSheets)
 import Vocab.Client.ClientMsg exposing (ClientMsg(..))
 import Vocab.Client.SheetData exposing (SheetData(..))
 import Vocab.DTO.Card exposing (Card, cardId)
+import Vocab.DTO.Creds exposing (Creds)
 import Vocab.DTO.DataSnapshot exposing (DataSnapshot, dataSnapshotDecoder, encodeDataSnapshot)
 import Vocab.Game.GameModel exposing (GameStats)
 import Vocab.Game.GameViewHtml exposing (gameView)
@@ -47,6 +48,21 @@ sendMsg msg =
         |> Task.perform identity
 
 
+callForData : Creds -> Cmd Msg
+callForData { apiKey, dataId } =
+    case apiKey of
+        Just key ->
+            case dataId of
+                Just id ->
+                    Cmd.map Api (apiGetSheets { key = key, id = id })
+
+                Nothing ->
+                    Cmd.none
+
+        Nothing ->
+            Cmd.none
+
+
 initialModel : Decode.Value -> ( Model, Cmd Msg )
 initialModel flags =
     let
@@ -55,7 +71,7 @@ initialModel flags =
     in
     case data of
         Ok value ->
-            ( { initial | archived = value.archived, manage = value.creds }, Cmd.none )
+            ( { initial | archived = value.archived, manage = value.creds }, callForData value.creds )
 
         Err err ->
             ( { initial | error = Just err }, Cmd.none )
@@ -113,8 +129,11 @@ update msg ({ game, archived, cards } as model) =
                 Reset ->
                     ( initial, resetAll () )
 
-                _ ->
+                Save ->
                     updateAndSync { model | scope = Splash }
+
+                Done ->
+                   ({ model | scope = Splash }, callForData model.manage)
 
         Basic m ->
             case m of

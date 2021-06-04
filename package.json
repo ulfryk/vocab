@@ -6,9 +6,10 @@
   "author": "Ulfryk <ulfryk@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "elm-live src/Main.elm -u -- --output=dist/assets/elm.js",
+    "start": "elm-live src/Main.elm -u -- --output=assets/elm.js",
+    "debug": "elm-live src/Main.elm -u -- --output=assets/elm.js --debug",
     "test": "elm-test",
-    "build": "elm make src/Main.elm --output=dist/assets/elm.js"
+    "build": "elm make src/Main.elm --output=assets/elm.js"
   },
   "dependencies": {
     "elm": "^0.19.1-5",

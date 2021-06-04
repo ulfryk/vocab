@@ -47,4 +47,4 @@ sheetsDecoder =
     D.succeed SheetsDataDTO
         |> required "spreadsheetId" D.string
         |> required "sheets" (D.list sheetDecoder)
-        |> required "sheets" D.string
+        |> required "spreadsheetUrl" D.string

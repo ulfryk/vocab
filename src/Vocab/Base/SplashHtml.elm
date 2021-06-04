@@ -1,7 +1,7 @@
 module Vocab.Base.SplashHtml exposing (..)
 
-import Core.BEM exposing (bem, getElemClassFactory, getRootClass)
-import Html exposing (Html, button, div, hr, option, select, span, text)
+import Core.BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
+import Html exposing (Html, button, div, option, select, span, text)
 import Html.Attributes exposing (disabled, value)
 import Html.Events exposing (onClick, onInput)
 import List exposing (length)
@@ -22,6 +22,23 @@ blockClass =
 elemClass =
     getElemClassFactory bemTools
 
+elemModifier = getElemModsClassFactory bemTools
+
+isJust : Maybe a -> Bool
+isJust m =
+    case m of
+        Just _ ->
+            True
+
+        Nothing ->
+            False
+
+
+optionsHtml : List String -> Maybe String -> List (Html SplashMsg)
+optionsHtml sheets selected =
+    [ option [ disabled (isJust selected) ] [ text "Select Sheet" ] ]
+        ++ List.map (\sheet -> option [ value sheet ] [ text sheet ]) sheets
+
 
 splashView : List String -> List Card -> Maybe String -> Html SplashMsg
 splashView sheets cards selected =
@@ -30,11 +47,9 @@ splashView sheets cards selected =
             [ select
                 [ value (withDefault "" selected)
                 , onInput SelectSheet
-                , elemClass "selector-input"
+                , elemModifier "selector-input" (if isJust selected then [] else ["unselected"])
                 ]
-              <|
-                [ option [] [ text "Select Sheet" ] ]
-                    ++ List.map (\sheet -> option [ value sheet ] [ text sheet ]) sheets
+                (optionsHtml sheets selected)
             , span [ elemClass "counter" ] [ text << fromInt << length <| cards ]
             ]
         , button [ onClick <| StartGame 10, elemClass "action", disabled (length cards <= 10) ] [ text "Start 10" ]
