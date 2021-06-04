@@ -7470,46 +7470,6 @@ var $author$project$Vocab$Game$PlayMsg$Fail = function (a) {
 var $author$project$Vocab$Game$PlayMsg$Next = function (a) {
 	return {$: 'Next', a: a};
 };
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $author$project$Core$BEM$bemElementClass = F2(
-	function (base, name) {
-		return A2(
-			$elm$core$Basics$composeL,
-			$elm$html$Html$Attributes$class,
-			A2(
-				$elm$core$List$foldl,
-				F2(
-					function (e, a) {
-						return base + ('__' + (name + ('--' + (e + (' ' + a)))));
-					}),
-				base + ('__' + name)));
-	});
-var $author$project$Core$BEM$bem = function (base) {
-	return _Utils_Tuple3(
-		$elm$html$Html$Attributes$class(base),
-		function (e) {
-			return A3($author$project$Core$BEM$bemElementClass, base, e, _List_Nil);
-		},
-		$author$project$Core$BEM$bemElementClass(base));
-};
-var $author$project$Vocab$Game$GameViewHtml$actionsBemTools = $author$project$Core$BEM$bem('word-actions');
-var $author$project$Core$BEM$getRootClass = function (_v0) {
-	var r = _v0.a;
-	return r;
-};
-var $author$project$Vocab$Game$GameViewHtml$actionsClass = $author$project$Core$BEM$getRootClass($author$project$Vocab$Game$GameViewHtml$actionsBemTools);
-var $author$project$Core$BEM$getElemModsClassFactory = function (_v0) {
-	var g = _v0.c;
-	return g;
-};
-var $author$project$Vocab$Game$GameViewHtml$actionsElemModClass = $author$project$Core$BEM$getElemModsClassFactory($author$project$Vocab$Game$GameViewHtml$actionsBemTools);
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
@@ -7521,12 +7481,6 @@ var $elm$html$Html$Attributes$boolProperty = F2(
 	});
 var $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty('disabled');
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Vocab$Game$GameViewHtml$bemTools = $author$project$Core$BEM$bem('word-card');
-var $author$project$Core$BEM$getElemClassFactory = function (_v0) {
-	var g = _v0.b;
-	return g;
-};
-var $author$project$Vocab$Game$GameViewHtml$elemClass = $author$project$Core$BEM$getElemClassFactory($author$project$Vocab$Game$GameViewHtml$bemTools);
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -7547,14 +7501,95 @@ var $elm$html$Html$Events$onClick = function (msg) {
 var $elm$html$Html$small = _VirtualDom_node('small');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $renanpvaz$elm_bem$Bem$element = F2(
+	function (base, name) {
+		return base + ('__' + name);
+	});
+var $renanpvaz$elm_bem$Bem$el = F2(
+	function (base, name) {
+		return $elm$html$Html$Attributes$class(
+			A2($renanpvaz$elm_bem$Bem$element, base, name));
+	});
+var $renanpvaz$elm_bem$Bem$modifier = F2(
+	function (base, name) {
+		return base + ('--' + name);
+	});
+var $renanpvaz$elm_bem$Bem$mod = F2(
+	function (base, _v0) {
+		var name = _v0.a;
+		var active = _v0.b;
+		return $elm$html$Html$Attributes$class(
+			active ? (base + (' ' + A2($renanpvaz$elm_bem$Bem$modifier, base, name))) : '');
+	});
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $renanpvaz$elm_bem$Bem$modList = function (base) {
+	return A2(
+		$elm$core$Basics$composeL,
+		A2(
+			$elm$core$Basics$composeL,
+			A2(
+				$elm$core$Basics$composeL,
+				A2(
+					$elm$core$Basics$composeL,
+					$elm$html$Html$Attributes$class,
+					$elm$core$String$join(' ')),
+				$elm$core$List$cons(base)),
+			$elm$core$List$map(
+				A2(
+					$elm$core$Basics$composeR,
+					$elm$core$Tuple$first,
+					$renanpvaz$elm_bem$Bem$modifier(base)))),
+		$elm$core$List$filter($elm$core$Tuple$second));
+};
+var $renanpvaz$elm_bem$Bem$block = function (base) {
+	return {
+		el: $renanpvaz$elm_bem$Bem$el(base),
+		mod: $renanpvaz$elm_bem$Bem$mod(base),
+		modList: $renanpvaz$elm_bem$Bem$modList(base)
+	};
+};
+var $author$project$Core$BEM$elMod = F2(
+	function (blck, lmnt) {
+		return $renanpvaz$elm_bem$Bem$mod(
+			A2($renanpvaz$elm_bem$Bem$element, blck, lmnt));
+	});
+var $author$project$Core$BEM$elModList = F2(
+	function (blck, lmnt) {
+		return $renanpvaz$elm_bem$Bem$modList(
+			A2($renanpvaz$elm_bem$Bem$element, blck, lmnt));
+	});
+var $author$project$Core$BEM$block = function (cls) {
+	var b = $renanpvaz$elm_bem$Bem$block(cls);
+	return {
+		bl: $elm$html$Html$Attributes$class(cls),
+		el: b.el,
+		elMod: $author$project$Core$BEM$elMod(cls),
+		elModList: $author$project$Core$BEM$elModList(cls),
+		mod: b.mod,
+		modList: b.modList
+	};
+};
+var $author$project$Vocab$Game$GameViewHtml$wordActions = $author$project$Core$BEM$block('word-actions');
+var $author$project$Vocab$Game$GameViewHtml$wordCard = $author$project$Core$BEM$block('word-card');
 var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 	function (d, card) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$author$project$Vocab$Game$GameViewHtml$elemClass('actions'),
-					$author$project$Vocab$Game$GameViewHtml$actionsClass
+					$author$project$Vocab$Game$GameViewHtml$wordCard.el('actions'),
+					$author$project$Vocab$Game$GameViewHtml$wordActions.bl
 				]),
 			_List_fromArray(
 				[
@@ -7567,10 +7602,9 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 							$author$project$Vocab$Game$PlayMsg$Drop(
 								$author$project$Vocab$DTO$Card$cardId(card))),
 							A2(
-							$author$project$Vocab$Game$GameViewHtml$actionsElemModClass,
+							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
 							'action',
-							_List_fromArray(
-								['perfect']))
+							_Utils_Tuple2('perfect', true))
 						]),
 					_List_fromArray(
 						[
@@ -7592,10 +7626,9 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 							$author$project$Vocab$Game$PlayMsg$Next(
 								$author$project$Vocab$DTO$Card$cardId(card))),
 							A2(
-							$author$project$Vocab$Game$GameViewHtml$actionsElemModClass,
+							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
 							'action',
-							_List_fromArray(
-								['good']))
+							_Utils_Tuple2('good', true))
 						]),
 					_List_fromArray(
 						[
@@ -7617,10 +7650,9 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 							$author$project$Vocab$Game$PlayMsg$Fail(
 								$author$project$Vocab$DTO$Card$cardId(card))),
 							A2(
-							$author$project$Vocab$Game$GameViewHtml$actionsElemModClass,
+							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
 							'action',
-							_List_fromArray(
-								['fail']))
+							_Utils_Tuple2('fail', true))
 						]),
 					_List_fromArray(
 						[
@@ -7635,10 +7667,8 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 						]))
 				]));
 	});
-var $author$project$Vocab$Game$GameViewHtml$blockClass = $author$project$Core$BEM$getRootClass($author$project$Vocab$Game$GameViewHtml$bemTools);
 var $author$project$Vocab$Game$PlayMsg$End = {$: 'End'};
-var $author$project$Vocab$Game$DoneHtml$bemTools = $author$project$Core$BEM$bem('all-done');
-var $author$project$Vocab$Game$DoneHtml$blockClass = $author$project$Core$BEM$getRootClass($author$project$Vocab$Game$DoneHtml$bemTools);
+var $author$project$Vocab$Game$DoneHtml$allDone = $author$project$Core$BEM$block('all-done');
 var $elm$core$Dict$sizeHelp = F2(
 	function (n, dict) {
 		sizeHelp:
@@ -7677,7 +7707,6 @@ var $author$project$Vocab$Game$DoneHtml$count = function (stat) {
 				stat)
 			]));
 };
-var $author$project$Vocab$Game$DoneHtml$elemClass = $author$project$Core$BEM$getElemClassFactory($author$project$Vocab$Game$DoneHtml$bemTools);
 var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$core$Basics$round = _Basics_round;
@@ -7701,23 +7730,20 @@ var $author$project$Vocab$Game$DoneHtml$percent = F2(
 				($elm$core$Set$size(stat) * 100) / A3($elm$core$Basics$composeL, $elm$core$Basics$toFloat, $author$project$Vocab$Game$GameModel$statsLength, allStats)) + '%');
 	});
 var $elm$html$Html$section = _VirtualDom_node('section');
-var $author$project$Vocab$Game$DoneHtml$statsBemTools = $author$project$Core$BEM$bem('game-stats-bar');
-var $author$project$Vocab$Game$DoneHtml$statsBlockClass = $author$project$Core$BEM$getRootClass($author$project$Vocab$Game$DoneHtml$statsBemTools);
-var $author$project$Vocab$Game$DoneHtml$statsElemModClass = $author$project$Core$BEM$getElemModsClassFactory($author$project$Vocab$Game$DoneHtml$statsBemTools);
-var $author$project$Vocab$Game$DoneHtml$statsItemClass = $author$project$Vocab$Game$DoneHtml$statsElemModClass('stat');
+var $author$project$Vocab$Game$DoneHtml$statsBar = $author$project$Core$BEM$block('game-stats-bar');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 	return A2(
 		$elm$html$Html$section,
 		_List_fromArray(
-			[$author$project$Vocab$Game$DoneHtml$blockClass]),
+			[$author$project$Vocab$Game$DoneHtml$allDone.bl]),
 		_List_fromArray(
 			[
 				A2(
 				$elm$html$Html$p,
 				_List_fromArray(
 					[
-						$author$project$Vocab$Game$DoneHtml$elemClass('info')
+						$author$project$Vocab$Game$DoneHtml$allDone.el('info')
 					]),
 				_List_fromArray(
 					[
@@ -7726,16 +7752,17 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 				A2(
 				$elm$html$Html$ul,
 				_List_fromArray(
-					[$author$project$Vocab$Game$DoneHtml$statsBlockClass]),
+					[$author$project$Vocab$Game$DoneHtml$statsBar.bl]),
 				_List_fromArray(
 					[
 						A2(
 						$elm$html$Html$li,
 						_List_fromArray(
 							[
-								$author$project$Vocab$Game$DoneHtml$statsItemClass(
-								_List_fromArray(
-									['perfect'])),
+								A2(
+								$author$project$Vocab$Game$DoneHtml$statsBar.elMod,
+								'stat',
+								_Utils_Tuple2('perfect', true)),
 								A2($author$project$Vocab$Game$DoneHtml$percent, stats, stats.perfect)
 							]),
 						_List_fromArray(
@@ -7746,9 +7773,10 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 						$elm$html$Html$li,
 						_List_fromArray(
 							[
-								$author$project$Vocab$Game$DoneHtml$statsItemClass(
-								_List_fromArray(
-									['good'])),
+								A2(
+								$author$project$Vocab$Game$DoneHtml$statsBar.elMod,
+								'stat',
+								_Utils_Tuple2('good', true)),
 								A2($author$project$Vocab$Game$DoneHtml$percent, stats, stats.good)
 							]),
 						_List_fromArray(
@@ -7759,9 +7787,10 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 						$elm$html$Html$li,
 						_List_fromArray(
 							[
-								$author$project$Vocab$Game$DoneHtml$statsItemClass(
-								_List_fromArray(
-									['bad'])),
+								A2(
+								$author$project$Vocab$Game$DoneHtml$statsBar.elMod,
+								'stat',
+								_Utils_Tuple2('bad', true)),
 								A2($author$project$Vocab$Game$DoneHtml$percent, stats, stats.bad)
 							]),
 						_List_fromArray(
@@ -7774,7 +7803,7 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Events$onClick($author$project$Vocab$Game$PlayMsg$End),
-						$author$project$Vocab$Game$DoneHtml$elemClass('action')
+						$author$project$Vocab$Game$DoneHtml$allDone.el('action')
 					]),
 				_List_fromArray(
 					[
@@ -7782,9 +7811,7 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 					]))
 			]));
 };
-var $author$project$Vocab$Game$GameViewHtml$pairBemTools = $author$project$Core$BEM$bem('words-pair');
-var $author$project$Vocab$Game$GameViewHtml$pairClass = $author$project$Core$BEM$getRootClass($author$project$Vocab$Game$GameViewHtml$pairBemTools);
-var $author$project$Vocab$Game$GameViewHtml$pairElemModClass = $author$project$Core$BEM$getElemModsClassFactory($author$project$Vocab$Game$GameViewHtml$pairBemTools);
+var $author$project$Vocab$Game$GameViewHtml$wordPair = $author$project$Core$BEM$block('words-pair');
 var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 	var current = game.current;
 	var countDown = game.countDown;
@@ -7799,15 +7826,15 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 				return A2(
 					$elm$html$Html$div,
 					_List_fromArray(
-						[$author$project$Vocab$Game$GameViewHtml$blockClass]),
+						[$author$project$Vocab$Game$GameViewHtml$wordCard.bl]),
 					_List_fromArray(
 						[
 							A2(
 							$elm$html$Html$p,
 							_List_fromArray(
 								[
-									$author$project$Vocab$Game$GameViewHtml$elemClass('pair'),
-									$author$project$Vocab$Game$GameViewHtml$pairClass
+									$author$project$Vocab$Game$GameViewHtml$wordCard.el('pair'),
+									$author$project$Vocab$Game$GameViewHtml$wordPair.bl
 								]),
 							_List_fromArray(
 								[
@@ -7816,10 +7843,9 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 									_List_fromArray(
 										[
 											A2(
-											$author$project$Vocab$Game$GameViewHtml$pairElemModClass,
+											$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
 											'word',
-											_List_fromArray(
-												['left']))
+											_Utils_Tuple2('left', true))
 										]),
 									_List_fromArray(
 										[
@@ -7830,10 +7856,9 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 									_List_fromArray(
 										[
 											A2(
-											$author$project$Vocab$Game$GameViewHtml$pairElemModClass,
+											$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
 											'word',
-											_List_fromArray(
-												['right']))
+											_Utils_Tuple2('right', true))
 										]),
 									_List_fromArray(
 										[
@@ -7849,15 +7874,15 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 					return A2(
 						$elm$html$Html$div,
 						_List_fromArray(
-							[$author$project$Vocab$Game$GameViewHtml$blockClass]),
+							[$author$project$Vocab$Game$GameViewHtml$wordCard.bl]),
 						_List_fromArray(
 							[
 								A2(
 								$elm$html$Html$p,
 								_List_fromArray(
 									[
-										$author$project$Vocab$Game$GameViewHtml$elemClass('pair'),
-										$author$project$Vocab$Game$GameViewHtml$pairClass
+										$author$project$Vocab$Game$GameViewHtml$wordCard.el('pair'),
+										$author$project$Vocab$Game$GameViewHtml$wordPair.bl
 									]),
 								_List_fromArray(
 									[
@@ -7866,10 +7891,9 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 										_List_fromArray(
 											[
 												A2(
-												$author$project$Vocab$Game$GameViewHtml$pairElemModClass,
+												$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
 												'word',
-												_List_fromArray(
-													['left']))
+												_Utils_Tuple2('left', true))
 											]),
 										_List_fromArray(
 											[
@@ -7880,10 +7904,9 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 										_List_fromArray(
 											[
 												A2(
-												$author$project$Vocab$Game$GameViewHtml$pairElemModClass,
+												$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
 												'word',
-												_List_fromArray(
-													['right']))
+												_Utils_Tuple2('right', true))
 											]),
 										_List_fromArray(
 											[
@@ -7906,15 +7929,15 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 					return A2(
 						$elm$html$Html$div,
 						_List_fromArray(
-							[$author$project$Vocab$Game$GameViewHtml$blockClass]),
+							[$author$project$Vocab$Game$GameViewHtml$wordCard.bl]),
 						_List_fromArray(
 							[
 								A2(
 								$elm$html$Html$p,
 								_List_fromArray(
 									[
-										$author$project$Vocab$Game$GameViewHtml$elemClass('pair'),
-										$author$project$Vocab$Game$GameViewHtml$pairClass
+										$author$project$Vocab$Game$GameViewHtml$wordCard.el('pair'),
+										$author$project$Vocab$Game$GameViewHtml$wordPair.bl
 									]),
 								_List_fromArray(
 									[
@@ -7923,10 +7946,9 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 										_List_fromArray(
 											[
 												A2(
-												$author$project$Vocab$Game$GameViewHtml$pairElemModClass,
+												$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
 												'word',
-												_List_fromArray(
-													['left']))
+												_Utils_Tuple2('left', true))
 											]),
 										_List_fromArray(
 											[
@@ -7947,10 +7969,9 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 										_List_fromArray(
 											[
 												A2(
-												$author$project$Vocab$Game$GameViewHtml$pairElemModClass,
+												$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
 												'word',
-												_List_fromArray(
-													['right']))
+												_Utils_Tuple2('right', true))
 											]),
 										_List_fromArray(
 											[
@@ -7963,15 +7984,12 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 		}
 	}
 };
-var $author$project$Vocab$Layout$bemTools = $author$project$Core$BEM$bem('layout');
-var $author$project$Vocab$Layout$blockClass = $author$project$Core$BEM$getRootClass($author$project$Vocab$Layout$bemTools);
-var $author$project$Vocab$Layout$elemClass = $author$project$Core$BEM$getElemClassFactory($author$project$Vocab$Layout$bemTools);
-var $author$project$Vocab$Layout$elemModClass = $author$project$Core$BEM$getElemModsClassFactory($author$project$Vocab$Layout$bemTools);
 var $elm$html$Html$footer = _VirtualDom_node('footer');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$i = _VirtualDom_node('i');
+var $author$project$Vocab$Layout$layoutClass = $author$project$Core$BEM$block('layout');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $author$project$Vocab$Layout$progress = function (m) {
 	var total = $author$project$Vocab$Game$GameModel$statsLength(m.game) + m.game.countDown;
@@ -7984,14 +8002,14 @@ var $author$project$Vocab$Layout$layout = F2(
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
-				[$author$project$Vocab$Layout$blockClass]),
+				[$author$project$Vocab$Layout$layoutClass.bl]),
 			_List_fromArray(
 				[
 					A2(
 					$elm$html$Html$header,
 					_List_fromArray(
 						[
-							$author$project$Vocab$Layout$elemClass('header')
+							$author$project$Vocab$Layout$layoutClass.el('header')
 						]),
 					_List_fromArray(
 						[
@@ -7999,7 +8017,7 @@ var $author$project$Vocab$Layout$layout = F2(
 							$elm$html$Html$h1,
 							_List_fromArray(
 								[
-									$author$project$Vocab$Layout$elemClass('heading')
+									$author$project$Vocab$Layout$layoutClass.el('heading')
 								]),
 							_List_fromArray(
 								[
@@ -8009,7 +8027,7 @@ var $author$project$Vocab$Layout$layout = F2(
 							$elm$html$Html$h3,
 							_List_fromArray(
 								[
-									$author$project$Vocab$Layout$elemClass('info')
+									$author$project$Vocab$Layout$layoutClass.el('info')
 								]),
 							_List_fromArray(
 								[
@@ -8021,17 +8039,16 @@ var $author$project$Vocab$Layout$layout = F2(
 					_List_fromArray(
 						[
 							A2(
-							$author$project$Vocab$Layout$elemModClass,
+							$author$project$Vocab$Layout$layoutClass.elMod,
 							'main',
-							model.loading ? _List_fromArray(
-								['loading']) : _List_Nil)
+							_Utils_Tuple2('loading', model.loading))
 						]),
 					content),
 					A2(
 					$elm$html$Html$footer,
 					_List_fromArray(
 						[
-							$author$project$Vocab$Layout$elemClass('footer')
+							$author$project$Vocab$Layout$layoutClass.el('footer')
 						]),
 					_List_fromArray(
 						[
@@ -8044,7 +8061,7 @@ var $author$project$Vocab$Layout$layout = F2(
 							$elm$html$Html$div,
 							_List_fromArray(
 								[
-									$author$project$Vocab$Layout$elemClass('progress'),
+									$author$project$Vocab$Layout$layoutClass.el('progress'),
 									A2(
 									$elm$html$Html$Attributes$style,
 									'height',
@@ -8363,10 +8380,6 @@ var $author$project$Vocab$Base$SplashMsg$StartEditing = {$: 'StartEditing'};
 var $author$project$Vocab$Base$SplashMsg$StartGame = function (a) {
 	return {$: 'StartGame', a: a};
 };
-var $author$project$Vocab$Base$SplashHtml$bemTools = $author$project$Core$BEM$bem('splash');
-var $author$project$Vocab$Base$SplashHtml$blockClass = $author$project$Core$BEM$getRootClass($author$project$Vocab$Base$SplashHtml$bemTools);
-var $author$project$Vocab$Base$SplashHtml$elemClass = $author$project$Core$BEM$getElemClassFactory($author$project$Vocab$Base$SplashHtml$bemTools);
-var $author$project$Vocab$Base$SplashHtml$elemModifier = $author$project$Core$BEM$getElemModsClassFactory($author$project$Vocab$Base$SplashHtml$bemTools);
 var $author$project$Vocab$Base$SplashHtml$isJust = function (m) {
 	if (m.$ === 'Just') {
 		return true;
@@ -8409,19 +8422,20 @@ var $author$project$Vocab$Base$SplashHtml$optionsHtml = F2(
 				sheets));
 	});
 var $elm$html$Html$select = _VirtualDom_node('select');
+var $author$project$Vocab$Base$SplashHtml$splash = $author$project$Core$BEM$block('splash');
 var $author$project$Vocab$Base$SplashHtml$splashView = F3(
 	function (sheets, cards, selected) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
-				[$author$project$Vocab$Base$SplashHtml$blockClass]),
+				[$author$project$Vocab$Base$SplashHtml$splash.bl]),
 			_List_fromArray(
 				[
 					A2(
 					$elm$html$Html$div,
 					_List_fromArray(
 						[
-							$author$project$Vocab$Base$SplashHtml$elemClass('selector')
+							$author$project$Vocab$Base$SplashHtml$splash.el('selector')
 						]),
 					_List_fromArray(
 						[
@@ -8433,17 +8447,18 @@ var $author$project$Vocab$Base$SplashHtml$splashView = F3(
 									A2($elm$core$Maybe$withDefault, '', selected)),
 									$elm$html$Html$Events$onInput($author$project$Vocab$Base$SplashMsg$SelectSheet),
 									A2(
-									$author$project$Vocab$Base$SplashHtml$elemModifier,
+									$author$project$Vocab$Base$SplashHtml$splash.elMod,
 									'selector-input',
-									$author$project$Vocab$Base$SplashHtml$isJust(selected) ? _List_Nil : _List_fromArray(
-										['unselected']))
+									_Utils_Tuple2(
+										'unselected',
+										$author$project$Vocab$Base$SplashHtml$isJust(selected)))
 								]),
 							A2($author$project$Vocab$Base$SplashHtml$optionsHtml, sheets, selected)),
 							A2(
 							$elm$html$Html$span,
 							_List_fromArray(
 								[
-									$author$project$Vocab$Base$SplashHtml$elemClass('counter')
+									$author$project$Vocab$Base$SplashHtml$splash.el('counter')
 								]),
 							_List_fromArray(
 								[
@@ -8460,7 +8475,7 @@ var $author$project$Vocab$Base$SplashHtml$splashView = F3(
 						[
 							$elm$html$Html$Events$onClick(
 							$author$project$Vocab$Base$SplashMsg$StartGame(10)),
-							$author$project$Vocab$Base$SplashHtml$elemClass('action'),
+							$author$project$Vocab$Base$SplashHtml$splash.el('action'),
 							$elm$html$Html$Attributes$disabled(
 							$elm$core$List$length(cards) <= 10)
 						]),
@@ -8474,7 +8489,7 @@ var $author$project$Vocab$Base$SplashHtml$splashView = F3(
 						[
 							$elm$html$Html$Events$onClick(
 							$author$project$Vocab$Base$SplashMsg$StartGame(30)),
-							$author$project$Vocab$Base$SplashHtml$elemClass('action'),
+							$author$project$Vocab$Base$SplashHtml$splash.el('action'),
 							$elm$html$Html$Attributes$disabled(
 							$elm$core$List$length(cards) <= 30)
 						]),
@@ -8487,7 +8502,7 @@ var $author$project$Vocab$Base$SplashHtml$splashView = F3(
 					_List_fromArray(
 						[
 							$elm$html$Html$Events$onClick($author$project$Vocab$Base$SplashMsg$StartEditing),
-							$author$project$Vocab$Base$SplashHtml$elemClass('action')
+							$author$project$Vocab$Base$SplashHtml$splash.el('action')
 						]),
 					_List_fromArray(
 						[

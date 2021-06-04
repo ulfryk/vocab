@@ -1,6 +1,6 @@
 module Vocab.Base.SplashHtml exposing (..)
 
-import Core.BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
+import Core.BEM exposing (block)
 import Html exposing (Html, button, div, option, select, span, text)
 import Html.Attributes exposing (disabled, value)
 import Html.Events exposing (onClick, onInput)
@@ -11,18 +11,9 @@ import Vocab.Base.SplashMsg exposing (SplashMsg(..))
 import Vocab.DTO.Card exposing (Card)
 
 
-bemTools =
-    bem "splash"
+splash =
+    block "splash"
 
-
-blockClass =
-    getRootClass bemTools
-
-
-elemClass =
-    getElemClassFactory bemTools
-
-elemModifier = getElemModsClassFactory bemTools
 
 isJust : Maybe a -> Bool
 isJust m =
@@ -42,17 +33,17 @@ optionsHtml sheets selected =
 
 splashView : List String -> List Card -> Maybe String -> Html SplashMsg
 splashView sheets cards selected =
-    div [ blockClass ]
-        [ div [ elemClass "selector" ]
+    div [ splash.bl ]
+        [ div [ splash.el "selector" ]
             [ select
                 [ value (withDefault "" selected)
                 , onInput SelectSheet
-                , elemModifier "selector-input" (if isJust selected then [] else ["unselected"])
+                , splash.elMod "selector-input" ( "unselected", isJust selected )
                 ]
                 (optionsHtml sheets selected)
-            , span [ elemClass "counter" ] [ text << fromInt << length <| cards ]
+            , span [ splash.el "counter" ] [ text << fromInt << length <| cards ]
             ]
-        , button [ onClick <| StartGame 10, elemClass "action", disabled (length cards <= 10) ] [ text "Start 10" ]
-        , button [ onClick <| StartGame 30, elemClass "action", disabled (length cards <= 30) ] [ text "Start 30" ]
-        , button [ onClick StartEditing, elemClass "action" ] [ text "Manage" ]
+        , button [ onClick <| StartGame 10, splash.el "action", disabled (length cards <= 10) ] [ text "Start 10" ]
+        , button [ onClick <| StartGame 30, splash.el "action", disabled (length cards <= 30) ] [ text "Start 30" ]
+        , button [ onClick StartEditing, splash.el "action" ] [ text "Manage" ]
         ]

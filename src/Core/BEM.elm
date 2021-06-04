@@ -1,37 +1,40 @@
 module Core.BEM exposing (..)
 
+import Bem exposing (element, mod, modList)
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
-import List exposing (foldl)
 
 
 type alias BemTools msg =
-    ( Attribute msg, String -> Attribute msg, String -> List String -> Attribute msg )
+    { bl : Attribute msg
+    , el : String -> Attribute msg
+    , elMod : String -> ( String, Bool ) -> Attribute msg
+    , elModList : String -> List ( String, Bool ) -> Attribute msg
+    , mod : ( String, Bool ) -> Attribute msg
+    , modList : List ( String, Bool ) -> Attribute msg
+    }
 
 
-bem : String -> BemTools msg
-bem base =
-    ( class base
-    , \e -> bemElementClass base e []
-    , bemElementClass base
-    )
+elMod : String -> String -> ( String, Bool ) -> Attribute msg
+elMod blck lmnt =
+    mod (element blck lmnt)
 
 
-bemElementClass : String -> String -> List String -> Attribute msg
-bemElementClass base name =
-    class << foldl (\e a -> base ++ "__" ++ name ++ "--" ++ e ++ " " ++ a) (base ++ "__" ++ name)
+elModList : String -> String -> List ( String, Bool ) -> Attribute msg
+elModList blck lmnt =
+    modList (element blck lmnt)
 
 
-getRootClass : BemTools a -> Attribute a
-getRootClass ( r, _, _ ) =
-    r
-
-
-getElemClassFactory : BemTools a -> String -> Attribute a
-getElemClassFactory ( _, g, _ ) =
-    g
-
-
-getElemModsClassFactory : BemTools a -> String -> List String -> Attribute a
-getElemModsClassFactory ( _, _, g ) =
-    g
+block : String -> BemTools msg
+block cls =
+    let
+        b =
+            Bem.block cls
+    in
+    { bl = class cls
+    , el = b.el
+    , mod = b.mod
+    , modList = b.modList
+    , elMod = elMod cls
+    , elModList = elModList cls
+    }

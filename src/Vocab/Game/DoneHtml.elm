@@ -1,6 +1,6 @@
 module Vocab.Game.DoneHtml exposing (..)
 
-import Core.BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
+import Core.BEM exposing (block)
 import Html exposing (Attribute, Html, button, li, p, section, span, text, ul)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
@@ -10,32 +10,12 @@ import Vocab.Game.GameModel exposing (GameStats, statsLength)
 import Vocab.Game.PlayMsg exposing (PlayMsg(..))
 
 
-bemTools =
-    bem "all-done"
+allDone =
+    block "all-done"
 
 
-blockClass =
-    getRootClass bemTools
-
-
-elemClass =
-    getElemClassFactory bemTools
-
-
-statsBemTools =
-    bem "game-stats-bar"
-
-
-statsBlockClass =
-    getRootClass statsBemTools
-
-
-statsElemModClass =
-    getElemModsClassFactory statsBemTools
-
-
-statsItemClass =
-    statsElemModClass "stat"
+statsBar =
+    block "game-stats-bar"
 
 
 percent : GameStats -> Set String -> Attribute msg
@@ -54,12 +34,12 @@ count stat =
 
 doneView : GameStats -> Html PlayMsg
 doneView stats =
-    section [ blockClass ]
-        [ p [ elemClass "info" ] [ text "All done!" ]
-        , ul [ statsBlockClass ]
-            [ li [ statsItemClass [ "perfect" ], percent stats stats.perfect ] [ count stats.perfect ]
-            , li [ statsItemClass [ "good" ], percent stats stats.good ] [ count stats.good ]
-            , li [ statsItemClass [ "bad" ], percent stats stats.bad ] [ count stats.bad ]
+    section [ allDone.bl ]
+        [ p [ allDone.el "info" ] [ text "All done!" ]
+        , ul [ statsBar.bl ]
+            [ li [ statsBar.elMod "stat" ( "perfect", True ), percent stats stats.perfect ] [ count stats.perfect ]
+            , li [ statsBar.elMod "stat" ( "good", True ), percent stats stats.good ] [ count stats.good ]
+            , li [ statsBar.elMod "stat" ( "bad", True ), percent stats stats.bad ] [ count stats.bad ]
             ]
-        , button [ onClick End, elemClass "action" ] [ text "OK" ]
+        , button [ onClick End, allDone.el "action" ] [ text "OK" ]
         ]

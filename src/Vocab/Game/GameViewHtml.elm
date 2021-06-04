@@ -1,6 +1,6 @@
 module Vocab.Game.GameViewHtml exposing (..)
 
-import Core.BEM exposing (bem, getElemClassFactory, getElemModsClassFactory, getRootClass)
+import Core.BEM exposing (block)
 import Html exposing (Html, button, div, p, small, span, text)
 import Html.Attributes exposing (disabled)
 import Html.Events exposing (onClick)
@@ -10,47 +10,23 @@ import Vocab.Game.GameModel exposing (Current(..), GameStats, Showing(..))
 import Vocab.Game.PlayMsg exposing (PlayMsg(..))
 
 
-bemTools =
-    bem "word-card"
+wordCard =
+    block "word-card"
 
 
-blockClass =
-    getRootClass bemTools
+wordPair =
+    block "words-pair"
 
 
-elemClass =
-    getElemClassFactory bemTools
-
-
-pairBemTools =
-    bem "words-pair"
-
-
-pairClass =
-    getRootClass pairBemTools
-
-
-pairElemModClass =
-    getElemModsClassFactory pairBemTools
-
-
-actionsBemTools =
-    bem "word-actions"
-
-
-actionsClass =
-    getRootClass actionsBemTools
-
-
-actionsElemModClass =
-    getElemModsClassFactory actionsBemTools
+wordActions =
+    block "word-actions"
 
 
 actionsView d card =
-    div [ elemClass "actions", actionsClass ]
-        [ button [ disabled d, onClick (Drop <| cardId card), actionsElemModClass "action" [ "perfect" ] ] [ text " OK! ", small [] [ text " (hide) " ] ]
-        , button [ disabled d, onClick (Next <| cardId card), actionsElemModClass "action" [ "good" ] ] [ text " Good ", small [] [ text " (keep) " ] ]
-        , button [ disabled d, onClick (Fail <| cardId card), actionsElemModClass "action" [ "fail" ] ] [ text " No Idea… ", small [] [ text " (keep) " ] ]
+    div [ wordCard.el "actions", wordActions.bl ]
+        [ button [ disabled d, onClick (Drop <| cardId card), wordActions.elMod "action" ( "perfect", True ) ] [ text " OK! ", small [] [ text " (hide) " ] ]
+        , button [ disabled d, onClick (Next <| cardId card), wordActions.elMod "action" ( "good", True ) ] [ text " Good ", small [] [ text " (keep) " ] ]
+        , button [ disabled d, onClick (Fail <| cardId card), wordActions.elMod "action" ( "fail", True ) ] [ text " No Idea… ", small [] [ text " (keep) " ] ]
         ]
 
 
@@ -65,10 +41,10 @@ gameView ({ current, countDown } as game) =
                 doneView game
 
             Answer card ->
-                div [ blockClass ]
-                    [ p [ elemClass "pair", pairClass ]
-                        [ span [ pairElemModClass "word" [ "left" ] ] [ text card.aSide ]
-                        , span [ pairElemModClass "word" [ "right" ] ] [ text card.bSide ]
+                div [ wordCard.bl ]
+                    [ p [ wordCard.el "pair", wordPair.bl ]
+                        [ span [ wordPair.elMod "word" ( "left", True ) ] [ text card.aSide ]
+                        , span [ wordPair.elMod "word" ( "right", True ) ] [ text card.bSide ]
                         ]
                     , actionsView False card
                     ]
@@ -76,19 +52,19 @@ gameView ({ current, countDown } as game) =
             Question side card ->
                 case side of
                     ASide ->
-                        div [ blockClass ]
-                            [ p [ elemClass "pair", pairClass ]
-                                [ span [ pairElemModClass "word" [ "left" ] ] [ text card.aSide ]
-                                , span [ pairElemModClass "word" [ "right" ] ] [ button [ onClick (Show card) ] [ text "? ? ?" ] ]
+                        div [ wordCard.bl ]
+                            [ p [ wordCard.el "pair", wordPair.bl ]
+                                [ span [ wordPair.elMod "word" ( "left", True ) ] [ text card.aSide ]
+                                , span [ wordPair.elMod "word" ( "right", True ) ] [ button [ onClick (Show card) ] [ text "? ? ?" ] ]
                                 ]
                             , actionsView True card
                             ]
 
                     BSide ->
-                        div [ blockClass ]
-                            [ p [ elemClass "pair", pairClass ]
-                                [ span [ pairElemModClass "word" [ "left" ] ] [ button [ onClick (Show card) ] [ text "? ? ?" ] ]
-                                , span [ pairElemModClass "word" [ "right" ] ] [ text card.bSide ]
+                        div [ wordCard.bl ]
+                            [ p [ wordCard.el "pair", wordPair.bl ]
+                                [ span [ wordPair.elMod "word" ( "left", True ) ] [ button [ onClick (Show card) ] [ text "? ? ?" ] ]
+                                , span [ wordPair.elMod "word" ( "right", True ) ] [ text card.bSide ]
                                 ]
                             , actionsView True card
                             ]
