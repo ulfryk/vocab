@@ -4,3 +4,5 @@ elm-stuff
 repl-temp-*
 
 dist/assets/elm.js
+
+/node_modules

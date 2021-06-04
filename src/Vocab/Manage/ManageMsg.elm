@@ -9,6 +9,5 @@ type ManageMsg
     | UnArchiveAll
     | SetApiKey String
     | SetDataId String
-    | SetSheet String
-    | LoadExternalData
+    | Save
     | Reset

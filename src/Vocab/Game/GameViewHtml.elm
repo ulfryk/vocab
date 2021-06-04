@@ -54,13 +54,16 @@ actionsView d card =
         ]
 
 
-gameView : List Card -> GameStats -> Html PlayMsg
-gameView cards ({ current, countDown } as game) =
+gameView : GameStats -> Html PlayMsg
+gameView ({ current, countDown } as game) =
     if countDown == 0 then
-        doneView cards game
+        doneView game
 
     else
         case current of
+            NoMoreCards ->
+                doneView game
+
             Answer card ->
                 div [ blockClass ]
                     [ p [ elemClass "pair", pairClass ]
@@ -89,6 +92,3 @@ gameView cards ({ current, countDown } as game) =
                                 ]
                             , actionsView True card
                             ]
-
-            NoMoreCards ->
-                doneView cards game

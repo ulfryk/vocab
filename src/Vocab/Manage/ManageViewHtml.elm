@@ -1,5 +1,6 @@
 module Vocab.Manage.ManageViewHtml exposing (..)
 
+import Dict exposing (Dict)
 import Html exposing (Attribute, Html, br, button, footer, h4, hr, input, label, option, section, select, table, tbody, td, text, th, thead, tr)
 import Html.Attributes exposing (class, disabled, placeholder, style, value)
 import Html.Events exposing (onClick, onInput)
@@ -67,23 +68,14 @@ manageView archived cards { apiKey, dataId } =
         , hr [] []
         , br [] []
         , label [] [ text "Api Key: " ]
-        , input [ placeholder "Api Key", onInput SetApiKey, value <| withDefault "" apiKey ] []
+        , input [ placeholder "Enter Api Key…", onInput SetApiKey, value <| withDefault "" apiKey ] []
         , br [] []
         , br [] []
-        , label [] [ text "Data Id: " ]
-        , input [ placeholder "Data Id", onInput SetDataId, value <| withDefault "" dataId ] []
+        , label [] [ text "SpreadSheet ID " ]
+        , input [ placeholder "Enter SpreadSheet ID…", onInput SetDataId, value <| withDefault "" dataId ] []
         , br [] []
         , br [] []
-        , label [] [ text "Sheet: " ]
-        , select [ onInput SetSheet ]
-            [ option [] [ text "Select" ]
-            , option [ value "Sheet1" ] [ text "Sheet1" ]
-            , option [ value "Sheet2" ] [ text "Sheet2" ]
-            ]
-        , br [] []
-        , br [] []
-        , button [ onClick LoadExternalData, disabled ((isEmpty <| withDefault "" apiKey) || (isEmpty <| withDefault "" dataId)) ] [ text "Load data" ]
-        , br [] []
+        , button [ onClick Save ] [ text "Save Creds" ]
         , hr [] []
         , table []
             [ thead []

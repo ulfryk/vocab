@@ -5,8 +5,7 @@ import Html exposing (Attribute, Html, button, li, p, section, span, text, ul)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Set exposing (Set, size)
-import String exposing (fromFloat, fromInt)
-import Vocab.DTO.Card exposing (Card)
+import String exposing (fromInt)
 import Vocab.Game.GameModel exposing (GameStats, statsLength)
 import Vocab.Game.PlayMsg exposing (PlayMsg(..))
 
@@ -53,8 +52,8 @@ count stat =
         span [] [ text << fromInt << size <| stat ]
 
 
-doneView : List Card -> GameStats -> Html PlayMsg
-doneView cards stats =
+doneView : GameStats -> Html PlayMsg
+doneView stats =
     section [ blockClass ]
         [ p [ elemClass "info" ] [ text "All done!" ]
         , ul [ statsBlockClass ]
