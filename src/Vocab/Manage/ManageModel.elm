@@ -4,6 +4,7 @@ import Json.Decode as D exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional)
 import Json.Encode as E
 import Maybe exposing (withDefault)
+import String exposing (isEmpty)
 import Vocab.Api.DTO.Credentials exposing (Credentials)
 
 
@@ -36,6 +37,23 @@ decodeManageModel =
     D.succeed ManageModel
         |> optional "apiKey" (D.maybe D.string) Nothing
         |> optional "dataId" (D.maybe D.string) Nothing
+
+
+hasCredentials : ManageModel -> Bool
+hasCredentials { apiKey, dataId } =
+    let
+        hasId =
+            Maybe.map (not << isEmpty) dataId
+
+        hasKey =
+            Maybe.map (not << isEmpty) apiKey
+    in
+    case hasId |> Maybe.andThen (\i -> hasKey |> Maybe.map ((&&) i)) of
+        Maybe.Just a ->
+            a
+
+        Maybe.Nothing ->
+            False
 
 
 encodeManageModel : ManageModel -> E.Value

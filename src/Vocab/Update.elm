@@ -2,14 +2,17 @@ module Vocab.Update exposing (..)
 
 import Core.Cmd exposing (sendMsg)
 import Dict
+import Http
+import Json.Decode as Json
 import Set exposing (empty, insert, remove)
+import String exposing (fromInt)
 import Vocab.Api.ApiClient exposing (apiGetCards, apiGetSheets)
 import Vocab.Api.ApiMsg exposing (ApiMsg(..))
 import Vocab.Api.DTO.Card exposing (Card, cardId)
 import Vocab.Api.DTO.SheetData exposing (SheetData(..))
 import Vocab.Game.GameModel exposing (GameModel)
 import Vocab.Game.GameMsg exposing (GameMsg(..), updateOnPlay)
-import Vocab.Manage.ManageModel exposing (ManageModel, setApiKey, setDataId, toCredentials)
+import Vocab.Manage.ManageModel exposing (ManageModel, hasCredentials, setApiKey, setDataId, toCredentials)
 import Vocab.Manage.ManageMsg exposing (ManageMsg(..))
 import Vocab.Model exposing (Model, Scope(..), getCards, initial)
 import Vocab.Msg exposing (Msg(..))
@@ -37,13 +40,32 @@ liftPlayUpdate model mapper ( game, command ) =
     ( { model | game = game }, Cmd.map mapper command )
 
 
+httpError : Http.Error -> String
+httpError error =
+    case error of
+        Http.BadUrl url ->
+            "Bad Url: " ++ url
+
+        Http.Timeout ->
+            "Timeout"
+
+        Http.NetworkError ->
+            "Network Error"
+
+        Http.BadStatus status ->
+            "Bad Status:" ++ fromInt status
+
+        Http.BadBody info ->
+            "Bad Body: " ++ info
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg ({ game, archived, cards } as model) =
     case msg of
         Play m ->
             case m of
                 GameEnd arch ->
-                    Sync.sync ( { model | archived = arch, scope = Splash }, Cmd.none )
+                    ( { model | archived = arch, scope = Splash }, Cmd.none )
 
                 _ ->
                     liftPlayUpdate model Play <| updateOnPlay m archived (getCards model) game
@@ -59,7 +81,7 @@ update msg ({ game, archived, cards } as model) =
                             ( { model | archived = remove (cardId card) archived }, Cmd.none )
 
                 UnArchiveAll ->
-                    Sync.sync ( { model | archived = empty }, Cmd.none )
+                    ( { model | archived = empty }, Cmd.none )
 
                 SetApiKey key ->
                     ( { model | manage = setApiKey model.manage key }, Cmd.none )
@@ -68,13 +90,13 @@ update msg ({ game, archived, cards } as model) =
                     ( { model | manage = setDataId model.manage id }, Cmd.none )
 
                 Reset ->
-                    Sync.sync ( initial, Cmd.none )
+                    ( initial, Cmd.none )
 
                 Save ->
-                    Sync.sync ( { model | scope = Splash }, sendMsg LoadData )
+                    ( { model | scope = Splash }, sendMsg LoadData )
 
                 Done ->
-                    Sync.sync ( { model | scope = Splash }, sendMsg LoadData )
+                    ( { model | scope = Splash }, Cmd.none )
 
         Basic m ->
             case m of
@@ -88,10 +110,13 @@ update msg ({ game, archived, cards } as model) =
                     ( { model | sheet = Just sheet }, Cmd.none )
 
         Loaded sheet newCards ->
-            Sync.sync ( { model | loading = False, archived = empty, cards = Dict.insert sheet newCards model.cards }, Cmd.none )
+            ( { model | loading = False, archived = empty, cards = Dict.insert sheet newCards model.cards }, Cmd.none )
 
         Errored error ->
-            ( { model | loading = False, error = Just error }, Cmd.none )
+            ( { model | loading = False, error = Just << Json.errorToString <| error }, Cmd.none )
+
+        ApiFailed error ->
+            ( { model | loading = False, error = Just << httpError <| error }, Cmd.none )
 
         Api clientMsg ->
             case clientMsg of
@@ -114,13 +139,10 @@ update msg ({ game, archived, cards } as model) =
                         Ok data ->
                             case data of
                                 SheetData s c ->
-                                    ( { model | cards = Dict.insert s c model.cards }, Cmd.none )
+                                    ( { model | cards = Dict.insert s c model.cards, loading = False }, Cmd.none )
 
                         Err error ->
                             ( model, sendMsg <| ApiFailed error )
 
-        ApiFailed error ->
-            ( { model | httpError = Just error }, Cmd.none )
-
         LoadData ->
-            ( model, callForData model.manage )
+            ( { model | loading = hasCredentials model.manage }, callForData model.manage )

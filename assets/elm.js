@@ -4613,6 +4613,11 @@ function _Time_getZoneName()
 		callback(_Scheduler_succeed(name));
 	});
 }
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -5403,85 +5408,84 @@ var $elm$core$Task$perform = F2(
 	});
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Vocab$Msg$LoadData = {$: 'LoadData'};
-var $author$project$Vocab$ModelSnapshot$ModelSnapshot = F2(
-	function (archived, manage) {
-		return {archived: archived, manage: manage};
+var $author$project$Vocab$Model$Model = F8(
+	function (cards, sheet, archived, scope, loading, error, game, manage) {
+		return {archived: archived, cards: cards, error: error, game: game, loading: loading, manage: manage, scope: scope, sheet: sheet};
 	});
-var $author$project$Vocab$Manage$ManageModel$ManageModel = F2(
-	function (apiKey, dataId) {
-		return {apiKey: apiKey, dataId: dataId};
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $author$project$Vocab$Api$DTO$Card$Card = F2(
+	function (aSide, bSide) {
+		return {aSide: aSide, bSide: bSide};
 	});
-var $elm$json$Json$Decode$oneOf = _Json_oneOf;
-var $elm$json$Json$Decode$maybe = function (decoder) {
-	return $elm$json$Json$Decode$oneOf(
-		_List_fromArray(
-			[
-				A2($elm$json$Json$Decode$map, $elm$core$Maybe$Just, decoder),
-				$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing)
-			]));
-};
 var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
 var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$json$Json$Decode$andThen = _Json_andThen;
-var $elm$json$Json$Decode$decodeValue = _Json_run;
-var $elm$json$Json$Decode$fail = _Json_fail;
-var $elm$json$Json$Decode$null = _Json_decodeNull;
-var $elm$json$Json$Decode$value = _Json_decodeValue;
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder = F3(
-	function (pathDecoder, valDecoder, fallback) {
-		var nullOr = function (decoder) {
-			return $elm$json$Json$Decode$oneOf(
-				_List_fromArray(
-					[
-						decoder,
-						$elm$json$Json$Decode$null(fallback)
-					]));
-		};
-		var handleResult = function (input) {
-			var _v0 = A2($elm$json$Json$Decode$decodeValue, pathDecoder, input);
-			if (_v0.$ === 'Ok') {
-				var rawValue = _v0.a;
-				var _v1 = A2(
-					$elm$json$Json$Decode$decodeValue,
-					nullOr(valDecoder),
-					rawValue);
-				if (_v1.$ === 'Ok') {
-					var finalResult = _v1.a;
-					return $elm$json$Json$Decode$succeed(finalResult);
-				} else {
-					var finalErr = _v1.a;
-					return $elm$json$Json$Decode$fail(
-						$elm$json$Json$Decode$errorToString(finalErr));
-				}
-			} else {
-				return $elm$json$Json$Decode$succeed(fallback);
-			}
-		};
-		return A2($elm$json$Json$Decode$andThen, handleResult, $elm$json$Json$Decode$value);
-	});
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional = F4(
-	function (key, valDecoder, fallback, decoder) {
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
+	function (key, valDecoder, decoder) {
 		return A2(
 			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
-			A3(
-				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder,
-				A2($elm$json$Json$Decode$field, key, $elm$json$Json$Decode$value),
-				valDecoder,
-				fallback),
+			A2($elm$json$Json$Decode$field, key, valDecoder),
 			decoder);
 	});
 var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Vocab$Manage$ManageModel$decodeManageModel = A4(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
-	'dataId',
-	$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
-	$elm$core$Maybe$Nothing,
-	A4(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
-		'apiKey',
-		$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
-		$elm$core$Maybe$Nothing,
-		$elm$json$Json$Decode$succeed($author$project$Vocab$Manage$ManageModel$ManageModel)));
+var $author$project$Vocab$Api$DTO$Card$cardDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'bSide',
+	$elm$json$Json$Decode$string,
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'aSide',
+		$elm$json$Json$Decode$string,
+		$elm$json$Json$Decode$succeed($author$project$Vocab$Api$DTO$Card$Card)));
+var $author$project$Vocab$Game$GameModel$GameModel = F5(
+	function (perfect, good, bad, current, countDown) {
+		return {bad: bad, countDown: countDown, current: current, good: good, perfect: perfect};
+	});
+var $author$project$Vocab$Game$GameModel$Answer = function (a) {
+	return {$: 'Answer', a: a};
+};
+var $author$project$Vocab$Game$GameModel$NoMoreCards = {$: 'NoMoreCards'};
+var $author$project$Vocab$Game$GameModel$Question = F2(
+	function (a, b) {
+		return {$: 'Question', a: a, b: b};
+	});
+var $author$project$Vocab$Game$GameModel$extractAndDecodeCard = A2($elm$json$Json$Decode$field, 'card', $author$project$Vocab$Api$DTO$Card$cardDecoder);
+var $author$project$Vocab$Game$GameModel$andDecodeCard = function (show) {
+	return A2(
+		$elm$json$Json$Decode$map,
+		$author$project$Vocab$Game$GameModel$Question(show),
+		$author$project$Vocab$Game$GameModel$extractAndDecodeCard);
+};
+var $author$project$Vocab$Game$GameModel$ASide = {$: 'ASide'};
+var $author$project$Vocab$Game$GameModel$BSide = {$: 'BSide'};
+var $elm$json$Json$Decode$fail = _Json_fail;
+var $author$project$Vocab$Game$GameModel$decodeShowing = function (tag) {
+	switch (tag) {
+		case 'ASide':
+			return $elm$json$Json$Decode$succeed($author$project$Vocab$Game$GameModel$ASide);
+		case 'BSide':
+			return $elm$json$Json$Decode$succeed($author$project$Vocab$Game$GameModel$BSide);
+		default:
+			return $elm$json$Json$Decode$fail(tag + ' is not a recognized tag for Showing');
+	}
+};
+var $author$project$Vocab$Game$GameModel$extractAndDecodeShowing = A2(
+	$elm$json$Json$Decode$andThen,
+	$author$project$Vocab$Game$GameModel$decodeShowing,
+	A2($elm$json$Json$Decode$field, 'showing', $elm$json$Json$Decode$string));
+var $author$project$Vocab$Game$GameModel$chooseByType = function (ttype) {
+	switch (ttype) {
+		case 'Question':
+			return A2($elm$json$Json$Decode$andThen, $author$project$Vocab$Game$GameModel$andDecodeCard, $author$project$Vocab$Game$GameModel$extractAndDecodeShowing);
+		case 'Answer':
+			return A2($elm$json$Json$Decode$map, $author$project$Vocab$Game$GameModel$Answer, $author$project$Vocab$Game$GameModel$extractAndDecodeCard);
+		case 'NoMoreCards':
+			return $elm$json$Json$Decode$succeed($author$project$Vocab$Game$GameModel$NoMoreCards);
+		default:
+			return $elm$json$Json$Decode$fail('Invalid user type: ' + ttype);
+	}
+};
+var $author$project$Vocab$Game$GameModel$decodeCurrentType = A2($elm$json$Json$Decode$field, 'type', $elm$json$Json$Decode$string);
+var $author$project$Vocab$Game$GameModel$decodeCurrent = A2($elm$json$Json$Decode$andThen, $author$project$Vocab$Game$GameModel$chooseByType, $author$project$Vocab$Game$GameModel$decodeCurrentType);
 var $elm$core$Set$Set_elm_builtin = function (a) {
 	return {$: 'Set_elm_builtin', a: a};
 };
@@ -5606,27 +5610,114 @@ var $elm$core$Set$insert = F2(
 var $elm$core$Set$fromList = function (list) {
 	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
 };
+var $author$project$Vocab$Game$GameModel$initialGameStats = {bad: $elm$core$Set$empty, countDown: 0, current: $author$project$Vocab$Game$GameModel$NoMoreCards, good: $elm$core$Set$empty, perfect: $elm$core$Set$empty};
+var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $elm$json$Json$Decode$list = _Json_decodeList;
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
-	function (key, valDecoder, decoder) {
+var $elm$json$Json$Decode$decodeValue = _Json_run;
+var $elm$json$Json$Decode$null = _Json_decodeNull;
+var $elm$json$Json$Decode$oneOf = _Json_oneOf;
+var $elm$json$Json$Decode$value = _Json_decodeValue;
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder = F3(
+	function (pathDecoder, valDecoder, fallback) {
+		var nullOr = function (decoder) {
+			return $elm$json$Json$Decode$oneOf(
+				_List_fromArray(
+					[
+						decoder,
+						$elm$json$Json$Decode$null(fallback)
+					]));
+		};
+		var handleResult = function (input) {
+			var _v0 = A2($elm$json$Json$Decode$decodeValue, pathDecoder, input);
+			if (_v0.$ === 'Ok') {
+				var rawValue = _v0.a;
+				var _v1 = A2(
+					$elm$json$Json$Decode$decodeValue,
+					nullOr(valDecoder),
+					rawValue);
+				if (_v1.$ === 'Ok') {
+					var finalResult = _v1.a;
+					return $elm$json$Json$Decode$succeed(finalResult);
+				} else {
+					var finalErr = _v1.a;
+					return $elm$json$Json$Decode$fail(
+						$elm$json$Json$Decode$errorToString(finalErr));
+				}
+			} else {
+				return $elm$json$Json$Decode$succeed(fallback);
+			}
+		};
+		return A2($elm$json$Json$Decode$andThen, handleResult, $elm$json$Json$Decode$value);
+	});
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional = F4(
+	function (key, valDecoder, fallback, decoder) {
 		return A2(
 			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
-			A2($elm$json$Json$Decode$field, key, valDecoder),
+			A3(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder,
+				A2($elm$json$Json$Decode$field, key, $elm$json$Json$Decode$value),
+				valDecoder,
+				fallback),
 			decoder);
 	});
-var $author$project$Vocab$ModelSnapshot$decodeModelSnapshot = A3(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'manage',
-	$author$project$Vocab$Manage$ManageModel$decodeManageModel,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'archived',
-		A2(
-			$elm$json$Json$Decode$map,
-			$elm$core$Set$fromList,
-			$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
-		$elm$json$Json$Decode$succeed($author$project$Vocab$ModelSnapshot$ModelSnapshot)));
-var $author$project$Vocab$Model$Splash = {$: 'Splash'};
+var $author$project$Vocab$Game$GameModel$decodeGameModel = A4(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+	'countDown',
+	$elm$json$Json$Decode$int,
+	$author$project$Vocab$Game$GameModel$initialGameStats.countDown,
+	A4(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+		'current',
+		$author$project$Vocab$Game$GameModel$decodeCurrent,
+		$author$project$Vocab$Game$GameModel$initialGameStats.current,
+		A4(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+			'bad',
+			A2(
+				$elm$json$Json$Decode$map,
+				$elm$core$Set$fromList,
+				$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
+			$author$project$Vocab$Game$GameModel$initialGameStats.bad,
+			A4(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+				'good',
+				A2(
+					$elm$json$Json$Decode$map,
+					$elm$core$Set$fromList,
+					$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
+				$author$project$Vocab$Game$GameModel$initialGameStats.good,
+				A4(
+					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+					'perfect',
+					A2(
+						$elm$json$Json$Decode$map,
+						$elm$core$Set$fromList,
+						$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
+					$author$project$Vocab$Game$GameModel$initialGameStats.perfect,
+					$elm$json$Json$Decode$succeed($author$project$Vocab$Game$GameModel$GameModel))))));
+var $author$project$Vocab$Manage$ManageModel$ManageModel = F2(
+	function (apiKey, dataId) {
+		return {apiKey: apiKey, dataId: dataId};
+	});
+var $elm$json$Json$Decode$maybe = function (decoder) {
+	return $elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$map, $elm$core$Maybe$Just, decoder),
+				$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing)
+			]));
+};
+var $author$project$Vocab$Manage$ManageModel$decodeManageModel = A4(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+	'dataId',
+	$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
+	$elm$core$Maybe$Nothing,
+	A4(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+		'apiKey',
+		$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
+		$elm$core$Maybe$Nothing,
+		$elm$json$Json$Decode$succeed($author$project$Vocab$Manage$ManageModel$ManageModel)));
 var $elm$core$Dict$fromList = function (assocs) {
 	return A3(
 		$elm$core$List$foldl,
@@ -5639,65 +5730,482 @@ var $elm$core$Dict$fromList = function (assocs) {
 		$elm$core$Dict$empty,
 		assocs);
 };
-var $author$project$Vocab$Game$GameModel$NoMoreCards = {$: 'NoMoreCards'};
-var $author$project$Vocab$Game$GameModel$initialGameStats = {bad: $elm$core$Set$empty, countDown: 0, current: $author$project$Vocab$Game$GameModel$NoMoreCards, good: $elm$core$Set$empty, perfect: $elm$core$Set$empty};
+var $elm$json$Json$Decode$keyValuePairs = _Json_decodeKeyValuePairs;
+var $elm$json$Json$Decode$dict = function (decoder) {
+	return A2(
+		$elm$json$Json$Decode$map,
+		$elm$core$Dict$fromList,
+		$elm$json$Json$Decode$keyValuePairs(decoder));
+};
+var $author$project$Vocab$Model$falseDecoder = $elm$json$Json$Decode$succeed(false);
+var $author$project$Vocab$Model$Splash = {$: 'Splash'};
 var $author$project$Vocab$Manage$ManageModel$initialManageModel = {apiKey: $elm$core$Maybe$Nothing, dataId: $elm$core$Maybe$Nothing};
 var $author$project$Vocab$Model$initial = {
 	archived: $elm$core$Set$empty,
 	cards: $elm$core$Dict$fromList(_List_Nil),
 	error: $elm$core$Maybe$Nothing,
 	game: $author$project$Vocab$Game$GameModel$initialGameStats,
-	httpError: $elm$core$Maybe$Nothing,
 	loading: false,
 	manage: $author$project$Vocab$Manage$ManageModel$initialManageModel,
 	scope: $author$project$Vocab$Model$Splash,
 	sheet: $elm$core$Maybe$Nothing
 };
+var $author$project$Vocab$Model$Editing = {$: 'Editing'};
+var $author$project$Vocab$Model$Playing = {$: 'Playing'};
+var $author$project$Vocab$Model$scopeDecoder = function (tag) {
+	switch (tag) {
+		case 'Splash':
+			return $elm$json$Json$Decode$succeed($author$project$Vocab$Model$Splash);
+		case 'Editing':
+			return $elm$json$Json$Decode$succeed($author$project$Vocab$Model$Editing);
+		case 'Playing':
+			return $elm$json$Json$Decode$succeed($author$project$Vocab$Model$Playing);
+		default:
+			return $elm$json$Json$Decode$fail(tag + ' is not a recognized tag for Scope');
+	}
+};
+var $author$project$Vocab$Model$decodeModel = A4(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+	'manage',
+	$author$project$Vocab$Manage$ManageModel$decodeManageModel,
+	$author$project$Vocab$Model$initial.manage,
+	A4(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+		'game',
+		$author$project$Vocab$Game$GameModel$decodeGameModel,
+		$author$project$Vocab$Model$initial.game,
+		A4(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+			'error',
+			$elm$json$Json$Decode$oneOf(
+				_List_fromArray(
+					[
+						$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
+						$elm$json$Json$Decode$null($elm$core$Maybe$Nothing)
+					])),
+			$author$project$Vocab$Model$initial.error,
+			A4(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+				'loading',
+				$author$project$Vocab$Model$falseDecoder,
+				$author$project$Vocab$Model$initial.loading,
+				A4(
+					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+					'scope',
+					A2($elm$json$Json$Decode$andThen, $author$project$Vocab$Model$scopeDecoder, $elm$json$Json$Decode$string),
+					$author$project$Vocab$Model$initial.scope,
+					A4(
+						$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+						'archived',
+						A2(
+							$elm$json$Json$Decode$map,
+							$elm$core$Set$fromList,
+							$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
+						$author$project$Vocab$Model$initial.archived,
+						A4(
+							$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+							'sheet',
+							$elm$json$Json$Decode$oneOf(
+								_List_fromArray(
+									[
+										$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
+										$elm$json$Json$Decode$null($elm$core$Maybe$Nothing)
+									])),
+							$author$project$Vocab$Model$initial.sheet,
+							A4(
+								$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+								'cards',
+								$elm$json$Json$Decode$dict(
+									$elm$json$Json$Decode$list($author$project$Vocab$Api$DTO$Card$cardDecoder)),
+								$author$project$Vocab$Model$initial.cards,
+								$elm$json$Json$Decode$succeed($author$project$Vocab$Model$Model)))))))));
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
 var $author$project$Core$Cmd$sendMsg = A2(
 	$elm$core$Basics$composeL,
 	$elm$core$Task$perform($elm$core$Basics$identity),
 	$elm$core$Task$succeed);
 var $author$project$Vocab$Init$init = function (flags) {
-	var data = A2($elm$json$Json$Decode$decodeValue, $author$project$Vocab$ModelSnapshot$decodeModelSnapshot, flags);
-	if (data.$ === 'Ok') {
-		var manage = data.a.manage;
-		var archived = data.a.archived;
+	var _v0 = A2($elm$json$Json$Decode$decodeValue, $author$project$Vocab$Model$decodeModel, flags);
+	if (_v0.$ === 'Ok') {
+		var model = _v0.a;
 		return _Utils_Tuple2(
-			_Utils_update(
-				$author$project$Vocab$Model$initial,
-				{archived: archived, manage: manage}),
+			model,
 			$author$project$Core$Cmd$sendMsg($author$project$Vocab$Msg$LoadData));
 	} else {
-		var err = data.a;
+		var err = _v0.a;
 		return _Utils_Tuple2(
 			_Utils_update(
 				$author$project$Vocab$Model$initial,
 				{
-					error: $elm$core$Maybe$Just(err)
+					error: A3($elm$core$Basics$composeL, $elm$core$Maybe$Just, $elm$json$Json$Decode$errorToString, err)
 				}),
 			$elm$core$Platform$Cmd$none);
 	}
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $elm$core$Elm$JsArray$foldl = _JsArray_foldl;
+var $elm$core$Array$foldl = F3(
+	function (func, baseCase, _v0) {
+		var tree = _v0.c;
+		var tail = _v0.d;
+		var helper = F2(
+			function (node, acc) {
+				if (node.$ === 'SubTree') {
+					var subTree = node.a;
+					return A3($elm$core$Elm$JsArray$foldl, helper, acc, subTree);
+				} else {
+					var values = node.a;
+					return A3($elm$core$Elm$JsArray$foldl, func, acc, values);
+				}
+			});
+		return A3(
+			$elm$core$Elm$JsArray$foldl,
+			func,
+			A3($elm$core$Elm$JsArray$foldl, helper, baseCase, tree),
+			tail);
+	});
+var $elm$json$Json$Encode$array = F2(
+	function (func, entries) {
+		return _Json_wrap(
+			A3(
+				$elm$core$Array$foldl,
+				_Json_addEntry(func),
+				_Json_emptyArray(_Utils_Tuple0),
+				entries));
+	});
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$json$Json$Encode$dict = F3(
+	function (toKey, toValue, dictionary) {
+		return _Json_wrap(
+			A3(
+				$elm$core$Dict$foldl,
+				F3(
+					function (key, value, obj) {
+						return A3(
+							_Json_addField,
+							toKey(key),
+							toValue(value),
+							obj);
+					}),
+				_Json_emptyObject(_Utils_Tuple0),
+				dictionary));
+	});
+var $elm$json$Json$Encode$object = function (pairs) {
+	return _Json_wrap(
+		A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v0, obj) {
+					var k = _v0.a;
+					var v = _v0.b;
+					return A3(_Json_addField, k, v, obj);
+				}),
+			_Json_emptyObject(_Utils_Tuple0),
+			pairs));
+};
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$Vocab$Api$DTO$Card$encodeCard = function (_v0) {
+	var aSide = _v0.aSide;
+	var bSide = _v0.bSide;
+	return $elm$json$Json$Encode$object(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'aSide',
+				$elm$json$Json$Encode$string(aSide)),
+				_Utils_Tuple2(
+				'bSide',
+				$elm$json$Json$Encode$string(bSide))
+			]));
+};
+var $author$project$Vocab$Game$GameModel$encodeShowing = function (showing) {
+	if (showing.$ === 'ASide') {
+		return $elm$json$Json$Encode$string('ASide');
+	} else {
+		return $elm$json$Json$Encode$string('BSide');
+	}
+};
+var $elm$json$Json$Encode$null = _Json_encodeNull;
+var $author$project$Vocab$Game$GameModel$encodeCurrent = function (current) {
+	switch (current.$) {
+		case 'Question':
+			var showing = current.a;
+			var card = current.b;
+			return $elm$json$Json$Encode$object(
+				_List_fromArray(
+					[
+						_Utils_Tuple2(
+						'type',
+						$elm$json$Json$Encode$string('Question')),
+						_Utils_Tuple2(
+						'showing',
+						$author$project$Vocab$Game$GameModel$encodeShowing(showing)),
+						_Utils_Tuple2(
+						'card',
+						$author$project$Vocab$Api$DTO$Card$encodeCard(card))
+					]));
+		case 'Answer':
+			var card = current.a;
+			return $elm$json$Json$Encode$object(
+				_List_fromArray(
+					[
+						_Utils_Tuple2(
+						'type',
+						$elm$json$Json$Encode$string('Answer')),
+						_Utils_Tuple2(
+						'card',
+						$author$project$Vocab$Api$DTO$Card$encodeCard(card))
+					]));
+		default:
+			return $elm$json$Json$Encode$null;
+	}
+};
+var $elm$core$Array$fromListHelp = F3(
+	function (list, nodeList, nodeListSize) {
+		fromListHelp:
+		while (true) {
+			var _v0 = A2($elm$core$Elm$JsArray$initializeFromList, $elm$core$Array$branchFactor, list);
+			var jsArray = _v0.a;
+			var remainingItems = _v0.b;
+			if (_Utils_cmp(
+				$elm$core$Elm$JsArray$length(jsArray),
+				$elm$core$Array$branchFactor) < 0) {
+				return A2(
+					$elm$core$Array$builderToArray,
+					true,
+					{nodeList: nodeList, nodeListSize: nodeListSize, tail: jsArray});
+			} else {
+				var $temp$list = remainingItems,
+					$temp$nodeList = A2(
+					$elm$core$List$cons,
+					$elm$core$Array$Leaf(jsArray),
+					nodeList),
+					$temp$nodeListSize = nodeListSize + 1;
+				list = $temp$list;
+				nodeList = $temp$nodeList;
+				nodeListSize = $temp$nodeListSize;
+				continue fromListHelp;
+			}
+		}
+	});
+var $elm$core$Array$fromList = function (list) {
+	if (!list.b) {
+		return $elm$core$Array$empty;
+	} else {
+		return A3($elm$core$Array$fromListHelp, list, _List_Nil, 0);
+	}
+};
+var $elm$json$Json$Encode$int = _Json_wrap;
+var $author$project$Vocab$Game$GameModel$encodeGameModel = function (model) {
+	return $elm$json$Json$Encode$object(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'perfect',
+				A3(
+					$elm$core$Basics$composeL,
+					A2(
+						$elm$core$Basics$composeL,
+						$elm$json$Json$Encode$array($elm$json$Json$Encode$string),
+						$elm$core$Array$fromList),
+					$elm$core$Set$toList,
+					model.perfect)),
+				_Utils_Tuple2(
+				'good',
+				A3(
+					$elm$core$Basics$composeL,
+					A2(
+						$elm$core$Basics$composeL,
+						$elm$json$Json$Encode$array($elm$json$Json$Encode$string),
+						$elm$core$Array$fromList),
+					$elm$core$Set$toList,
+					model.good)),
+				_Utils_Tuple2(
+				'bad',
+				A3(
+					$elm$core$Basics$composeL,
+					A2(
+						$elm$core$Basics$composeL,
+						$elm$json$Json$Encode$array($elm$json$Json$Encode$string),
+						$elm$core$Array$fromList),
+					$elm$core$Set$toList,
+					model.bad)),
+				_Utils_Tuple2(
+				'current',
+				$author$project$Vocab$Game$GameModel$encodeCurrent(model.current)),
+				_Utils_Tuple2(
+				'countDown',
+				$elm$json$Json$Encode$int(model.countDown))
+			]));
+};
+var $author$project$Vocab$Manage$ManageModel$encodeManageModel = function (_v0) {
+	var apiKey = _v0.apiKey;
+	var dataId = _v0.dataId;
+	return $elm$json$Json$Encode$object(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'apiKey',
+				function () {
+					if (apiKey.$ === 'Just') {
+						var key = apiKey.a;
+						return $elm$json$Json$Encode$string(key);
+					} else {
+						return $elm$json$Json$Encode$null;
+					}
+				}()),
+				_Utils_Tuple2(
+				'dataId',
+				function () {
+					if (dataId.$ === 'Just') {
+						var id = dataId.a;
+						return $elm$json$Json$Encode$string(id);
+					} else {
+						return $elm$json$Json$Encode$null;
+					}
+				}())
+			]));
+};
+var $elm$json$Json$Encode$list = F2(
+	function (func, entries) {
+		return _Json_wrap(
+			A3(
+				$elm$core$List$foldl,
+				_Json_addEntry(func),
+				_Json_emptyArray(_Utils_Tuple0),
+				entries));
+	});
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Vocab$Model$scopeEncoder = function (scope) {
+	switch (scope.$) {
+		case 'Splash':
+			return $elm$json$Json$Encode$string('Splash');
+		case 'Editing':
+			return $elm$json$Json$Encode$string('Editing');
+		default:
+			return $elm$json$Json$Encode$string('Playing');
+	}
+};
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var $author$project$Vocab$Model$encodeModel = function (model) {
+	return $elm$json$Json$Encode$object(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'cards',
+				A3(
+					$elm$json$Json$Encode$dict,
+					$elm$core$Basics$identity,
+					$elm$json$Json$Encode$list($author$project$Vocab$Api$DTO$Card$encodeCard),
+					model.cards)),
+				_Utils_Tuple2(
+				'sheet',
+				A3(
+					$elm$core$Basics$composeL,
+					$elm$core$Maybe$withDefault($elm$json$Json$Encode$null),
+					$elm$core$Maybe$map($elm$json$Json$Encode$string),
+					model.sheet)),
+				_Utils_Tuple2(
+				'archived',
+				A3(
+					$elm$core$Basics$composeL,
+					A2(
+						$elm$core$Basics$composeL,
+						$elm$json$Json$Encode$array($elm$json$Json$Encode$string),
+						$elm$core$Array$fromList),
+					$elm$core$Set$toList,
+					model.archived)),
+				_Utils_Tuple2(
+				'scope',
+				$author$project$Vocab$Model$scopeEncoder(model.scope)),
+				_Utils_Tuple2(
+				'loading',
+				$elm$json$Json$Encode$bool(model.loading)),
+				_Utils_Tuple2(
+				'error',
+				A3(
+					$elm$core$Basics$composeL,
+					$elm$core$Maybe$withDefault($elm$json$Json$Encode$null),
+					$elm$core$Maybe$map($elm$json$Json$Encode$string),
+					model.error)),
+				_Utils_Tuple2(
+				'game',
+				$author$project$Vocab$Game$GameModel$encodeGameModel(model.game)),
+				_Utils_Tuple2(
+				'manage',
+				$author$project$Vocab$Manage$ManageModel$encodeManageModel(model.manage))
+			]));
+};
+var $author$project$Vocab$Sync$syncData = _Platform_outgoingPort('syncData', $elm$core$Basics$identity);
+var $author$project$Vocab$Sync$sync = function (_v0) {
+	var model = _v0.a;
+	var cards = model.cards;
+	var archived = model.archived;
+	var manage = model.manage;
+	var command = _v0.b;
+	return _Utils_Tuple2(
+		model,
+		$elm$core$Platform$Cmd$batch(
+			_List_fromArray(
+				[
+					$author$project$Vocab$Sync$syncData(
+					$author$project$Vocab$Model$encodeModel(model)),
+					command
+				])));
+};
 var $author$project$Vocab$Msg$Api = function (a) {
 	return {$: 'Api', a: a};
 };
 var $author$project$Vocab$Msg$ApiFailed = function (a) {
 	return {$: 'ApiFailed', a: a};
 };
-var $author$project$Vocab$Model$Editing = {$: 'Editing'};
 var $author$project$Vocab$Msg$Play = function (a) {
 	return {$: 'Play', a: a};
 };
-var $author$project$Vocab$Model$Playing = {$: 'Playing'};
 var $author$project$Vocab$Game$GameMsg$Start = {$: 'Start'};
 var $author$project$Vocab$Api$ApiClient$apiUrlBase = 'https://sheets.googleapis.com/v4/spreadsheets/';
 var $author$project$Vocab$Api$DTO$CardsDTO$CardsDTO = F3(
@@ -6448,15 +6956,6 @@ var $elm$core$Array$get = F2(
 			A2($elm$core$Elm$JsArray$unsafeGet, $elm$core$Array$bitMask & index, tail)) : $elm$core$Maybe$Just(
 			A3($elm$core$Array$getHelp, startShift, index, tree)));
 	});
-var $elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
 var $author$project$Vocab$Api$DTO$CardsDTO$rowToCard = function (row) {
 	return {
 		aSide: A2(
@@ -6536,7 +7035,6 @@ var $author$project$Vocab$Api$DTO$SheetsDTO$SheetPropsDTO = F3(
 	function (sheetId, title, index) {
 		return {index: index, sheetId: sheetId, title: title};
 	});
-var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $author$project$Vocab$Api$DTO$SheetsDTO$sheetPropsDecoder = A3(
 	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 	'index',
@@ -6623,6 +7121,51 @@ var $author$project$Vocab$Model$getCards = function (_v0) {
 			}),
 		sheet);
 };
+var $elm$core$Basics$not = _Basics_not;
+var $author$project$Vocab$Manage$ManageModel$hasCredentials = function (_v0) {
+	var apiKey = _v0.apiKey;
+	var dataId = _v0.dataId;
+	var hasKey = A2(
+		$elm$core$Maybe$map,
+		A2($elm$core$Basics$composeL, $elm$core$Basics$not, $elm$core$String$isEmpty),
+		apiKey);
+	var hasId = A2(
+		$elm$core$Maybe$map,
+		A2($elm$core$Basics$composeL, $elm$core$Basics$not, $elm$core$String$isEmpty),
+		dataId);
+	var _v1 = A2(
+		$elm$core$Maybe$andThen,
+		function (i) {
+			return A2(
+				$elm$core$Maybe$map,
+				$elm$core$Basics$and(i),
+				hasKey);
+		},
+		hasId);
+	if (_v1.$ === 'Just') {
+		var a = _v1.a;
+		return a;
+	} else {
+		return false;
+	}
+};
+var $author$project$Vocab$Update$httpError = function (error) {
+	switch (error.$) {
+		case 'BadUrl':
+			var url = error.a;
+			return 'Bad Url: ' + url;
+		case 'Timeout':
+			return 'Timeout';
+		case 'NetworkError':
+			return 'Network Error';
+		case 'BadStatus':
+			var status = error.a;
+			return 'Bad Status:' + $elm$core$String$fromInt(status);
+		default:
+			var info = error.a;
+			return 'Bad Body: ' + info;
+	}
+};
 var $author$project$Vocab$Update$liftPlayUpdate = F3(
 	function (model, mapper, _v0) {
 		var game = _v0.a;
@@ -6655,149 +7198,6 @@ var $author$project$Vocab$Manage$ManageModel$setDataId = F2(
 				dataId: $elm$core$Maybe$Just(dataId)
 			});
 	});
-var $elm$core$Elm$JsArray$foldl = _JsArray_foldl;
-var $elm$core$Array$foldl = F3(
-	function (func, baseCase, _v0) {
-		var tree = _v0.c;
-		var tail = _v0.d;
-		var helper = F2(
-			function (node, acc) {
-				if (node.$ === 'SubTree') {
-					var subTree = node.a;
-					return A3($elm$core$Elm$JsArray$foldl, helper, acc, subTree);
-				} else {
-					var values = node.a;
-					return A3($elm$core$Elm$JsArray$foldl, func, acc, values);
-				}
-			});
-		return A3(
-			$elm$core$Elm$JsArray$foldl,
-			func,
-			A3($elm$core$Elm$JsArray$foldl, helper, baseCase, tree),
-			tail);
-	});
-var $elm$json$Json$Encode$array = F2(
-	function (func, entries) {
-		return _Json_wrap(
-			A3(
-				$elm$core$Array$foldl,
-				_Json_addEntry(func),
-				_Json_emptyArray(_Utils_Tuple0),
-				entries));
-	});
-var $elm$json$Json$Encode$null = _Json_encodeNull;
-var $elm$json$Json$Encode$object = function (pairs) {
-	return _Json_wrap(
-		A3(
-			$elm$core$List$foldl,
-			F2(
-				function (_v0, obj) {
-					var k = _v0.a;
-					var v = _v0.b;
-					return A3(_Json_addField, k, v, obj);
-				}),
-			_Json_emptyObject(_Utils_Tuple0),
-			pairs));
-};
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $author$project$Vocab$Manage$ManageModel$encodeManageModel = function (_v0) {
-	var apiKey = _v0.apiKey;
-	var dataId = _v0.dataId;
-	return $elm$json$Json$Encode$object(
-		_List_fromArray(
-			[
-				_Utils_Tuple2(
-				'apiKey',
-				function () {
-					if (apiKey.$ === 'Just') {
-						var key = apiKey.a;
-						return $elm$json$Json$Encode$string(key);
-					} else {
-						return $elm$json$Json$Encode$null;
-					}
-				}()),
-				_Utils_Tuple2(
-				'dataId',
-				function () {
-					if (dataId.$ === 'Just') {
-						var id = dataId.a;
-						return $elm$json$Json$Encode$string(id);
-					} else {
-						return $elm$json$Json$Encode$null;
-					}
-				}())
-			]));
-};
-var $elm$core$Array$fromListHelp = F3(
-	function (list, nodeList, nodeListSize) {
-		fromListHelp:
-		while (true) {
-			var _v0 = A2($elm$core$Elm$JsArray$initializeFromList, $elm$core$Array$branchFactor, list);
-			var jsArray = _v0.a;
-			var remainingItems = _v0.b;
-			if (_Utils_cmp(
-				$elm$core$Elm$JsArray$length(jsArray),
-				$elm$core$Array$branchFactor) < 0) {
-				return A2(
-					$elm$core$Array$builderToArray,
-					true,
-					{nodeList: nodeList, nodeListSize: nodeListSize, tail: jsArray});
-			} else {
-				var $temp$list = remainingItems,
-					$temp$nodeList = A2(
-					$elm$core$List$cons,
-					$elm$core$Array$Leaf(jsArray),
-					nodeList),
-					$temp$nodeListSize = nodeListSize + 1;
-				list = $temp$list;
-				nodeList = $temp$nodeList;
-				nodeListSize = $temp$nodeListSize;
-				continue fromListHelp;
-			}
-		}
-	});
-var $elm$core$Array$fromList = function (list) {
-	if (!list.b) {
-		return $elm$core$Array$empty;
-	} else {
-		return A3($elm$core$Array$fromListHelp, list, _List_Nil, 0);
-	}
-};
-var $author$project$Vocab$ModelSnapshot$encodeModelSnapshot = function (_v0) {
-	var archived = _v0.archived;
-	var manage = _v0.manage;
-	return $elm$json$Json$Encode$object(
-		_List_fromArray(
-			[
-				_Utils_Tuple2(
-				'archived',
-				A2(
-					$elm$json$Json$Encode$array,
-					$elm$json$Json$Encode$string,
-					A3($elm$core$Basics$composeL, $elm$core$Array$fromList, $elm$core$Set$toList, archived))),
-				_Utils_Tuple2(
-				'manage',
-				$author$project$Vocab$Manage$ManageModel$encodeManageModel(manage))
-			]));
-};
-var $author$project$Vocab$Sync$syncData = _Platform_outgoingPort('syncData', $elm$core$Basics$identity);
-var $author$project$Vocab$Sync$sync = function (_v0) {
-	var model = _v0.a;
-	var cards = model.cards;
-	var archived = model.archived;
-	var manage = model.manage;
-	var command = _v0.b;
-	return _Utils_Tuple2(
-		model,
-		$elm$core$Platform$Cmd$batch(
-			_List_fromArray(
-				[
-					$author$project$Vocab$Sync$syncData(
-					$author$project$Vocab$ModelSnapshot$encodeModelSnapshot(
-						{archived: archived, manage: manage})),
-					command
-				])));
-};
 var $author$project$Vocab$Manage$ManageModel$toCredentials = function (_v0) {
 	var apiKey = _v0.apiKey;
 	var dataId = _v0.dataId;
@@ -6806,17 +7206,9 @@ var $author$project$Vocab$Manage$ManageModel$toCredentials = function (_v0) {
 		key: A2($elm$core$Maybe$withDefault, '', apiKey)
 	};
 };
-var $author$project$Vocab$Game$GameModel$ASide = {$: 'ASide'};
-var $author$project$Vocab$Game$GameModel$Answer = function (a) {
-	return {$: 'Answer', a: a};
-};
 var $author$project$Vocab$Game$GameMsg$GameEnd = function (a) {
 	return {$: 'GameEnd', a: a};
 };
-var $author$project$Vocab$Game$GameModel$Question = F2(
-	function (a, b) {
-		return {$: 'Question', a: a, b: b};
-	});
 var $author$project$Vocab$Game$GameMsg$SetNth = function (a) {
 	return {$: 'SetNth', a: a};
 };
@@ -6979,31 +7371,6 @@ var $author$project$Vocab$Game$GameMsg$isArchived = F2(
 			$author$project$Vocab$Api$DTO$Card$cardId(c),
 			archived);
 	});
-var $elm$core$Dict$foldl = F3(
-	function (func, acc, dict) {
-		foldl:
-		while (true) {
-			if (dict.$ === 'RBEmpty_elm_builtin') {
-				return acc;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var $temp$func = func,
-					$temp$acc = A3(
-					func,
-					key,
-					value,
-					A3($elm$core$Dict$foldl, func, acc, left)),
-					$temp$dict = right;
-				func = $temp$func;
-				acc = $temp$acc;
-				dict = $temp$dict;
-				continue foldl;
-			}
-		}
-	});
 var $elm$core$Dict$union = F2(
 	function (t1, t2) {
 		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
@@ -7047,7 +7414,6 @@ var $author$project$Vocab$Game$GameMsg$isPlayed = F2(
 				return false;
 		}
 	});
-var $elm$core$Basics$not = _Basics_not;
 var $author$project$Vocab$Game$GameMsg$isAvailable = F3(
 	function (archived, game, c) {
 		return (!A2($author$project$Vocab$Game$GameMsg$isOutOfGame, game, c)) && ((!A2($author$project$Vocab$Game$GameMsg$isArchived, archived, c)) && (!A2($author$project$Vocab$Game$GameMsg$isPlayed, game, c)));
@@ -7229,12 +7595,11 @@ var $author$project$Vocab$Update$update = F2(
 				var m = msg.a;
 				if (m.$ === 'GameEnd') {
 					var arch = m.a;
-					return $author$project$Vocab$Sync$sync(
-						_Utils_Tuple2(
-							_Utils_update(
-								model,
-								{archived: arch, scope: $author$project$Vocab$Model$Splash}),
-							$elm$core$Platform$Cmd$none));
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{archived: arch, scope: $author$project$Vocab$Model$Splash}),
+						$elm$core$Platform$Cmd$none);
 				} else {
 					return A3(
 						$author$project$Vocab$Update$liftPlayUpdate,
@@ -7277,12 +7642,11 @@ var $author$project$Vocab$Update$update = F2(
 								$elm$core$Platform$Cmd$none);
 						}
 					case 'UnArchiveAll':
-						return $author$project$Vocab$Sync$sync(
-							_Utils_Tuple2(
-								_Utils_update(
-									model,
-									{archived: $elm$core$Set$empty}),
-								$elm$core$Platform$Cmd$none));
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{archived: $elm$core$Set$empty}),
+							$elm$core$Platform$Cmd$none);
 					case 'SetApiKey':
 						var key = m.a;
 						return _Utils_Tuple2(
@@ -7302,22 +7666,19 @@ var $author$project$Vocab$Update$update = F2(
 								}),
 							$elm$core$Platform$Cmd$none);
 					case 'Reset':
-						return $author$project$Vocab$Sync$sync(
-							_Utils_Tuple2($author$project$Vocab$Model$initial, $elm$core$Platform$Cmd$none));
+						return _Utils_Tuple2($author$project$Vocab$Model$initial, $elm$core$Platform$Cmd$none);
 					case 'Save':
-						return $author$project$Vocab$Sync$sync(
-							_Utils_Tuple2(
-								_Utils_update(
-									model,
-									{scope: $author$project$Vocab$Model$Splash}),
-								$author$project$Core$Cmd$sendMsg($author$project$Vocab$Msg$LoadData)));
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{scope: $author$project$Vocab$Model$Splash}),
+							$author$project$Core$Cmd$sendMsg($author$project$Vocab$Msg$LoadData));
 					default:
-						return $author$project$Vocab$Sync$sync(
-							_Utils_Tuple2(
-								_Utils_update(
-									model,
-									{scope: $author$project$Vocab$Model$Splash}),
-								$author$project$Core$Cmd$sendMsg($author$project$Vocab$Msg$LoadData)));
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{scope: $author$project$Vocab$Model$Splash}),
+							$elm$core$Platform$Cmd$none);
 				}
 			case 'Basic':
 				var m = msg.a;
@@ -7357,23 +7718,32 @@ var $author$project$Vocab$Update$update = F2(
 			case 'Loaded':
 				var sheet = msg.a;
 				var newCards = msg.b;
-				return $author$project$Vocab$Sync$sync(
-					_Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								archived: $elm$core$Set$empty,
-								cards: A3($elm$core$Dict$insert, sheet, newCards, model.cards),
-								loading: false
-							}),
-						$elm$core$Platform$Cmd$none));
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							archived: $elm$core$Set$empty,
+							cards: A3($elm$core$Dict$insert, sheet, newCards, model.cards),
+							loading: false
+						}),
+					$elm$core$Platform$Cmd$none);
 			case 'Errored':
 				var error = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							error: $elm$core$Maybe$Just(error),
+							error: A3($elm$core$Basics$composeL, $elm$core$Maybe$Just, $elm$json$Json$Decode$errorToString, error),
+							loading: false
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 'ApiFailed':
+				var error = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							error: A3($elm$core$Basics$composeL, $elm$core$Maybe$Just, $author$project$Vocab$Update$httpError, error),
 							loading: false
 						}),
 					$elm$core$Platform$Cmd$none);
@@ -7415,7 +7785,8 @@ var $author$project$Vocab$Update$update = F2(
 							_Utils_update(
 								model,
 								{
-									cards: A3($elm$core$Dict$insert, s, c, model.cards)
+									cards: A3($elm$core$Dict$insert, s, c, model.cards),
+									loading: false
 								}),
 							$elm$core$Platform$Cmd$none);
 					} else {
@@ -7426,18 +7797,13 @@ var $author$project$Vocab$Update$update = F2(
 								$author$project$Vocab$Msg$ApiFailed(error)));
 					}
 				}
-			case 'ApiFailed':
-				var error = msg.a;
+			default:
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							httpError: $elm$core$Maybe$Just(error)
+							loading: $author$project$Vocab$Manage$ManageModel$hasCredentials(model.manage)
 						}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				return _Utils_Tuple2(
-					model,
 					$author$project$Vocab$Update$callForData(model.manage));
 		}
 	});
@@ -7460,7 +7826,6 @@ var $author$project$Vocab$Game$GameMsg$Next = function (a) {
 	return {$: 'Next', a: a};
 };
 var $elm$html$Html$button = _VirtualDom_node('button');
-var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
 	function (key, bool) {
 		return A2(
@@ -7984,7 +8349,7 @@ var $elm$html$Html$footer = _VirtualDom_node('footer');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$html$Html$header = _VirtualDom_node('header');
-var $elm$html$Html$i = _VirtualDom_node('i');
+var $author$project$Core$Html$htmlNone = $elm$html$Html$text('');
 var $author$project$Vocab$Layout$layoutClass = $author$project$Core$BEM$block('layout');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $author$project$Vocab$Layout$progress = function (m) {
@@ -8066,7 +8431,7 @@ var $author$project$Vocab$Layout$layout = F2(
 								]),
 							_List_Nil);
 					} else {
-						return A2($elm$html$Html$i, _List_Nil, _List_Nil);
+						return $author$project$Core$Html$htmlNone;
 					}
 				}()
 				]));
@@ -8262,7 +8627,7 @@ var $author$project$Vocab$Manage$ManageViewHtml$manageView = function (_v0) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('Save Creds')
+						$elm$html$Html$text('Save Creds and (re)Load data')
 					])),
 				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
 				A2(
@@ -8393,6 +8758,7 @@ var $elm$virtual_dom$VirtualDom$attribute = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $elm$html$Html$Attributes$default = $elm$html$Html$Attributes$boolProperty('default');
 var $elm$html$Html$option = _VirtualDom_node('option');
 var $author$project$Vocab$Splash$SplashHtml$optionsHtml = function (sheets) {
 	return _Utils_ap(
@@ -8403,8 +8769,10 @@ var $author$project$Vocab$Splash$SplashHtml$optionsHtml = function (sheets) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$disabled(true),
-						$elm$html$Html$Attributes$value(''),
-						A2($elm$html$Html$Attributes$attribute, 'selected', 'selected')
+						$elm$html$Html$Attributes$value('--'),
+						A2($elm$html$Html$Attributes$attribute, 'selected', 'selected'),
+						A2($elm$html$Html$Attributes$attribute, 'default', 'default'),
+						$elm$html$Html$Attributes$default(true)
 					]),
 				_List_fromArray(
 					[
@@ -8452,7 +8820,7 @@ var $author$project$Vocab$Splash$SplashHtml$splashView = function (_v0) {
 						_List_fromArray(
 							[
 								$elm$html$Html$Attributes$value(
-								A2($elm$core$Maybe$withDefault, '', selected)),
+								A2($elm$core$Maybe$withDefault, '--', selected)),
 								$elm$html$Html$Events$onInput($author$project$Vocab$Splash$SplashMsg$SelectSheet),
 								A2(
 								$author$project$Vocab$Splash$SplashHtml$splash.elMod,
@@ -8576,7 +8944,12 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 		subscriptions: function (_v0) {
 			return $elm$core$Platform$Sub$none;
 		},
-		update: $author$project$Vocab$Update$update,
+		update: function (m) {
+			return A2(
+				$elm$core$Basics$composeL,
+				$author$project$Vocab$Sync$sync,
+				$author$project$Vocab$Update$update(m));
+		},
 		view: $author$project$Vocab$View$view
 	});
 _Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$value)(0)}});}(this));

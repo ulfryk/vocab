@@ -1,14 +1,16 @@
 module Vocab.Model exposing (..)
 
+import Array as A
 import Dict exposing (Dict, fromList, get, keys)
-import Http
-import Json.Decode as D exposing (Decoder)
-import Maybe exposing (andThen, withDefault)
-import Set exposing (Set, empty)
-import Vocab.Api.DTO.Card exposing (Card)
-import Vocab.Game.GameModel as GameModel
+import Json.Decode as D
+import Json.Decode.Pipeline exposing (optional, required)
+import Json.Encode as E
+import Maybe exposing (andThen, map, withDefault)
+import Set as S exposing (Set, empty)
+import Vocab.Api.DTO.Card exposing (Card, cardDecoder, encodeCard)
+import Vocab.Game.GameModel as GameModel exposing (decodeGameModel, encodeGameModel)
 import Vocab.Manage.ManageData exposing (ManageData)
-import Vocab.Manage.ManageModel as ManageModel
+import Vocab.Manage.ManageModel as ManageModel exposing (decodeManageModel, encodeManageModel)
 import Vocab.Splash.SplashData exposing (SplashData)
 
 
@@ -24,8 +26,7 @@ type alias Model =
     , archived : Set String
     , scope : Scope
     , loading : Bool
-    , error : Maybe D.Error
-    , httpError : Maybe Http.Error
+    , error : Maybe String
     , game : GameModel.GameModel
     , manage : ManageModel.ManageModel
     }
@@ -37,9 +38,8 @@ initial =
     , sheet = Nothing
     , archived = empty
     , scope = Splash
-    , error = Nothing
     , loading = False
-    , httpError = Nothing
+    , error = Nothing
     , game = GameModel.initialGameStats
     , manage = ManageModel.initialManageModel
     }
@@ -66,18 +66,62 @@ toManageData ({ manage, archived } as m) =
     }
 
 
+scopeDecoder : String -> D.Decoder Scope
+scopeDecoder tag =
+    case tag of
+        "Splash" ->
+            D.succeed Splash
 
---decodeModel : Decoder Model
---decodeModel =
---    D.succeed Model
---        |> required "archived" (D.map S.fromList <| D.list D.string)
---        |> required "manage" decodeManageModel
---        |> required "sheet" (D.maybe D.string)
---
---
---encodeModel : Model -> E.Value
---encodeModel { archived, manage } =
---    E.object
---        [ ( "archived", E.array E.string <| A.fromList << S.toList <| archived )
---        , ( "creds", encodeManageModel manage )
---        ]
+        "Editing" ->
+            D.succeed Editing
+
+        "Playing" ->
+            D.succeed Playing
+
+        _ ->
+            D.fail (tag ++ " is not a recognized tag for Scope")
+
+
+scopeEncoder : Scope -> E.Value
+scopeEncoder scope =
+    case scope of
+        Splash ->
+            E.string "Splash"
+
+        Editing ->
+            E.string "Editing"
+
+        Playing ->
+            E.string "Playing"
+
+
+falseDecoder : D.Decoder Bool
+falseDecoder =
+    D.succeed False
+
+
+decodeModel : D.Decoder Model
+decodeModel =
+    D.succeed Model
+        |> optional "cards" (D.dict (D.list cardDecoder)) initial.cards
+        |> optional "sheet" (D.oneOf [ D.maybe D.string, D.null Nothing ]) initial.sheet
+        |> optional "archived" (D.map S.fromList <| D.list D.string) initial.archived
+        |> optional "scope" (D.andThen scopeDecoder D.string) initial.scope
+        |> optional "loading" falseDecoder initial.loading
+        |> optional "error" (D.oneOf [ D.maybe D.string, D.null Nothing ]) initial.error
+        |> optional "game" decodeGameModel initial.game
+        |> optional "manage" decodeManageModel initial.manage
+
+
+encodeModel : Model -> E.Value
+encodeModel model =
+    E.object
+        [ ( "cards", model.cards |> E.dict identity (E.list encodeCard) )
+        , ( "sheet", model.sheet |> withDefault E.null << map E.string )
+        , ( "archived", model.archived |> E.array E.string << A.fromList << S.toList )
+        , ( "scope", model.scope |> scopeEncoder )
+        , ( "loading", model.loading |> E.bool )
+        , ( "error", model.error |> withDefault E.null << map E.string )
+        , ( "game", model.game |> encodeGameModel )
+        , ( "manage", model.manage |> encodeManageModel )
+        ]

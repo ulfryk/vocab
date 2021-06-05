@@ -1,6 +1,7 @@
 module Vocab.Layout exposing (..)
 
 import Core.BEM exposing (block)
+import Core.Html exposing (htmlNone)
 import Html exposing (Attribute, Html, div, footer, h1, h3, header, i, main_, text)
 import Html.Attributes exposing (style)
 import String exposing (fromInt)
@@ -43,5 +44,5 @@ layout model content =
                 div [ layoutClass.el "progress", style "height" <| progress model ] []
 
             _ ->
-                i [] []
+                htmlNone
         ]

@@ -2,7 +2,7 @@ module Vocab.Splash.SplashHtml exposing (..)
 
 import Core.BEM exposing (block)
 import Html exposing (Html, button, div, option, select, span, text)
-import Html.Attributes exposing (attribute, disabled, value)
+import Html.Attributes exposing (attribute, default, disabled, value)
 import Html.Events exposing (onClick, onInput)
 import List exposing (length)
 import Maybe exposing (withDefault)
@@ -29,8 +29,10 @@ optionsHtml : List String -> List (Html SplashMsg)
 optionsHtml sheets =
     [ option
         [ disabled True
-        , value ""
+        , value "--"
         , attribute "selected" "selected"
+        , attribute "default" "default"
+        , default True
         ]
         [ text "Select Sheet" ]
     ]
@@ -42,7 +44,7 @@ splashView { sheets, cards, selected } =
     div [ splash.bl ]
         [ div [ splash.el "selector" ]
             [ select
-                [ value (withDefault "" selected)
+                [ value (withDefault "--" selected)
                 , onInput SelectSheet
                 , splash.elMod "selector-input" ( "unselected", isEmpty selected )
                 ]

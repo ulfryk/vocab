@@ -74,7 +74,7 @@ manageView { archived, cards, model } =
         , input [ placeholder "Enter SpreadSheet ID…", onInput SetDataId, value <| withDefault "" model.dataId ] []
         , br [] []
         , br [] []
-        , button [ onClick Save ] [ text "Save Creds" ]
+        , button [ onClick Save ] [ text "Save Creds and (re)Load data" ]
         , hr [] []
         , table []
             [ thead []
