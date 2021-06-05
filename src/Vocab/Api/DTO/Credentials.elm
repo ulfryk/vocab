@@ -1,4 +1,4 @@
-module Vocab.Client.Credentials exposing (..)
+module Vocab.Api.DTO.Credentials exposing (..)
 
 
 type alias Credentials =

@@ -1,10 +1,10 @@
-module Vocab.Client.ApiClient exposing (..)
+module Vocab.Api.ApiClient exposing (..)
 
 import Http exposing (get)
-import Vocab.Client.ClientMsg exposing (ClientMsg, gotSheetData, gotSheets)
-import Vocab.Client.Credentials exposing (Credentials)
-import Vocab.DTO.CardsDTO exposing (cardsDecoder)
-import Vocab.DTO.SheetsDTO exposing (sheetsDecoder)
+import Vocab.Api.DTO.CardsDTO exposing (cardsDecoder)
+import Vocab.Api.DTO.Credentials exposing (Credentials)
+import Vocab.Api.DTO.SheetsDTO exposing (sheetsDecoder)
+import Vocab.Api.ApiMsg exposing (ApiMsg, gotSheetData, gotSheets)
 
 
 apiUrlBase : String
@@ -16,7 +16,7 @@ apiUrlBase =
 -- GET https://sheets.googleapis.com/v4/spreadsheets/{id}/?key={key}
 
 
-apiGetSheets : Credentials -> Cmd ClientMsg
+apiGetSheets : Credentials -> Cmd ApiMsg
 apiGetSheets { id, key } =
     get
         { url = apiUrlBase ++ id ++ "/?key=" ++ key
@@ -28,7 +28,7 @@ apiGetSheets { id, key } =
 -- GET https://sheets.googleapis.com/v4/spreadsheets/{id}/values/{sheet}!A:D?key={key}
 
 
-apiGetCards : Credentials -> String -> Cmd ClientMsg
+apiGetCards : Credentials -> String -> Cmd ApiMsg
 apiGetCards { id, key } sheet =
     get
         { url = apiUrlBase ++ id ++ "/values/" ++ sheet ++ "!A:D?key=" ++ key

@@ -1,46 +1,52 @@
-module Vocab.Base.SplashHtml exposing (..)
+module Vocab.Splash.SplashHtml exposing (..)
 
 import Core.BEM exposing (block)
 import Html exposing (Html, button, div, option, select, span, text)
-import Html.Attributes exposing (disabled, value)
+import Html.Attributes exposing (attribute, disabled, value)
 import Html.Events exposing (onClick, onInput)
 import List exposing (length)
 import Maybe exposing (withDefault)
-import String exposing (fromInt)
-import Vocab.Base.SplashMsg exposing (SplashMsg(..))
-import Vocab.DTO.Card exposing (Card)
+import String exposing (fromInt, isEmpty)
+import Vocab.Splash.SplashData exposing (SplashData)
+import Vocab.Splash.SplashMsg exposing (SplashMsg(..))
 
 
 splash =
     block "splash"
 
 
-isJust : Maybe a -> Bool
-isJust m =
+isEmpty : Maybe String -> Bool
+isEmpty m =
     case m of
-        Just _ ->
-            True
+        Just s ->
+            s == ""
 
         Nothing ->
-            False
+            True
 
 
-optionsHtml : List String -> Maybe String -> List (Html SplashMsg)
-optionsHtml sheets selected =
-    [ option [ disabled (isJust selected) ] [ text "Select Sheet" ] ]
+optionsHtml : List String -> List (Html SplashMsg)
+optionsHtml sheets =
+    [ option
+        [ disabled True
+        , value ""
+        , attribute "selected" "selected"
+        ]
+        [ text "Select Sheet" ]
+    ]
         ++ List.map (\sheet -> option [ value sheet ] [ text sheet ]) sheets
 
 
-splashView : List String -> List Card -> Maybe String -> Html SplashMsg
-splashView sheets cards selected =
+splashView : SplashData -> Html SplashMsg
+splashView { sheets, cards, selected } =
     div [ splash.bl ]
         [ div [ splash.el "selector" ]
             [ select
                 [ value (withDefault "" selected)
                 , onInput SelectSheet
-                , splash.elMod "selector-input" ( "unselected", isJust selected )
+                , splash.elMod "selector-input" ( "unselected", isEmpty selected )
                 ]
-                (optionsHtml sheets selected)
+                (optionsHtml sheets)
             , span [ splash.el "counter" ] [ text << fromInt << length <| cards ]
             ]
         , button [ onClick <| StartGame 10, splash.el "action", disabled (length cards <= 10) ] [ text "Start 10" ]

@@ -1,4 +1,4 @@
-module Vocab.Base.SplashMsg exposing (..)
+module Vocab.Splash.SplashMsg exposing (..)
 
 
 type SplashMsg

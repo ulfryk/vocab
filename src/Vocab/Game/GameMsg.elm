@@ -1,14 +1,14 @@
-module Vocab.Game.PlayMsg exposing (..)
+module Vocab.Game.GameMsg exposing (GameMsg(..), updateOnPlay)
 
 import List exposing (drop, filter, head, length)
 import Random exposing (Generator)
 import Set exposing (Set, insert, member, union)
 import Task exposing (succeed)
-import Vocab.DTO.Card exposing (Card, cardId)
-import Vocab.Game.GameModel exposing (Current(..), GameStats, Showing(..), initialGameStats)
+import Vocab.Api.DTO.Card exposing (Card, cardId)
+import Vocab.Game.GameModel exposing (Current(..), GameModel, Showing(..), initialGameStats)
 
 
-type PlayMsg
+type GameMsg
     = Start
     | Show Card
     | Fail String
@@ -19,7 +19,7 @@ type PlayMsg
     | GameEnd (Set String)
 
 
-isPlayed : GameStats -> Card -> Bool
+isPlayed : GameModel -> Card -> Bool
 isPlayed g c =
     case g.current of
         Question _ card ->
@@ -37,7 +37,7 @@ isArchived archived c =
     member (cardId c) archived
 
 
-isOutOfGame : GameStats -> Card -> Bool
+isOutOfGame : GameModel -> Card -> Bool
 isOutOfGame { perfect, good, bad } c =
     let
         done =
@@ -46,39 +46,39 @@ isOutOfGame { perfect, good, bad } c =
     member (cardId c) done
 
 
-isAvailable : Set String -> GameStats -> Card -> Bool
+isAvailable : Set String -> GameModel -> Card -> Bool
 isAvailable archived game c =
     (not <| isOutOfGame game c)
         && (not <| isArchived archived c)
         && (not <| isPlayed game c)
 
 
-getAvailableCards : Set String -> List Card -> GameStats -> List Card
+getAvailableCards : Set String -> List Card -> GameModel -> List Card
 getAvailableCards archived cards game =
     filter (isAvailable archived game) cards
 
 
-getNthCard : Set String -> List Card -> Int -> GameStats -> Maybe Card
+getNthCard : Set String -> List Card -> Int -> GameModel -> Maybe Card
 getNthCard a c n =
     head << drop n << getAvailableCards a c
 
 
-rollRandomCardIndex : Set String -> List Card -> GameStats -> Generator Int
+rollRandomCardIndex : Set String -> List Card -> GameModel -> Generator Int
 rollRandomCardIndex archived cards game =
     Random.int 0 <| (length <| getAvailableCards archived cards game) - 1
 
 
-updateGameAndRollNextIndex : Set String -> List Card -> GameStats -> ( GameStats, Cmd PlayMsg )
+updateGameAndRollNextIndex : Set String -> List Card -> GameModel -> ( GameModel, Cmd GameMsg )
 updateGameAndRollNextIndex archived cards game =
     ( { game | countDown = game.countDown - 1 }, Random.generate SetNth <| rollRandomCardIndex archived cards game )
 
 
-updateCurrent : GameStats -> Current -> ( GameStats, Cmd PlayMsg )
+updateCurrent : GameModel -> Current -> ( GameModel, Cmd GameMsg )
 updateCurrent g current =
     ( { g | current = current }, Cmd.none )
 
 
-updateOnPlay : PlayMsg -> Set String -> List Card -> GameStats -> ( GameStats, Cmd PlayMsg )
+updateOnPlay : GameMsg -> Set String -> List Card -> GameModel -> ( GameModel, Cmd GameMsg )
 updateOnPlay m archived cards game =
     case m of
         Start ->

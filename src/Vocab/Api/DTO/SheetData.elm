@@ -1,7 +1,7 @@
-module Vocab.Client.SheetData exposing (..)
+module Vocab.Api.DTO.SheetData exposing (..)
 
-import Vocab.DTO.Card exposing (Card)
-import Vocab.DTO.CardsDTO exposing (CardsDTO, extractCards, rowToCard)
+import Vocab.Api.DTO.Card exposing (Card)
+import Vocab.Api.DTO.CardsDTO exposing (CardsDTO, extractCards, rowToCard)
 
 
 type SheetData

@@ -5402,72 +5402,92 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Main$Api = function (a) {
-	return {$: 'Api', a: a};
-};
-var $author$project$Vocab$Client$ApiClient$apiUrlBase = 'https://sheets.googleapis.com/v4/spreadsheets/';
-var $elm$json$Json$Decode$decodeString = _Json_runOnString;
-var $elm$http$Http$BadStatus_ = F2(
-	function (a, b) {
-		return {$: 'BadStatus_', a: a, b: b};
+var $author$project$Vocab$Msg$LoadData = {$: 'LoadData'};
+var $author$project$Vocab$ModelSnapshot$ModelSnapshot = F2(
+	function (archived, manage) {
+		return {archived: archived, manage: manage};
 	});
-var $elm$http$Http$BadUrl_ = function (a) {
-	return {$: 'BadUrl_', a: a};
-};
-var $elm$http$Http$GoodStatus_ = F2(
-	function (a, b) {
-		return {$: 'GoodStatus_', a: a, b: b};
+var $author$project$Vocab$Manage$ManageModel$ManageModel = F2(
+	function (apiKey, dataId) {
+		return {apiKey: apiKey, dataId: dataId};
 	});
-var $elm$http$Http$NetworkError_ = {$: 'NetworkError_'};
-var $elm$http$Http$Receiving = function (a) {
-	return {$: 'Receiving', a: a};
+var $elm$json$Json$Decode$oneOf = _Json_oneOf;
+var $elm$json$Json$Decode$maybe = function (decoder) {
+	return $elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$map, $elm$core$Maybe$Just, decoder),
+				$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing)
+			]));
 };
-var $elm$http$Http$Sending = function (a) {
-	return {$: 'Sending', a: a};
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $elm$json$Json$Decode$decodeValue = _Json_run;
+var $elm$json$Json$Decode$fail = _Json_fail;
+var $elm$json$Json$Decode$null = _Json_decodeNull;
+var $elm$json$Json$Decode$value = _Json_decodeValue;
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder = F3(
+	function (pathDecoder, valDecoder, fallback) {
+		var nullOr = function (decoder) {
+			return $elm$json$Json$Decode$oneOf(
+				_List_fromArray(
+					[
+						decoder,
+						$elm$json$Json$Decode$null(fallback)
+					]));
+		};
+		var handleResult = function (input) {
+			var _v0 = A2($elm$json$Json$Decode$decodeValue, pathDecoder, input);
+			if (_v0.$ === 'Ok') {
+				var rawValue = _v0.a;
+				var _v1 = A2(
+					$elm$json$Json$Decode$decodeValue,
+					nullOr(valDecoder),
+					rawValue);
+				if (_v1.$ === 'Ok') {
+					var finalResult = _v1.a;
+					return $elm$json$Json$Decode$succeed(finalResult);
+				} else {
+					var finalErr = _v1.a;
+					return $elm$json$Json$Decode$fail(
+						$elm$json$Json$Decode$errorToString(finalErr));
+				}
+			} else {
+				return $elm$json$Json$Decode$succeed(fallback);
+			}
+		};
+		return A2($elm$json$Json$Decode$andThen, handleResult, $elm$json$Json$Decode$value);
+	});
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional = F4(
+	function (key, valDecoder, fallback, decoder) {
+		return A2(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
+			A3(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder,
+				A2($elm$json$Json$Decode$field, key, $elm$json$Json$Decode$value),
+				valDecoder,
+				fallback),
+			decoder);
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$Vocab$Manage$ManageModel$decodeManageModel = A4(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+	'dataId',
+	$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
+	$elm$core$Maybe$Nothing,
+	A4(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
+		'apiKey',
+		$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
+		$elm$core$Maybe$Nothing,
+		$elm$json$Json$Decode$succeed($author$project$Vocab$Manage$ManageModel$ManageModel)));
+var $elm$core$Set$Set_elm_builtin = function (a) {
+	return {$: 'Set_elm_builtin', a: a};
 };
-var $elm$http$Http$Timeout_ = {$: 'Timeout_'};
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
-var $elm$core$Maybe$isJust = function (maybe) {
-	if (maybe.$ === 'Just') {
-		return true;
-	} else {
-		return false;
-	}
-};
-var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
-var $elm$core$Basics$compare = _Utils_compare;
-var $elm$core$Dict$get = F2(
-	function (targetKey, dict) {
-		get:
-		while (true) {
-			if (dict.$ === 'RBEmpty_elm_builtin') {
-				return $elm$core$Maybe$Nothing;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
-				switch (_v1.$) {
-					case 'LT':
-						var $temp$targetKey = targetKey,
-							$temp$dict = left;
-						targetKey = $temp$targetKey;
-						dict = $temp$dict;
-						continue get;
-					case 'EQ':
-						return $elm$core$Maybe$Just(value);
-					default:
-						var $temp$targetKey = targetKey,
-							$temp$dict = right;
-						targetKey = $temp$targetKey;
-						dict = $temp$dict;
-						continue get;
-				}
-			}
-		}
-	});
+var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
 var $elm$core$Dict$Black = {$: 'Black'};
 var $elm$core$Dict$RBNode_elm_builtin = F5(
 	function (a, b, c, d, e) {
@@ -5528,6 +5548,7 @@ var $elm$core$Dict$balance = F5(
 			}
 		}
 	});
+var $elm$core$Basics$compare = _Utils_compare;
 var $elm$core$Dict$insertHelp = F3(
 	function (key, value, dict) {
 		if (dict.$ === 'RBEmpty_elm_builtin') {
@@ -5574,6 +5595,187 @@ var $elm$core$Dict$insert = F3(
 		} else {
 			var x = _v0;
 			return x;
+		}
+	});
+var $elm$core$Set$insert = F2(
+	function (key, _v0) {
+		var dict = _v0.a;
+		return $elm$core$Set$Set_elm_builtin(
+			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
+	});
+var $elm$core$Set$fromList = function (list) {
+	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
+};
+var $elm$json$Json$Decode$list = _Json_decodeList;
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
+	function (key, valDecoder, decoder) {
+		return A2(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
+			A2($elm$json$Json$Decode$field, key, valDecoder),
+			decoder);
+	});
+var $author$project$Vocab$ModelSnapshot$decodeModelSnapshot = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'manage',
+	$author$project$Vocab$Manage$ManageModel$decodeManageModel,
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'archived',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$core$Set$fromList,
+			$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
+		$elm$json$Json$Decode$succeed($author$project$Vocab$ModelSnapshot$ModelSnapshot)));
+var $author$project$Vocab$Model$Splash = {$: 'Splash'};
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $author$project$Vocab$Game$GameModel$NoMoreCards = {$: 'NoMoreCards'};
+var $author$project$Vocab$Game$GameModel$initialGameStats = {bad: $elm$core$Set$empty, countDown: 0, current: $author$project$Vocab$Game$GameModel$NoMoreCards, good: $elm$core$Set$empty, perfect: $elm$core$Set$empty};
+var $author$project$Vocab$Manage$ManageModel$initialManageModel = {apiKey: $elm$core$Maybe$Nothing, dataId: $elm$core$Maybe$Nothing};
+var $author$project$Vocab$Model$initial = {
+	archived: $elm$core$Set$empty,
+	cards: $elm$core$Dict$fromList(_List_Nil),
+	error: $elm$core$Maybe$Nothing,
+	game: $author$project$Vocab$Game$GameModel$initialGameStats,
+	httpError: $elm$core$Maybe$Nothing,
+	loading: false,
+	manage: $author$project$Vocab$Manage$ManageModel$initialManageModel,
+	scope: $author$project$Vocab$Model$Splash,
+	sheet: $elm$core$Maybe$Nothing
+};
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $author$project$Core$Cmd$sendMsg = A2(
+	$elm$core$Basics$composeL,
+	$elm$core$Task$perform($elm$core$Basics$identity),
+	$elm$core$Task$succeed);
+var $author$project$Vocab$Init$init = function (flags) {
+	var data = A2($elm$json$Json$Decode$decodeValue, $author$project$Vocab$ModelSnapshot$decodeModelSnapshot, flags);
+	if (data.$ === 'Ok') {
+		var manage = data.a.manage;
+		var archived = data.a.archived;
+		return _Utils_Tuple2(
+			_Utils_update(
+				$author$project$Vocab$Model$initial,
+				{archived: archived, manage: manage}),
+			$author$project$Core$Cmd$sendMsg($author$project$Vocab$Msg$LoadData));
+	} else {
+		var err = data.a;
+		return _Utils_Tuple2(
+			_Utils_update(
+				$author$project$Vocab$Model$initial,
+				{
+					error: $elm$core$Maybe$Just(err)
+				}),
+			$elm$core$Platform$Cmd$none);
+	}
+};
+var $elm$core$Platform$Sub$batch = _Platform_batch;
+var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Vocab$Msg$Api = function (a) {
+	return {$: 'Api', a: a};
+};
+var $author$project$Vocab$Msg$ApiFailed = function (a) {
+	return {$: 'ApiFailed', a: a};
+};
+var $author$project$Vocab$Model$Editing = {$: 'Editing'};
+var $author$project$Vocab$Msg$Play = function (a) {
+	return {$: 'Play', a: a};
+};
+var $author$project$Vocab$Model$Playing = {$: 'Playing'};
+var $author$project$Vocab$Game$GameMsg$Start = {$: 'Start'};
+var $author$project$Vocab$Api$ApiClient$apiUrlBase = 'https://sheets.googleapis.com/v4/spreadsheets/';
+var $author$project$Vocab$Api$DTO$CardsDTO$CardsDTO = F3(
+	function (majorDimension, range, values) {
+		return {majorDimension: majorDimension, range: range, values: values};
+	});
+var $elm$json$Json$Decode$array = _Json_decodeArray;
+var $author$project$Vocab$Api$DTO$CardsDTO$cardsDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'values',
+	$elm$json$Json$Decode$list(
+		$elm$json$Json$Decode$array($elm$json$Json$Decode$string)),
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'range',
+		$elm$json$Json$Decode$string,
+		A3(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+			'majorDimension',
+			$elm$json$Json$Decode$string,
+			$elm$json$Json$Decode$succeed($author$project$Vocab$Api$DTO$CardsDTO$CardsDTO))));
+var $elm$json$Json$Decode$decodeString = _Json_runOnString;
+var $elm$http$Http$BadStatus_ = F2(
+	function (a, b) {
+		return {$: 'BadStatus_', a: a, b: b};
+	});
+var $elm$http$Http$BadUrl_ = function (a) {
+	return {$: 'BadUrl_', a: a};
+};
+var $elm$http$Http$GoodStatus_ = F2(
+	function (a, b) {
+		return {$: 'GoodStatus_', a: a, b: b};
+	});
+var $elm$http$Http$NetworkError_ = {$: 'NetworkError_'};
+var $elm$http$Http$Receiving = function (a) {
+	return {$: 'Receiving', a: a};
+};
+var $elm$http$Http$Sending = function (a) {
+	return {$: 'Sending', a: a};
+};
+var $elm$http$Http$Timeout_ = {$: 'Timeout_'};
+var $elm$core$Maybe$isJust = function (maybe) {
+	if (maybe.$ === 'Just') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$core$Dict$get = F2(
+	function (targetKey, dict) {
+		get:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
+				switch (_v1.$) {
+					case 'LT':
+						var $temp$targetKey = targetKey,
+							$temp$dict = left;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+					case 'EQ':
+						return $elm$core$Maybe$Just(value);
+					default:
+						var $temp$targetKey = targetKey,
+							$temp$dict = right;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+				}
+			}
 		}
 	});
 var $elm$core$Dict$getMin = function (dict) {
@@ -6193,312 +6395,14 @@ var $elm$http$Http$get = function (r) {
 	return $elm$http$Http$request(
 		{body: $elm$http$Http$emptyBody, expect: r.expect, headers: _List_Nil, method: 'GET', timeout: $elm$core$Maybe$Nothing, tracker: $elm$core$Maybe$Nothing, url: r.url});
 };
-var $author$project$Vocab$Client$ClientMsg$GotSheets = function (a) {
-	return {$: 'GotSheets', a: a};
-};
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
-var $author$project$Vocab$DTO$SheetsDTO$extractSheetsData = function (_v0) {
-	var sheets = _v0.sheets;
-	return A2(
-		$elm$core$List$map,
-		function (d) {
-			return d.properties.title;
-		},
-		sheets);
-};
-var $elm$core$Result$map = F2(
-	function (func, ra) {
-		if (ra.$ === 'Ok') {
-			var a = ra.a;
-			return $elm$core$Result$Ok(
-				func(a));
-		} else {
-			var e = ra.a;
-			return $elm$core$Result$Err(e);
-		}
-	});
-var $author$project$Vocab$Client$ClientMsg$gotSheets = A2(
-	$elm$core$Basics$composeL,
-	$author$project$Vocab$Client$ClientMsg$GotSheets,
-	$elm$core$Result$map($author$project$Vocab$DTO$SheetsDTO$extractSheetsData));
-var $author$project$Vocab$DTO$SheetsDTO$SheetsDataDTO = F3(
-	function (spreadsheetId, sheets, spreadsheetUrl) {
-		return {sheets: sheets, spreadsheetId: spreadsheetId, spreadsheetUrl: spreadsheetUrl};
-	});
-var $elm$json$Json$Decode$list = _Json_decodeList;
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
-var $elm$json$Json$Decode$field = _Json_decodeField;
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
-	function (key, valDecoder, decoder) {
-		return A2(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
-			A2($elm$json$Json$Decode$field, key, valDecoder),
-			decoder);
-	});
-var $author$project$Vocab$DTO$SheetsDTO$SheetDTO = function (properties) {
-	return {properties: properties};
-};
-var $author$project$Vocab$DTO$SheetsDTO$SheetPropsDTO = F3(
-	function (sheetId, title, index) {
-		return {index: index, sheetId: sheetId, title: title};
-	});
-var $elm$json$Json$Decode$int = _Json_decodeInt;
-var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Vocab$DTO$SheetsDTO$sheetPropsDecoder = A3(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'index',
-	$elm$json$Json$Decode$int,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'title',
-		$elm$json$Json$Decode$string,
-		A3(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'sheetId',
-			$elm$json$Json$Decode$int,
-			$elm$json$Json$Decode$succeed($author$project$Vocab$DTO$SheetsDTO$SheetPropsDTO))));
-var $author$project$Vocab$DTO$SheetsDTO$sheetDecoder = A3(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'properties',
-	$author$project$Vocab$DTO$SheetsDTO$sheetPropsDecoder,
-	$elm$json$Json$Decode$succeed($author$project$Vocab$DTO$SheetsDTO$SheetDTO));
-var $author$project$Vocab$DTO$SheetsDTO$sheetsDecoder = A3(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'spreadsheetUrl',
-	$elm$json$Json$Decode$string,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'sheets',
-		$elm$json$Json$Decode$list($author$project$Vocab$DTO$SheetsDTO$sheetDecoder),
-		A3(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'spreadsheetId',
-			$elm$json$Json$Decode$string,
-			$elm$json$Json$Decode$succeed($author$project$Vocab$DTO$SheetsDTO$SheetsDataDTO))));
-var $author$project$Vocab$Client$ApiClient$apiGetSheets = function (_v0) {
-	var id = _v0.id;
-	var key = _v0.key;
-	return $elm$http$Http$get(
-		{
-			expect: A2($elm$http$Http$expectJson, $author$project$Vocab$Client$ClientMsg$gotSheets, $author$project$Vocab$DTO$SheetsDTO$sheetsDecoder),
-			url: $author$project$Vocab$Client$ApiClient$apiUrlBase + (id + ('/?key=' + key))
-		});
-};
-var $elm$core$Platform$Cmd$map = _Platform_map;
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Main$callForData = function (_v0) {
-	var apiKey = _v0.apiKey;
-	var dataId = _v0.dataId;
-	if (apiKey.$ === 'Just') {
-		var key = apiKey.a;
-		if (dataId.$ === 'Just') {
-			var id = dataId.a;
-			return A2(
-				$elm$core$Platform$Cmd$map,
-				$author$project$Main$Api,
-				$author$project$Vocab$Client$ApiClient$apiGetSheets(
-					{id: id, key: key}));
-		} else {
-			return $elm$core$Platform$Cmd$none;
-		}
-	} else {
-		return $elm$core$Platform$Cmd$none;
-	}
-};
-var $author$project$Vocab$DTO$DataSnapshot$DataSnapshot = F2(
-	function (archived, creds) {
-		return {archived: archived, creds: creds};
-	});
-var $author$project$Vocab$DTO$Creds$Creds = F2(
-	function (apiKey, dataId) {
-		return {apiKey: apiKey, dataId: dataId};
-	});
-var $elm$json$Json$Decode$oneOf = _Json_oneOf;
-var $elm$json$Json$Decode$maybe = function (decoder) {
-	return $elm$json$Json$Decode$oneOf(
-		_List_fromArray(
-			[
-				A2($elm$json$Json$Decode$map, $elm$core$Maybe$Just, decoder),
-				$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing)
-			]));
-};
-var $elm$json$Json$Decode$andThen = _Json_andThen;
-var $elm$json$Json$Decode$decodeValue = _Json_run;
-var $elm$json$Json$Decode$fail = _Json_fail;
-var $elm$json$Json$Decode$null = _Json_decodeNull;
-var $elm$json$Json$Decode$value = _Json_decodeValue;
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder = F3(
-	function (pathDecoder, valDecoder, fallback) {
-		var nullOr = function (decoder) {
-			return $elm$json$Json$Decode$oneOf(
-				_List_fromArray(
-					[
-						decoder,
-						$elm$json$Json$Decode$null(fallback)
-					]));
-		};
-		var handleResult = function (input) {
-			var _v0 = A2($elm$json$Json$Decode$decodeValue, pathDecoder, input);
-			if (_v0.$ === 'Ok') {
-				var rawValue = _v0.a;
-				var _v1 = A2(
-					$elm$json$Json$Decode$decodeValue,
-					nullOr(valDecoder),
-					rawValue);
-				if (_v1.$ === 'Ok') {
-					var finalResult = _v1.a;
-					return $elm$json$Json$Decode$succeed(finalResult);
-				} else {
-					var finalErr = _v1.a;
-					return $elm$json$Json$Decode$fail(
-						$elm$json$Json$Decode$errorToString(finalErr));
-				}
-			} else {
-				return $elm$json$Json$Decode$succeed(fallback);
-			}
-		};
-		return A2($elm$json$Json$Decode$andThen, handleResult, $elm$json$Json$Decode$value);
-	});
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional = F4(
-	function (key, valDecoder, fallback, decoder) {
-		return A2(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
-			A3(
-				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder,
-				A2($elm$json$Json$Decode$field, key, $elm$json$Json$Decode$value),
-				valDecoder,
-				fallback),
-			decoder);
-	});
-var $author$project$Vocab$DTO$Creds$credsDecoder = A4(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
-	'dataId',
-	$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
-	$elm$core$Maybe$Nothing,
-	A4(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
-		'apiKey',
-		$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
-		$elm$core$Maybe$Nothing,
-		$elm$json$Json$Decode$succeed($author$project$Vocab$DTO$Creds$Creds)));
-var $elm$core$Set$Set_elm_builtin = function (a) {
-	return {$: 'Set_elm_builtin', a: a};
-};
-var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
-var $elm$core$Set$insert = F2(
-	function (key, _v0) {
-		var dict = _v0.a;
-		return $elm$core$Set$Set_elm_builtin(
-			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
-	});
-var $elm$core$Set$fromList = function (list) {
-	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
-};
-var $author$project$Vocab$DTO$DataSnapshot$dataSnapshotDecoder = A3(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'creds',
-	$author$project$Vocab$DTO$Creds$credsDecoder,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'archived',
-		A2(
-			$elm$json$Json$Decode$map,
-			$elm$core$Set$fromList,
-			$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
-		$elm$json$Json$Decode$succeed($author$project$Vocab$DTO$DataSnapshot$DataSnapshot)));
-var $author$project$Vocab$State$Splash = {$: 'Splash'};
-var $elm$core$Dict$fromList = function (assocs) {
-	return A3(
-		$elm$core$List$foldl,
-		F2(
-			function (_v0, dict) {
-				var key = _v0.a;
-				var value = _v0.b;
-				return A3($elm$core$Dict$insert, key, value, dict);
-			}),
-		$elm$core$Dict$empty,
-		assocs);
-};
-var $author$project$Vocab$Game$GameModel$NoMoreCards = {$: 'NoMoreCards'};
-var $author$project$Vocab$Game$GameModel$initialGameStats = {bad: $elm$core$Set$empty, countDown: 0, current: $author$project$Vocab$Game$GameModel$NoMoreCards, good: $elm$core$Set$empty, perfect: $elm$core$Set$empty};
-var $author$project$Vocab$Manage$ManageModel$initialManageModel = {apiKey: $elm$core$Maybe$Nothing, dataId: $elm$core$Maybe$Nothing};
-var $author$project$Vocab$State$initial = {
-	archived: $elm$core$Set$empty,
-	cards: $elm$core$Dict$fromList(_List_Nil),
-	error: $elm$core$Maybe$Nothing,
-	game: $author$project$Vocab$Game$GameModel$initialGameStats,
-	httpError: $elm$core$Maybe$Nothing,
-	loading: false,
-	manage: $author$project$Vocab$Manage$ManageModel$initialManageModel,
-	scope: $author$project$Vocab$State$Splash,
-	sheet: $elm$core$Maybe$Nothing
-};
-var $author$project$Main$initialModel = function (flags) {
-	var data = A2($elm$json$Json$Decode$decodeValue, $author$project$Vocab$DTO$DataSnapshot$dataSnapshotDecoder, flags);
-	if (data.$ === 'Ok') {
-		var value = data.a;
-		return _Utils_Tuple2(
-			_Utils_update(
-				$author$project$Vocab$State$initial,
-				{archived: value.archived, manage: value.creds}),
-			$author$project$Main$callForData(value.creds));
-	} else {
-		var err = data.a;
-		return _Utils_Tuple2(
-			_Utils_update(
-				$author$project$Vocab$State$initial,
-				{
-					error: $elm$core$Maybe$Just(err)
-				}),
-			$elm$core$Platform$Cmd$none);
-	}
-};
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$Main$subscriptions = function (_v0) {
-	return $elm$core$Platform$Sub$none;
-};
-var $author$project$Main$ApiFailed = function (a) {
-	return {$: 'ApiFailed', a: a};
-};
-var $author$project$Vocab$State$Editing = {$: 'Editing'};
-var $author$project$Main$Play = function (a) {
-	return {$: 'Play', a: a};
-};
-var $author$project$Vocab$State$Playing = {$: 'Playing'};
-var $author$project$Vocab$Game$PlayMsg$Start = {$: 'Start'};
-var $author$project$Vocab$DTO$CardsDTO$CardsDTO = F3(
-	function (majorDimension, range, values) {
-		return {majorDimension: majorDimension, range: range, values: values};
-	});
-var $elm$json$Json$Decode$array = _Json_decodeArray;
-var $author$project$Vocab$DTO$CardsDTO$cardsDecoder = A3(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'values',
-	$elm$json$Json$Decode$list(
-		$elm$json$Json$Decode$array($elm$json$Json$Decode$string)),
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'range',
-		$elm$json$Json$Decode$string,
-		A3(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'majorDimension',
-			$elm$json$Json$Decode$string,
-			$elm$json$Json$Decode$succeed($author$project$Vocab$DTO$CardsDTO$CardsDTO))));
-var $author$project$Vocab$Client$ClientMsg$GotSheetData = function (a) {
+var $author$project$Vocab$Api$ApiMsg$GotSheetData = function (a) {
 	return {$: 'GotSheetData', a: a};
 };
-var $author$project$Vocab$Client$SheetData$SheetData = F2(
+var $author$project$Vocab$Api$DTO$SheetData$SheetData = F2(
 	function (a, b) {
 		return {$: 'SheetData', a: a, b: b};
 	});
-var $author$project$Vocab$DTO$CardsDTO$extractCards = function (_v0) {
+var $author$project$Vocab$Api$DTO$CardsDTO$extractCards = function (_v0) {
 	var values = _v0.values;
 	return values;
 };
@@ -6553,7 +6457,7 @@ var $elm$core$Maybe$withDefault = F2(
 			return _default;
 		}
 	});
-var $author$project$Vocab$DTO$CardsDTO$rowToCard = function (row) {
+var $author$project$Vocab$Api$DTO$CardsDTO$rowToCard = function (row) {
 	return {
 		aSide: A2(
 			$elm$core$Maybe$withDefault,
@@ -6565,23 +6469,34 @@ var $author$project$Vocab$DTO$CardsDTO$rowToCard = function (row) {
 			A2($elm$core$Array$get, 2, row))
 	};
 };
-var $author$project$Vocab$Client$SheetData$fromRawData = function (z) {
+var $author$project$Vocab$Api$DTO$SheetData$fromRawData = function (z) {
 	return A2(
 		$elm$core$Basics$composeL,
 		A2(
 			$elm$core$Basics$composeL,
-			$author$project$Vocab$Client$SheetData$SheetData(z),
-			$elm$core$List$map($author$project$Vocab$DTO$CardsDTO$rowToCard)),
-		$author$project$Vocab$DTO$CardsDTO$extractCards);
+			$author$project$Vocab$Api$DTO$SheetData$SheetData(z),
+			$elm$core$List$map($author$project$Vocab$Api$DTO$CardsDTO$rowToCard)),
+		$author$project$Vocab$Api$DTO$CardsDTO$extractCards);
 };
-var $author$project$Vocab$Client$ClientMsg$gotSheetData = function (sheet) {
+var $elm$core$Result$map = F2(
+	function (func, ra) {
+		if (ra.$ === 'Ok') {
+			var a = ra.a;
+			return $elm$core$Result$Ok(
+				func(a));
+		} else {
+			var e = ra.a;
+			return $elm$core$Result$Err(e);
+		}
+	});
+var $author$project$Vocab$Api$ApiMsg$gotSheetData = function (sheet) {
 	return A2(
 		$elm$core$Basics$composeL,
-		$author$project$Vocab$Client$ClientMsg$GotSheetData,
+		$author$project$Vocab$Api$ApiMsg$GotSheetData,
 		$elm$core$Result$map(
-			$author$project$Vocab$Client$SheetData$fromRawData(sheet)));
+			$author$project$Vocab$Api$DTO$SheetData$fromRawData(sheet)));
 };
-var $author$project$Vocab$Client$ApiClient$apiGetCards = F2(
+var $author$project$Vocab$Api$ApiClient$apiGetCards = F2(
 	function (_v0, sheet) {
 		var id = _v0.id;
 		var key = _v0.key;
@@ -6589,12 +6504,100 @@ var $author$project$Vocab$Client$ApiClient$apiGetCards = F2(
 			{
 				expect: A2(
 					$elm$http$Http$expectJson,
-					$author$project$Vocab$Client$ClientMsg$gotSheetData(sheet),
-					$author$project$Vocab$DTO$CardsDTO$cardsDecoder),
-				url: $author$project$Vocab$Client$ApiClient$apiUrlBase + (id + ('/values/' + (sheet + ('!A:D?key=' + key))))
+					$author$project$Vocab$Api$ApiMsg$gotSheetData(sheet),
+					$author$project$Vocab$Api$DTO$CardsDTO$cardsDecoder),
+				url: $author$project$Vocab$Api$ApiClient$apiUrlBase + (id + ('/values/' + (sheet + ('!A:D?key=' + key))))
 			});
 	});
-var $author$project$Vocab$DTO$Card$cardId = function (_v0) {
+var $author$project$Vocab$Api$ApiMsg$GotSheets = function (a) {
+	return {$: 'GotSheets', a: a};
+};
+var $author$project$Vocab$Api$DTO$SheetsDTO$extractSheetsData = function (_v0) {
+	var sheets = _v0.sheets;
+	return A2(
+		$elm$core$List$map,
+		function (d) {
+			return d.properties.title;
+		},
+		sheets);
+};
+var $author$project$Vocab$Api$ApiMsg$gotSheets = A2(
+	$elm$core$Basics$composeL,
+	$author$project$Vocab$Api$ApiMsg$GotSheets,
+	$elm$core$Result$map($author$project$Vocab$Api$DTO$SheetsDTO$extractSheetsData));
+var $author$project$Vocab$Api$DTO$SheetsDTO$SheetsDataDTO = F3(
+	function (spreadsheetId, sheets, spreadsheetUrl) {
+		return {sheets: sheets, spreadsheetId: spreadsheetId, spreadsheetUrl: spreadsheetUrl};
+	});
+var $author$project$Vocab$Api$DTO$SheetsDTO$SheetDTO = function (properties) {
+	return {properties: properties};
+};
+var $author$project$Vocab$Api$DTO$SheetsDTO$SheetPropsDTO = F3(
+	function (sheetId, title, index) {
+		return {index: index, sheetId: sheetId, title: title};
+	});
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $author$project$Vocab$Api$DTO$SheetsDTO$sheetPropsDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'index',
+	$elm$json$Json$Decode$int,
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'title',
+		$elm$json$Json$Decode$string,
+		A3(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+			'sheetId',
+			$elm$json$Json$Decode$int,
+			$elm$json$Json$Decode$succeed($author$project$Vocab$Api$DTO$SheetsDTO$SheetPropsDTO))));
+var $author$project$Vocab$Api$DTO$SheetsDTO$sheetDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'properties',
+	$author$project$Vocab$Api$DTO$SheetsDTO$sheetPropsDecoder,
+	$elm$json$Json$Decode$succeed($author$project$Vocab$Api$DTO$SheetsDTO$SheetDTO));
+var $author$project$Vocab$Api$DTO$SheetsDTO$sheetsDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'spreadsheetUrl',
+	$elm$json$Json$Decode$string,
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'sheets',
+		$elm$json$Json$Decode$list($author$project$Vocab$Api$DTO$SheetsDTO$sheetDecoder),
+		A3(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+			'spreadsheetId',
+			$elm$json$Json$Decode$string,
+			$elm$json$Json$Decode$succeed($author$project$Vocab$Api$DTO$SheetsDTO$SheetsDataDTO))));
+var $author$project$Vocab$Api$ApiClient$apiGetSheets = function (_v0) {
+	var id = _v0.id;
+	var key = _v0.key;
+	return $elm$http$Http$get(
+		{
+			expect: A2($elm$http$Http$expectJson, $author$project$Vocab$Api$ApiMsg$gotSheets, $author$project$Vocab$Api$DTO$SheetsDTO$sheetsDecoder),
+			url: $author$project$Vocab$Api$ApiClient$apiUrlBase + (id + ('/?key=' + key))
+		});
+};
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$Vocab$Update$callForData = function (_v0) {
+	var apiKey = _v0.apiKey;
+	var dataId = _v0.dataId;
+	if (apiKey.$ === 'Just') {
+		var key = apiKey.a;
+		if (dataId.$ === 'Just') {
+			var id = dataId.a;
+			return A2(
+				$elm$core$Platform$Cmd$map,
+				$author$project$Vocab$Msg$Api,
+				$author$project$Vocab$Api$ApiClient$apiGetSheets(
+					{id: id, key: key}));
+		} else {
+			return $elm$core$Platform$Cmd$none;
+		}
+	} else {
+		return $elm$core$Platform$Cmd$none;
+	}
+};
+var $author$project$Vocab$Api$DTO$Card$cardId = function (_v0) {
 	var aSide = _v0.aSide;
 	var bSide = _v0.bSide;
 	return aSide + (':' + bSide);
@@ -6608,7 +6611,7 @@ var $elm$core$Maybe$andThen = F2(
 			return $elm$core$Maybe$Nothing;
 		}
 	});
-var $author$project$Vocab$State$getCards = function (_v0) {
+var $author$project$Vocab$Model$getCards = function (_v0) {
 	var cards = _v0.cards;
 	var sheet = _v0.sheet;
 	return A3(
@@ -6620,7 +6623,7 @@ var $author$project$Vocab$State$getCards = function (_v0) {
 			}),
 		sheet);
 };
-var $author$project$Main$liftPlayUpdate = F3(
+var $author$project$Vocab$Update$liftPlayUpdate = F3(
 	function (model, mapper, _v0) {
 		var game = _v0.a;
 		var command = _v0.b;
@@ -6636,18 +6639,6 @@ var $elm$core$Set$remove = F2(
 		return $elm$core$Set$Set_elm_builtin(
 			A2($elm$core$Dict$remove, key, dict));
 	});
-var $elm$json$Json$Encode$null = _Json_encodeNull;
-var $author$project$Main$resetAll = _Platform_outgoingPort(
-	'resetAll',
-	function ($) {
-		return $elm$json$Json$Encode$null;
-	});
-var $author$project$Main$sendMsg = function (msg) {
-	return A2(
-		$elm$core$Task$perform,
-		$elm$core$Basics$identity,
-		$elm$core$Task$succeed(msg));
-};
 var $author$project$Vocab$Manage$ManageModel$setApiKey = F2(
 	function (model, apiKey) {
 		return _Utils_update(
@@ -6664,14 +6655,6 @@ var $author$project$Vocab$Manage$ManageModel$setDataId = F2(
 				dataId: $elm$core$Maybe$Just(dataId)
 			});
 	});
-var $author$project$Vocab$Manage$ManageModel$toCredentials = function (_v0) {
-	var apiKey = _v0.apiKey;
-	var dataId = _v0.dataId;
-	return {
-		id: A2($elm$core$Maybe$withDefault, '', dataId),
-		key: A2($elm$core$Maybe$withDefault, '', apiKey)
-	};
-};
 var $elm$core$Elm$JsArray$foldl = _JsArray_foldl;
 var $elm$core$Array$foldl = F3(
 	function (func, baseCase, _v0) {
@@ -6702,6 +6685,7 @@ var $elm$json$Json$Encode$array = F2(
 				_Json_emptyArray(_Utils_Tuple0),
 				entries));
 	});
+var $elm$json$Json$Encode$null = _Json_encodeNull;
 var $elm$json$Json$Encode$object = function (pairs) {
 	return _Json_wrap(
 		A3(
@@ -6716,7 +6700,7 @@ var $elm$json$Json$Encode$object = function (pairs) {
 			pairs));
 };
 var $elm$json$Json$Encode$string = _Json_wrap;
-var $author$project$Vocab$DTO$Creds$encodeCreds = function (_v0) {
+var $author$project$Vocab$Manage$ManageModel$encodeManageModel = function (_v0) {
 	var apiKey = _v0.apiKey;
 	var dataId = _v0.dataId;
 	return $elm$json$Json$Encode$object(
@@ -6779,9 +6763,9 @@ var $elm$core$Array$fromList = function (list) {
 		return A3($elm$core$Array$fromListHelp, list, _List_Nil, 0);
 	}
 };
-var $author$project$Vocab$DTO$DataSnapshot$encodeDataSnapshot = function (_v0) {
+var $author$project$Vocab$ModelSnapshot$encodeModelSnapshot = function (_v0) {
 	var archived = _v0.archived;
-	var creds = _v0.creds;
+	var manage = _v0.manage;
 	return $elm$json$Json$Encode$object(
 		_List_fromArray(
 			[
@@ -6792,40 +6776,48 @@ var $author$project$Vocab$DTO$DataSnapshot$encodeDataSnapshot = function (_v0) {
 					$elm$json$Json$Encode$string,
 					A3($elm$core$Basics$composeL, $elm$core$Array$fromList, $elm$core$Set$toList, archived))),
 				_Utils_Tuple2(
-				'creds',
-				$author$project$Vocab$DTO$Creds$encodeCreds(creds))
+				'manage',
+				$author$project$Vocab$Manage$ManageModel$encodeManageModel(manage))
 			]));
 };
-var $author$project$Main$syncData = _Platform_outgoingPort('syncData', $elm$core$Basics$identity);
-var $author$project$Main$updateAndSync = F2(
-	function (model, commands) {
-		var cards = model.cards;
-		var archived = model.archived;
-		var manage = model.manage;
-		return _Utils_Tuple2(
-			model,
-			$elm$core$Platform$Cmd$batch(
-				_Utils_ap(
-					_List_fromArray(
-						[
-							$author$project$Main$syncData(
-							$author$project$Vocab$DTO$DataSnapshot$encodeDataSnapshot(
-								{archived: archived, creds: manage}))
-						]),
-					commands)));
-	});
+var $author$project$Vocab$Sync$syncData = _Platform_outgoingPort('syncData', $elm$core$Basics$identity);
+var $author$project$Vocab$Sync$sync = function (_v0) {
+	var model = _v0.a;
+	var cards = model.cards;
+	var archived = model.archived;
+	var manage = model.manage;
+	var command = _v0.b;
+	return _Utils_Tuple2(
+		model,
+		$elm$core$Platform$Cmd$batch(
+			_List_fromArray(
+				[
+					$author$project$Vocab$Sync$syncData(
+					$author$project$Vocab$ModelSnapshot$encodeModelSnapshot(
+						{archived: archived, manage: manage})),
+					command
+				])));
+};
+var $author$project$Vocab$Manage$ManageModel$toCredentials = function (_v0) {
+	var apiKey = _v0.apiKey;
+	var dataId = _v0.dataId;
+	return {
+		id: A2($elm$core$Maybe$withDefault, '', dataId),
+		key: A2($elm$core$Maybe$withDefault, '', apiKey)
+	};
+};
 var $author$project$Vocab$Game$GameModel$ASide = {$: 'ASide'};
 var $author$project$Vocab$Game$GameModel$Answer = function (a) {
 	return {$: 'Answer', a: a};
 };
-var $author$project$Vocab$Game$PlayMsg$GameEnd = function (a) {
+var $author$project$Vocab$Game$GameMsg$GameEnd = function (a) {
 	return {$: 'GameEnd', a: a};
 };
 var $author$project$Vocab$Game$GameModel$Question = F2(
 	function (a, b) {
 		return {$: 'Question', a: a, b: b};
 	});
-var $author$project$Vocab$Game$PlayMsg$SetNth = function (a) {
+var $author$project$Vocab$Game$GameMsg$SetNth = function (a) {
 	return {$: 'SetNth', a: a};
 };
 var $elm$random$Random$Generate = function (a) {
@@ -6980,11 +6972,11 @@ var $elm$core$Set$member = F2(
 		var dict = _v0.a;
 		return A2($elm$core$Dict$member, key, dict);
 	});
-var $author$project$Vocab$Game$PlayMsg$isArchived = F2(
+var $author$project$Vocab$Game$GameMsg$isArchived = F2(
 	function (archived, c) {
 		return A2(
 			$elm$core$Set$member,
-			$author$project$Vocab$DTO$Card$cardId(c),
+			$author$project$Vocab$Api$DTO$Card$cardId(c),
 			archived);
 	});
 var $elm$core$Dict$foldl = F3(
@@ -7023,7 +7015,7 @@ var $elm$core$Set$union = F2(
 		return $elm$core$Set$Set_elm_builtin(
 			A2($elm$core$Dict$union, dict1, dict2));
 	});
-var $author$project$Vocab$Game$PlayMsg$isOutOfGame = F2(
+var $author$project$Vocab$Game$GameMsg$isOutOfGame = F2(
 	function (_v0, c) {
 		var perfect = _v0.perfect;
 		var good = _v0.good;
@@ -7034,37 +7026,37 @@ var $author$project$Vocab$Game$PlayMsg$isOutOfGame = F2(
 			A2($elm$core$Set$union, good, bad));
 		return A2(
 			$elm$core$Set$member,
-			$author$project$Vocab$DTO$Card$cardId(c),
+			$author$project$Vocab$Api$DTO$Card$cardId(c),
 			done);
 	});
-var $author$project$Vocab$Game$PlayMsg$isPlayed = F2(
+var $author$project$Vocab$Game$GameMsg$isPlayed = F2(
 	function (g, c) {
 		var _v0 = g.current;
 		switch (_v0.$) {
 			case 'Question':
 				var card = _v0.b;
 				return _Utils_eq(
-					$author$project$Vocab$DTO$Card$cardId(c),
-					$author$project$Vocab$DTO$Card$cardId(card));
+					$author$project$Vocab$Api$DTO$Card$cardId(c),
+					$author$project$Vocab$Api$DTO$Card$cardId(card));
 			case 'Answer':
 				var card = _v0.a;
 				return _Utils_eq(
-					$author$project$Vocab$DTO$Card$cardId(c),
-					$author$project$Vocab$DTO$Card$cardId(card));
+					$author$project$Vocab$Api$DTO$Card$cardId(c),
+					$author$project$Vocab$Api$DTO$Card$cardId(card));
 			default:
 				return false;
 		}
 	});
 var $elm$core$Basics$not = _Basics_not;
-var $author$project$Vocab$Game$PlayMsg$isAvailable = F3(
+var $author$project$Vocab$Game$GameMsg$isAvailable = F3(
 	function (archived, game, c) {
-		return (!A2($author$project$Vocab$Game$PlayMsg$isOutOfGame, game, c)) && ((!A2($author$project$Vocab$Game$PlayMsg$isArchived, archived, c)) && (!A2($author$project$Vocab$Game$PlayMsg$isPlayed, game, c)));
+		return (!A2($author$project$Vocab$Game$GameMsg$isOutOfGame, game, c)) && ((!A2($author$project$Vocab$Game$GameMsg$isArchived, archived, c)) && (!A2($author$project$Vocab$Game$GameMsg$isPlayed, game, c)));
 	});
-var $author$project$Vocab$Game$PlayMsg$getAvailableCards = F3(
+var $author$project$Vocab$Game$GameMsg$getAvailableCards = F3(
 	function (archived, cards, game) {
 		return A2(
 			$elm$core$List$filter,
-			A2($author$project$Vocab$Game$PlayMsg$isAvailable, archived, game),
+			A2($author$project$Vocab$Game$GameMsg$isAvailable, archived, game),
 			cards);
 	});
 var $elm$core$List$head = function (list) {
@@ -7076,7 +7068,7 @@ var $elm$core$List$head = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
-var $author$project$Vocab$Game$PlayMsg$getNthCard = F3(
+var $author$project$Vocab$Game$GameMsg$getNthCard = F3(
 	function (a, c, n) {
 		return A2(
 			$elm$core$Basics$composeL,
@@ -7084,7 +7076,7 @@ var $author$project$Vocab$Game$PlayMsg$getNthCard = F3(
 				$elm$core$Basics$composeL,
 				$elm$core$List$head,
 				$elm$core$List$drop(n)),
-			A2($author$project$Vocab$Game$PlayMsg$getAvailableCards, a, c));
+			A2($author$project$Vocab$Game$GameMsg$getAvailableCards, a, c));
 	});
 var $elm$core$Basics$negate = function (n) {
 	return -n;
@@ -7127,15 +7119,15 @@ var $elm$random$Random$int = F2(
 				}
 			});
 	});
-var $author$project$Vocab$Game$PlayMsg$rollRandomCardIndex = F3(
+var $author$project$Vocab$Game$GameMsg$rollRandomCardIndex = F3(
 	function (archived, cards, game) {
 		return A2(
 			$elm$random$Random$int,
 			0,
 			$elm$core$List$length(
-				A3($author$project$Vocab$Game$PlayMsg$getAvailableCards, archived, cards, game)) - 1);
+				A3($author$project$Vocab$Game$GameMsg$getAvailableCards, archived, cards, game)) - 1);
 	});
-var $author$project$Vocab$Game$PlayMsg$updateCurrent = F2(
+var $author$project$Vocab$Game$GameMsg$updateCurrent = F2(
 	function (g, current) {
 		return _Utils_Tuple2(
 			_Utils_update(
@@ -7143,7 +7135,7 @@ var $author$project$Vocab$Game$PlayMsg$updateCurrent = F2(
 				{current: current}),
 			$elm$core$Platform$Cmd$none);
 	});
-var $author$project$Vocab$Game$PlayMsg$updateGameAndRollNextIndex = F3(
+var $author$project$Vocab$Game$GameMsg$updateGameAndRollNextIndex = F3(
 	function (archived, cards, game) {
 		return _Utils_Tuple2(
 			_Utils_update(
@@ -7151,10 +7143,10 @@ var $author$project$Vocab$Game$PlayMsg$updateGameAndRollNextIndex = F3(
 				{countDown: game.countDown - 1}),
 			A2(
 				$elm$random$Random$generate,
-				$author$project$Vocab$Game$PlayMsg$SetNth,
-				A3($author$project$Vocab$Game$PlayMsg$rollRandomCardIndex, archived, cards, game)));
+				$author$project$Vocab$Game$GameMsg$SetNth,
+				A3($author$project$Vocab$Game$GameMsg$rollRandomCardIndex, archived, cards, game)));
 	});
-var $author$project$Vocab$Game$PlayMsg$updateOnPlay = F4(
+var $author$project$Vocab$Game$GameMsg$updateOnPlay = F4(
 	function (m, archived, cards, game) {
 		switch (m.$) {
 			case 'Start':
@@ -7162,20 +7154,20 @@ var $author$project$Vocab$Game$PlayMsg$updateOnPlay = F4(
 					game,
 					A2(
 						$elm$random$Random$generate,
-						$author$project$Vocab$Game$PlayMsg$SetNth,
-						A3($author$project$Vocab$Game$PlayMsg$rollRandomCardIndex, archived, cards, game)));
+						$author$project$Vocab$Game$GameMsg$SetNth,
+						A3($author$project$Vocab$Game$GameMsg$rollRandomCardIndex, archived, cards, game)));
 			case 'End':
 				return _Utils_Tuple2(
 					$author$project$Vocab$Game$GameModel$initialGameStats,
 					A2(
 						$elm$core$Task$perform,
-						$author$project$Vocab$Game$PlayMsg$GameEnd,
+						$author$project$Vocab$Game$GameMsg$GameEnd,
 						$elm$core$Task$succeed(
 							A2($elm$core$Set$union, archived, game.perfect))));
 			case 'Next':
 				var id = m.a;
 				return A3(
-					$author$project$Vocab$Game$PlayMsg$updateGameAndRollNextIndex,
+					$author$project$Vocab$Game$GameMsg$updateGameAndRollNextIndex,
 					archived,
 					cards,
 					_Utils_update(
@@ -7186,7 +7178,7 @@ var $author$project$Vocab$Game$PlayMsg$updateOnPlay = F4(
 			case 'Drop':
 				var id = m.a;
 				return A3(
-					$author$project$Vocab$Game$PlayMsg$updateGameAndRollNextIndex,
+					$author$project$Vocab$Game$GameMsg$updateGameAndRollNextIndex,
 					archived,
 					cards,
 					_Utils_update(
@@ -7197,7 +7189,7 @@ var $author$project$Vocab$Game$PlayMsg$updateOnPlay = F4(
 			case 'Fail':
 				var id = m.a;
 				return A3(
-					$author$project$Vocab$Game$PlayMsg$updateGameAndRollNextIndex,
+					$author$project$Vocab$Game$GameMsg$updateGameAndRollNextIndex,
 					archived,
 					cards,
 					_Utils_update(
@@ -7208,26 +7200,26 @@ var $author$project$Vocab$Game$PlayMsg$updateOnPlay = F4(
 			case 'Show':
 				var card = m.a;
 				return A2(
-					$author$project$Vocab$Game$PlayMsg$updateCurrent,
+					$author$project$Vocab$Game$GameMsg$updateCurrent,
 					game,
 					$author$project$Vocab$Game$GameModel$Answer(card));
 			case 'SetNth':
 				var n = m.a;
-				var _v1 = A4($author$project$Vocab$Game$PlayMsg$getNthCard, archived, cards, n, game);
+				var _v1 = A4($author$project$Vocab$Game$GameMsg$getNthCard, archived, cards, n, game);
 				if (_v1.$ === 'Just') {
 					var card = _v1.a;
 					return A2(
-						$author$project$Vocab$Game$PlayMsg$updateCurrent,
+						$author$project$Vocab$Game$GameMsg$updateCurrent,
 						game,
 						A2($author$project$Vocab$Game$GameModel$Question, $author$project$Vocab$Game$GameModel$ASide, card));
 				} else {
-					return A2($author$project$Vocab$Game$PlayMsg$updateCurrent, game, $author$project$Vocab$Game$GameModel$NoMoreCards);
+					return A2($author$project$Vocab$Game$GameMsg$updateCurrent, game, $author$project$Vocab$Game$GameModel$NoMoreCards);
 				}
 			default:
 				return _Utils_Tuple2(game, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$update = F2(
+var $author$project$Vocab$Update$update = F2(
 	function (msg, model) {
 		var game = model.game;
 		var archived = model.archived;
@@ -7237,22 +7229,22 @@ var $author$project$Main$update = F2(
 				var m = msg.a;
 				if (m.$ === 'GameEnd') {
 					var arch = m.a;
-					return A2(
-						$author$project$Main$updateAndSync,
-						_Utils_update(
-							model,
-							{archived: arch, scope: $author$project$Vocab$State$Splash}),
-						_List_Nil);
+					return $author$project$Vocab$Sync$sync(
+						_Utils_Tuple2(
+							_Utils_update(
+								model,
+								{archived: arch, scope: $author$project$Vocab$Model$Splash}),
+							$elm$core$Platform$Cmd$none));
 				} else {
 					return A3(
-						$author$project$Main$liftPlayUpdate,
+						$author$project$Vocab$Update$liftPlayUpdate,
 						model,
-						$author$project$Main$Play,
+						$author$project$Vocab$Msg$Play,
 						A4(
-							$author$project$Vocab$Game$PlayMsg$updateOnPlay,
+							$author$project$Vocab$Game$GameMsg$updateOnPlay,
 							m,
 							archived,
-							$author$project$Vocab$State$getCards(model),
+							$author$project$Vocab$Model$getCards(model),
 							game));
 				}
 			case 'Manage':
@@ -7268,7 +7260,7 @@ var $author$project$Main$update = F2(
 									{
 										archived: A2(
 											$elm$core$Set$insert,
-											$author$project$Vocab$DTO$Card$cardId(card),
+											$author$project$Vocab$Api$DTO$Card$cardId(card),
 											archived)
 									}),
 								$elm$core$Platform$Cmd$none);
@@ -7279,18 +7271,18 @@ var $author$project$Main$update = F2(
 									{
 										archived: A2(
 											$elm$core$Set$remove,
-											$author$project$Vocab$DTO$Card$cardId(card),
+											$author$project$Vocab$Api$DTO$Card$cardId(card),
 											archived)
 									}),
 								$elm$core$Platform$Cmd$none);
 						}
 					case 'UnArchiveAll':
-						return A2(
-							$author$project$Main$updateAndSync,
-							_Utils_update(
-								model,
-								{archived: $elm$core$Set$empty}),
-							_List_Nil);
+						return $author$project$Vocab$Sync$sync(
+							_Utils_Tuple2(
+								_Utils_update(
+									model,
+									{archived: $elm$core$Set$empty}),
+								$elm$core$Platform$Cmd$none));
 					case 'SetApiKey':
 						var key = m.a;
 						return _Utils_Tuple2(
@@ -7310,29 +7302,22 @@ var $author$project$Main$update = F2(
 								}),
 							$elm$core$Platform$Cmd$none);
 					case 'Reset':
-						return _Utils_Tuple2(
-							$author$project$Vocab$State$initial,
-							$author$project$Main$resetAll(_Utils_Tuple0));
+						return $author$project$Vocab$Sync$sync(
+							_Utils_Tuple2($author$project$Vocab$Model$initial, $elm$core$Platform$Cmd$none));
 					case 'Save':
-						return A2(
-							$author$project$Main$updateAndSync,
-							_Utils_update(
-								model,
-								{scope: $author$project$Vocab$State$Splash}),
-							_List_fromArray(
-								[
-									$author$project$Main$callForData(model.manage)
-								]));
+						return $author$project$Vocab$Sync$sync(
+							_Utils_Tuple2(
+								_Utils_update(
+									model,
+									{scope: $author$project$Vocab$Model$Splash}),
+								$author$project$Core$Cmd$sendMsg($author$project$Vocab$Msg$LoadData)));
 					default:
-						return A2(
-							$author$project$Main$updateAndSync,
-							_Utils_update(
-								model,
-								{scope: $author$project$Vocab$State$Splash}),
-							_List_fromArray(
-								[
-									$author$project$Main$callForData(model.manage)
-								]));
+						return $author$project$Vocab$Sync$sync(
+							_Utils_Tuple2(
+								_Utils_update(
+									model,
+									{scope: $author$project$Vocab$Model$Splash}),
+								$author$project$Core$Cmd$sendMsg($author$project$Vocab$Msg$LoadData)));
 				}
 			case 'Basic':
 				var m = msg.a;
@@ -7340,16 +7325,16 @@ var $author$project$Main$update = F2(
 					case 'StartGame':
 						var count = m.a;
 						return A3(
-							$author$project$Main$liftPlayUpdate,
+							$author$project$Vocab$Update$liftPlayUpdate,
 							_Utils_update(
 								model,
-								{scope: $author$project$Vocab$State$Playing}),
-							$author$project$Main$Play,
+								{scope: $author$project$Vocab$Model$Playing}),
+							$author$project$Vocab$Msg$Play,
 							A4(
-								$author$project$Vocab$Game$PlayMsg$updateOnPlay,
-								$author$project$Vocab$Game$PlayMsg$Start,
+								$author$project$Vocab$Game$GameMsg$updateOnPlay,
+								$author$project$Vocab$Game$GameMsg$Start,
 								archived,
-								$author$project$Vocab$State$getCards(model),
+								$author$project$Vocab$Model$getCards(model),
 								_Utils_update(
 									game,
 									{countDown: count})));
@@ -7357,7 +7342,7 @@ var $author$project$Main$update = F2(
 						return _Utils_Tuple2(
 							_Utils_update(
 								model,
-								{scope: $author$project$Vocab$State$Editing}),
+								{scope: $author$project$Vocab$Model$Editing}),
 							$elm$core$Platform$Cmd$none);
 					default:
 						var sheet = m.a;
@@ -7372,16 +7357,16 @@ var $author$project$Main$update = F2(
 			case 'Loaded':
 				var sheet = msg.a;
 				var newCards = msg.b;
-				return A2(
-					$author$project$Main$updateAndSync,
-					_Utils_update(
-						model,
-						{
-							archived: $elm$core$Set$empty,
-							cards: A3($elm$core$Dict$insert, sheet, newCards, model.cards),
-							loading: false
-						}),
-					_List_Nil);
+				return $author$project$Vocab$Sync$sync(
+					_Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								archived: $elm$core$Set$empty,
+								cards: A3($elm$core$Dict$insert, sheet, newCards, model.cards),
+								loading: false
+							}),
+						$elm$core$Platform$Cmd$none));
 			case 'Errored':
 				var error = msg.a;
 				return _Utils_Tuple2(
@@ -7406,9 +7391,9 @@ var $author$project$Main$update = F2(
 									function (s) {
 										return A2(
 											$elm$core$Platform$Cmd$map,
-											$author$project$Main$Api,
+											$author$project$Vocab$Msg$Api,
 											A2(
-												$author$project$Vocab$Client$ApiClient$apiGetCards,
+												$author$project$Vocab$Api$ApiClient$apiGetCards,
 												$author$project$Vocab$Manage$ManageModel$toCredentials(model.manage),
 												s));
 									},
@@ -7417,8 +7402,8 @@ var $author$project$Main$update = F2(
 						var error = result.a;
 						return _Utils_Tuple2(
 							model,
-							$author$project$Main$sendMsg(
-								$author$project$Main$ApiFailed(error)));
+							$author$project$Core$Cmd$sendMsg(
+								$author$project$Vocab$Msg$ApiFailed(error)));
 					}
 				} else {
 					var result = clientMsg.a;
@@ -7437,11 +7422,11 @@ var $author$project$Main$update = F2(
 						var error = result.a;
 						return _Utils_Tuple2(
 							model,
-							$author$project$Main$sendMsg(
-								$author$project$Main$ApiFailed(error)));
+							$author$project$Core$Cmd$sendMsg(
+								$author$project$Vocab$Msg$ApiFailed(error)));
 					}
 				}
-			default:
+			case 'ApiFailed':
 				var error = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -7450,24 +7435,28 @@ var $author$project$Main$update = F2(
 							httpError: $elm$core$Maybe$Just(error)
 						}),
 					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					model,
+					$author$project$Vocab$Update$callForData(model.manage));
 		}
 	});
-var $author$project$Main$Basic = function (a) {
+var $author$project$Vocab$Msg$Basic = function (a) {
 	return {$: 'Basic', a: a};
 };
-var $author$project$Main$Manage = function (a) {
+var $author$project$Vocab$Msg$Manage = function (a) {
 	return {$: 'Manage', a: a};
 };
-var $author$project$Vocab$Game$PlayMsg$Show = function (a) {
+var $author$project$Vocab$Game$GameMsg$Show = function (a) {
 	return {$: 'Show', a: a};
 };
-var $author$project$Vocab$Game$PlayMsg$Drop = function (a) {
+var $author$project$Vocab$Game$GameMsg$Drop = function (a) {
 	return {$: 'Drop', a: a};
 };
-var $author$project$Vocab$Game$PlayMsg$Fail = function (a) {
+var $author$project$Vocab$Game$GameMsg$Fail = function (a) {
 	return {$: 'Fail', a: a};
 };
-var $author$project$Vocab$Game$PlayMsg$Next = function (a) {
+var $author$project$Vocab$Game$GameMsg$Next = function (a) {
 	return {$: 'Next', a: a};
 };
 var $elm$html$Html$button = _VirtualDom_node('button');
@@ -7559,9 +7548,16 @@ var $renanpvaz$elm_bem$Bem$block = function (base) {
 		modList: $renanpvaz$elm_bem$Bem$modList(base)
 	};
 };
+var $author$project$Core$BEM$mod = F2(
+	function (base, _v0) {
+		var name = _v0.a;
+		var active = _v0.b;
+		return $elm$html$Html$Attributes$class(
+			active ? (base + (' ' + A2($renanpvaz$elm_bem$Bem$modifier, base, name))) : base);
+	});
 var $author$project$Core$BEM$elMod = F2(
 	function (blck, lmnt) {
-		return $renanpvaz$elm_bem$Bem$mod(
+		return $author$project$Core$BEM$mod(
 			A2($renanpvaz$elm_bem$Bem$element, blck, lmnt));
 	});
 var $author$project$Core$BEM$elModList = F2(
@@ -7599,8 +7595,8 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 						[
 							$elm$html$Html$Attributes$disabled(d),
 							$elm$html$Html$Events$onClick(
-							$author$project$Vocab$Game$PlayMsg$Drop(
-								$author$project$Vocab$DTO$Card$cardId(card))),
+							$author$project$Vocab$Game$GameMsg$Drop(
+								$author$project$Vocab$Api$DTO$Card$cardId(card))),
 							A2(
 							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
 							'action',
@@ -7623,8 +7619,8 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 						[
 							$elm$html$Html$Attributes$disabled(d),
 							$elm$html$Html$Events$onClick(
-							$author$project$Vocab$Game$PlayMsg$Next(
-								$author$project$Vocab$DTO$Card$cardId(card))),
+							$author$project$Vocab$Game$GameMsg$Next(
+								$author$project$Vocab$Api$DTO$Card$cardId(card))),
 							A2(
 							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
 							'action',
@@ -7647,8 +7643,8 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 						[
 							$elm$html$Html$Attributes$disabled(d),
 							$elm$html$Html$Events$onClick(
-							$author$project$Vocab$Game$PlayMsg$Fail(
-								$author$project$Vocab$DTO$Card$cardId(card))),
+							$author$project$Vocab$Game$GameMsg$Fail(
+								$author$project$Vocab$Api$DTO$Card$cardId(card))),
 							A2(
 							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
 							'action',
@@ -7667,7 +7663,7 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 						]))
 				]));
 	});
-var $author$project$Vocab$Game$PlayMsg$End = {$: 'End'};
+var $author$project$Vocab$Game$GameMsg$End = {$: 'End'};
 var $author$project$Vocab$Game$DoneHtml$allDone = $author$project$Core$BEM$block('all-done');
 var $elm$core$Dict$sizeHelp = F2(
 	function (n, dict) {
@@ -7802,7 +7798,7 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 				$elm$html$Html$button,
 				_List_fromArray(
 					[
-						$elm$html$Html$Events$onClick($author$project$Vocab$Game$PlayMsg$End),
+						$elm$html$Html$Events$onClick($author$project$Vocab$Game$GameMsg$End),
 						$author$project$Vocab$Game$DoneHtml$allDone.el('action')
 					]),
 				_List_fromArray(
@@ -7915,7 +7911,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 												_List_fromArray(
 													[
 														$elm$html$Html$Events$onClick(
-														$author$project$Vocab$Game$PlayMsg$Show(card))
+														$author$project$Vocab$Game$GameMsg$Show(card))
 													]),
 												_List_fromArray(
 													[
@@ -7957,7 +7953,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 												_List_fromArray(
 													[
 														$elm$html$Html$Events$onClick(
-														$author$project$Vocab$Game$PlayMsg$Show(card))
+														$author$project$Vocab$Game$GameMsg$Show(card))
 													]),
 												_List_fromArray(
 													[
@@ -8043,7 +8039,8 @@ var $author$project$Vocab$Layout$layout = F2(
 							'main',
 							_Utils_Tuple2('loading', model.loading))
 						]),
-					content),
+					_List_fromArray(
+						[content])),
 					A2(
 					$elm$html$Html$footer,
 					_List_fromArray(
@@ -8107,7 +8104,7 @@ var $author$project$Vocab$Manage$ManageViewHtml$isCardArchived = F2(
 	function (archived, card) {
 		return A2(
 			$elm$core$Set$member,
-			$author$project$Vocab$DTO$Card$cardId(card),
+			$author$project$Vocab$Api$DTO$Card$cardId(card),
 			archived);
 	});
 var $author$project$Vocab$Manage$ManageViewHtml$cardState = F2(
@@ -8178,374 +8175,408 @@ var $elm$html$Html$th = _VirtualDom_node('th');
 var $elm$html$Html$thead = _VirtualDom_node('thead');
 var $elm$html$Html$tr = _VirtualDom_node('tr');
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
-var $author$project$Vocab$Manage$ManageViewHtml$manageView = F3(
-	function (archived, cards, _v0) {
-		var apiKey = _v0.apiKey;
-		var dataId = _v0.dataId;
-		return A2(
-			$elm$html$Html$section,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$h4,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Edit'),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$Done),
-									A2($elm$html$Html$Attributes$style, 'float', 'right')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('back')
-								]))
-						])),
-					A2($elm$html$Html$hr, _List_Nil, _List_Nil),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$Reset)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Reset')
-						])),
-					$elm$html$Html$text(' (it will erase all data)'),
-					A2($elm$html$Html$hr, _List_Nil, _List_Nil),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil),
-					A2(
-					$elm$html$Html$label,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Api Key: ')
-						])),
-					A2(
-					$elm$html$Html$input,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$placeholder('Enter Api Key…'),
-							$elm$html$Html$Events$onInput($author$project$Vocab$Manage$ManageMsg$SetApiKey),
-							$elm$html$Html$Attributes$value(
-							A2($elm$core$Maybe$withDefault, '', apiKey))
-						]),
-					_List_Nil),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil),
-					A2(
-					$elm$html$Html$label,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('SpreadSheet ID ')
-						])),
-					A2(
-					$elm$html$Html$input,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$placeholder('Enter SpreadSheet ID…'),
-							$elm$html$Html$Events$onInput($author$project$Vocab$Manage$ManageMsg$SetDataId),
-							$elm$html$Html$Attributes$value(
-							A2($elm$core$Maybe$withDefault, '', dataId))
-						]),
-					_List_Nil),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$Save)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Save Creds')
-						])),
-					A2($elm$html$Html$hr, _List_Nil, _List_Nil),
-					A2(
-					$elm$html$Html$table,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$thead,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$tr,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$elm$html$Html$th,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$elm$html$Html$text('A Side')
-												])),
-											A2(
-											$elm$html$Html$th,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$elm$html$Html$text('B Side')
-												])),
-											A2(
-											$elm$html$Html$th,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$elm$html$Html$text('Archived'),
-													A2(
-													$elm$html$Html$button,
-													_List_fromArray(
-														[
-															$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$UnArchiveAll)
-														]),
-													_List_fromArray(
-														[
-															$elm$html$Html$text('Unarchive All')
-														]))
-												]))
-										]))
-								])),
-							A2(
-							$elm$html$Html$tbody,
-							_List_Nil,
-							A2(
-								$elm$core$List$map,
-								function (c) {
-									return A2(
-										$elm$html$Html$tr,
-										_List_fromArray(
-											[
-												A2($author$project$Vocab$Manage$ManageViewHtml$lineClass, archived, c)
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(c.aSide)
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(c.bSide)
-													])),
-												A3(
-												$elm$core$Basics$composeL,
-												$elm$html$Html$td(_List_Nil),
-												$author$project$Vocab$Manage$ManageViewHtml$cardState(archived),
-												c)
-											]));
-								},
-								cards))
-						])),
-					A2(
-					$elm$html$Html$footer,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$Done)
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('done')
-								]))
-						]))
-				]));
-	});
-var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
-var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $author$project$Vocab$Base$SplashMsg$SelectSheet = function (a) {
-	return {$: 'SelectSheet', a: a};
-};
-var $author$project$Vocab$Base$SplashMsg$StartEditing = {$: 'StartEditing'};
-var $author$project$Vocab$Base$SplashMsg$StartGame = function (a) {
-	return {$: 'StartGame', a: a};
-};
-var $author$project$Vocab$Base$SplashHtml$isJust = function (m) {
-	if (m.$ === 'Just') {
-		return true;
-	} else {
-		return false;
-	}
-};
-var $elm$html$Html$option = _VirtualDom_node('option');
-var $author$project$Vocab$Base$SplashHtml$optionsHtml = F2(
-	function (sheets, selected) {
-		return _Utils_ap(
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$option,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$disabled(
-							$author$project$Vocab$Base$SplashHtml$isJust(selected))
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Select Sheet')
-						]))
-				]),
-			A2(
-				$elm$core$List$map,
-				function (sheet) {
-					return A2(
-						$elm$html$Html$option,
+var $author$project$Vocab$Manage$ManageViewHtml$manageView = function (_v0) {
+	var archived = _v0.archived;
+	var cards = _v0.cards;
+	var model = _v0.model;
+	return A2(
+		$elm$html$Html$section,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$h4,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Edit'),
+						A2(
+						$elm$html$Html$button,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$value(sheet)
+								$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$Done),
+								A2($elm$html$Html$Attributes$style, 'float', 'right')
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(sheet)
-							]));
-				},
-				sheets));
-	});
-var $elm$html$Html$select = _VirtualDom_node('select');
-var $author$project$Vocab$Base$SplashHtml$splash = $author$project$Core$BEM$block('splash');
-var $author$project$Vocab$Base$SplashHtml$splashView = F3(
-	function (sheets, cards, selected) {
+								$elm$html$Html$text('back')
+							]))
+					])),
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$Reset)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Reset')
+					])),
+				$elm$html$Html$text(' (it will erase all data)'),
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				A2(
+				$elm$html$Html$label,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Api Key: ')
+					])),
+				A2(
+				$elm$html$Html$input,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$placeholder('Enter Api Key…'),
+						$elm$html$Html$Events$onInput($author$project$Vocab$Manage$ManageMsg$SetApiKey),
+						$elm$html$Html$Attributes$value(
+						A2($elm$core$Maybe$withDefault, '', model.apiKey))
+					]),
+				_List_Nil),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				A2(
+				$elm$html$Html$label,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('SpreadSheet ID ')
+					])),
+				A2(
+				$elm$html$Html$input,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$placeholder('Enter SpreadSheet ID…'),
+						$elm$html$Html$Events$onInput($author$project$Vocab$Manage$ManageMsg$SetDataId),
+						$elm$html$Html$Attributes$value(
+						A2($elm$core$Maybe$withDefault, '', model.dataId))
+					]),
+				_List_Nil),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$Save)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Save Creds')
+					])),
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+				A2(
+				$elm$html$Html$table,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$thead,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$tr,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$th,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text('A Side')
+											])),
+										A2(
+										$elm$html$Html$th,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text('B Side')
+											])),
+										A2(
+										$elm$html$Html$th,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text('Archived'),
+												A2(
+												$elm$html$Html$button,
+												_List_fromArray(
+													[
+														$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$UnArchiveAll)
+													]),
+												_List_fromArray(
+													[
+														$elm$html$Html$text('Unarchive All')
+													]))
+											]))
+									]))
+							])),
+						A2(
+						$elm$html$Html$tbody,
+						_List_Nil,
+						A2(
+							$elm$core$List$map,
+							function (c) {
+								return A2(
+									$elm$html$Html$tr,
+									_List_fromArray(
+										[
+											A2($author$project$Vocab$Manage$ManageViewHtml$lineClass, archived, c)
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$td,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$elm$html$Html$text(c.aSide)
+												])),
+											A2(
+											$elm$html$Html$td,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$elm$html$Html$text(c.bSide)
+												])),
+											A3(
+											$elm$core$Basics$composeL,
+											$elm$html$Html$td(_List_Nil),
+											$author$project$Vocab$Manage$ManageViewHtml$cardState(archived),
+											c)
+										]));
+							},
+							cards))
+					])),
+				A2(
+				$elm$html$Html$footer,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick($author$project$Vocab$Manage$ManageMsg$Done)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('done')
+							]))
+					]))
+			]));
+};
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
+var $author$project$Vocab$Splash$SplashMsg$SelectSheet = function (a) {
+	return {$: 'SelectSheet', a: a};
+};
+var $author$project$Vocab$Splash$SplashMsg$StartEditing = {$: 'StartEditing'};
+var $author$project$Vocab$Splash$SplashMsg$StartGame = function (a) {
+	return {$: 'StartGame', a: a};
+};
+var $author$project$Vocab$Splash$SplashHtml$isEmpty = function (m) {
+	if (m.$ === 'Just') {
+		var s = m.a;
+		return s === '';
+	} else {
+		return true;
+	}
+};
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
 		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[$author$project$Vocab$Base$SplashHtml$splash.bl]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$author$project$Vocab$Base$SplashHtml$splash.el('selector')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$select,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$value(
-									A2($elm$core$Maybe$withDefault, '', selected)),
-									$elm$html$Html$Events$onInput($author$project$Vocab$Base$SplashMsg$SelectSheet),
-									A2(
-									$author$project$Vocab$Base$SplashHtml$splash.elMod,
-									'selector-input',
-									_Utils_Tuple2(
-										'unselected',
-										$author$project$Vocab$Base$SplashHtml$isJust(selected)))
-								]),
-							A2($author$project$Vocab$Base$SplashHtml$optionsHtml, sheets, selected)),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$author$project$Vocab$Base$SplashHtml$splash.el('counter')
-								]),
-							_List_fromArray(
-								[
-									A3(
-									$elm$core$Basics$composeL,
-									A2($elm$core$Basics$composeL, $elm$html$Html$text, $elm$core$String$fromInt),
-									$elm$core$List$length,
-									cards)
-								]))
-						])),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Events$onClick(
-							$author$project$Vocab$Base$SplashMsg$StartGame(10)),
-							$author$project$Vocab$Base$SplashHtml$splash.el('action'),
-							$elm$html$Html$Attributes$disabled(
-							$elm$core$List$length(cards) <= 10)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Start 10')
-						])),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Events$onClick(
-							$author$project$Vocab$Base$SplashMsg$StartGame(30)),
-							$author$project$Vocab$Base$SplashHtml$splash.el('action'),
-							$elm$html$Html$Attributes$disabled(
-							$elm$core$List$length(cards) <= 30)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Start 30')
-						])),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Events$onClick($author$project$Vocab$Base$SplashMsg$StartEditing),
-							$author$project$Vocab$Base$SplashHtml$splash.el('action')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Manage')
-						]))
-				]));
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
-var $author$project$Main$view = function (model) {
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $elm$html$Html$option = _VirtualDom_node('option');
+var $author$project$Vocab$Splash$SplashHtml$optionsHtml = function (sheets) {
+	return _Utils_ap(
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$option,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$disabled(true),
+						$elm$html$Html$Attributes$value(''),
+						A2($elm$html$Html$Attributes$attribute, 'selected', 'selected')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Select Sheet')
+					]))
+			]),
+		A2(
+			$elm$core$List$map,
+			function (sheet) {
+				return A2(
+					$elm$html$Html$option,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$value(sheet)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(sheet)
+						]));
+			},
+			sheets));
+};
+var $elm$html$Html$select = _VirtualDom_node('select');
+var $author$project$Vocab$Splash$SplashHtml$splash = $author$project$Core$BEM$block('splash');
+var $author$project$Vocab$Splash$SplashHtml$splashView = function (_v0) {
+	var sheets = _v0.sheets;
+	var cards = _v0.cards;
+	var selected = _v0.selected;
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[$author$project$Vocab$Splash$SplashHtml$splash.bl]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$author$project$Vocab$Splash$SplashHtml$splash.el('selector')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$select,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$value(
+								A2($elm$core$Maybe$withDefault, '', selected)),
+								$elm$html$Html$Events$onInput($author$project$Vocab$Splash$SplashMsg$SelectSheet),
+								A2(
+								$author$project$Vocab$Splash$SplashHtml$splash.elMod,
+								'selector-input',
+								_Utils_Tuple2(
+									'unselected',
+									$author$project$Vocab$Splash$SplashHtml$isEmpty(selected)))
+							]),
+						$author$project$Vocab$Splash$SplashHtml$optionsHtml(sheets)),
+						A2(
+						$elm$html$Html$span,
+						_List_fromArray(
+							[
+								$author$project$Vocab$Splash$SplashHtml$splash.el('counter')
+							]),
+						_List_fromArray(
+							[
+								A3(
+								$elm$core$Basics$composeL,
+								A2($elm$core$Basics$composeL, $elm$html$Html$text, $elm$core$String$fromInt),
+								$elm$core$List$length,
+								cards)
+							]))
+					])),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick(
+						$author$project$Vocab$Splash$SplashMsg$StartGame(10)),
+						$author$project$Vocab$Splash$SplashHtml$splash.el('action'),
+						$elm$html$Html$Attributes$disabled(
+						$elm$core$List$length(cards) <= 10)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Start 10')
+					])),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick(
+						$author$project$Vocab$Splash$SplashMsg$StartGame(30)),
+						$author$project$Vocab$Splash$SplashHtml$splash.el('action'),
+						$elm$html$Html$Attributes$disabled(
+						$elm$core$List$length(cards) <= 30)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Start 30')
+					])),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick($author$project$Vocab$Splash$SplashMsg$StartEditing),
+						$author$project$Vocab$Splash$SplashHtml$splash.el('action')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Manage')
+					]))
+			]));
+};
+var $author$project$Vocab$Model$toManageData = function (m) {
+	var manage = m.manage;
+	var archived = m.archived;
+	return {
+		archived: archived,
+		cards: $author$project$Vocab$Model$getCards(m),
+		model: manage
+	};
+};
+var $author$project$Vocab$Model$toSplashData = function (m) {
+	var cards = m.cards;
+	var sheet = m.sheet;
+	return {
+		cards: $author$project$Vocab$Model$getCards(m),
+		selected: sheet,
+		sheets: $elm$core$Dict$keys(cards)
+	};
+};
+var $author$project$Vocab$View$view = function (model) {
 	return A2(
 		$author$project$Vocab$Layout$layout,
 		model,
-		_List_fromArray(
-			[
-				function () {
-				var _v0 = model.scope;
-				switch (_v0.$) {
-					case 'Splash':
-						return A2(
-							$elm$html$Html$map,
-							$author$project$Main$Basic,
-							A3(
-								$author$project$Vocab$Base$SplashHtml$splashView,
-								$elm$core$Dict$keys(model.cards),
-								$author$project$Vocab$State$getCards(model),
-								model.sheet));
-					case 'Playing':
-						return A2(
-							$elm$html$Html$map,
-							$author$project$Main$Play,
-							$author$project$Vocab$Game$GameViewHtml$gameView(model.game));
-					default:
-						return A2(
-							$elm$html$Html$map,
-							$author$project$Main$Manage,
-							A3(
-								$author$project$Vocab$Manage$ManageViewHtml$manageView,
-								model.archived,
-								$author$project$Vocab$State$getCards(model),
-								model.manage));
-				}
-			}()
-			]));
+		function () {
+			var _v0 = model.scope;
+			switch (_v0.$) {
+				case 'Splash':
+					return A3(
+						$elm$core$Basics$composeL,
+						A2(
+							$elm$core$Basics$composeL,
+							$elm$html$Html$map($author$project$Vocab$Msg$Basic),
+							$author$project$Vocab$Splash$SplashHtml$splashView),
+						$author$project$Vocab$Model$toSplashData,
+						model);
+				case 'Playing':
+					return A3(
+						$elm$core$Basics$composeL,
+						$elm$html$Html$map($author$project$Vocab$Msg$Play),
+						$author$project$Vocab$Game$GameViewHtml$gameView,
+						model.game);
+				default:
+					return A3(
+						$elm$core$Basics$composeL,
+						A2(
+							$elm$core$Basics$composeL,
+							$elm$html$Html$map($author$project$Vocab$Msg$Manage),
+							$author$project$Vocab$Manage$ManageViewHtml$manageView),
+						$author$project$Vocab$Model$toManageData,
+						model);
+			}
+		}());
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{init: $author$project$Main$initialModel, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
+	{
+		init: $author$project$Vocab$Init$init,
+		subscriptions: function (_v0) {
+			return $elm$core$Platform$Sub$none;
+		},
+		update: $author$project$Vocab$Update$update,
+		view: $author$project$Vocab$View$view
+	});
 _Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$value)(0)}});}(this));

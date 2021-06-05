@@ -6,8 +6,8 @@ import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Set exposing (Set, size)
 import String exposing (fromInt)
-import Vocab.Game.GameModel exposing (GameStats, statsLength)
-import Vocab.Game.PlayMsg exposing (PlayMsg(..))
+import Vocab.Game.GameModel exposing (GameModel, statsLength)
+import Vocab.Game.GameMsg exposing (GameMsg(..))
 
 
 allDone =
@@ -18,12 +18,12 @@ statsBar =
     block "game-stats-bar"
 
 
-percent : GameStats -> Set String -> Attribute msg
+percent : GameModel -> Set String -> Attribute msg
 percent allStats stat =
     style "width" <| (fromInt << round <| (toFloat (size stat) * 100) / (toFloat << statsLength <| allStats)) ++ "%"
 
 
-count : Set String -> Html PlayMsg
+count : Set String -> Html GameMsg
 count stat =
     if size stat == 0 then
         text ""
@@ -32,7 +32,7 @@ count stat =
         span [] [ text << fromInt << size <| stat ]
 
 
-doneView : GameStats -> Html PlayMsg
+doneView : GameModel -> Html GameMsg
 doneView stats =
     section [ allDone.bl ]
         [ p [ allDone.el "info" ] [ text "All done!" ]

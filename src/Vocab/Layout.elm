@@ -5,7 +5,7 @@ import Html exposing (Attribute, Html, div, footer, h1, h3, header, i, main_, te
 import Html.Attributes exposing (style)
 import String exposing (fromInt)
 import Vocab.Game.GameModel exposing (statsLength)
-import Vocab.State exposing (Model, Scope(..))
+import Vocab.Model exposing (Model, Scope(..))
 
 
 layoutClass =
@@ -27,7 +27,7 @@ progress m =
     amount ++ "%"
 
 
-layout : Model -> List (Html a) -> Html a
+layout : Model -> Html a -> Html a
 layout model content =
     div [ layoutClass.bl ]
         [ header [ layoutClass.el "header" ]
@@ -36,7 +36,7 @@ layout model content =
             ]
         , main_
             [ layoutClass.elMod "main" ( "loading", model.loading ) ]
-            content
+            [ content ]
         , footer [ layoutClass.el "footer" ] [ text "© Ulfryk 2021" ]
         , case model.scope of
             Playing ->

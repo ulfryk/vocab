@@ -1,14 +1,13 @@
 module Vocab.Manage.ManageViewHtml exposing (..)
 
-import Dict exposing (Dict)
-import Html exposing (Attribute, Html, br, button, footer, h4, hr, input, label, option, section, select, table, tbody, td, text, th, thead, tr)
-import Html.Attributes exposing (class, disabled, placeholder, style, value)
+import Html exposing (Attribute, Html, br, button, footer, h4, hr, input, label, section, table, tbody, td, text, th, thead, tr)
+import Html.Attributes exposing (class, placeholder, style, value)
 import Html.Events exposing (onClick, onInput)
 import List exposing (map)
 import Maybe exposing (withDefault)
 import Set exposing (Set, member)
-import String exposing (isEmpty)
-import Vocab.DTO.Card exposing (Card, cardId)
+import Vocab.Api.DTO.Card exposing (Card, cardId)
+import Vocab.Manage.ManageData exposing (ManageData)
 import Vocab.Manage.ManageModel exposing (ManageModel)
 import Vocab.Manage.ManageMsg exposing (ManageMsg(..))
 
@@ -58,8 +57,8 @@ lineClass a c =
         class "available"
 
 
-manageView : Set String -> List Card -> ManageModel -> Html ManageMsg
-manageView archived cards { apiKey, dataId } =
+manageView : ManageData -> Html ManageMsg
+manageView { archived, cards, model } =
     section []
         [ h4 [] [ text "Edit", button [ onClick Done, style "float" "right" ] [ text "back" ] ]
         , hr [] []
@@ -68,11 +67,11 @@ manageView archived cards { apiKey, dataId } =
         , hr [] []
         , br [] []
         , label [] [ text "Api Key: " ]
-        , input [ placeholder "Enter Api Key…", onInput SetApiKey, value <| withDefault "" apiKey ] []
+        , input [ placeholder "Enter Api Key…", onInput SetApiKey, value <| withDefault "" model.apiKey ] []
         , br [] []
         , br [] []
         , label [] [ text "SpreadSheet ID " ]
-        , input [ placeholder "Enter SpreadSheet ID…", onInput SetDataId, value <| withDefault "" dataId ] []
+        , input [ placeholder "Enter SpreadSheet ID…", onInput SetDataId, value <| withDefault "" model.dataId ] []
         , br [] []
         , br [] []
         , button [ onClick Save ] [ text "Save Creds" ]

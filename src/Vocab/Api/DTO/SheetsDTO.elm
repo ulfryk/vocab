@@ -1,4 +1,4 @@
-module Vocab.DTO.SheetsDTO exposing (..)
+module Vocab.Api.DTO.SheetsDTO exposing (..)
 
 import Json.Decode as D exposing (Decoder)
 import Json.Decode.Pipeline exposing (required)

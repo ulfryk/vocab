@@ -4,10 +4,10 @@ import Core.BEM exposing (block)
 import Html exposing (Html, button, div, p, small, span, text)
 import Html.Attributes exposing (disabled)
 import Html.Events exposing (onClick)
-import Vocab.DTO.Card exposing (Card, cardId)
+import Vocab.Api.DTO.Card exposing (Card, cardId)
 import Vocab.Game.DoneHtml exposing (doneView)
-import Vocab.Game.GameModel exposing (Current(..), GameStats, Showing(..))
-import Vocab.Game.PlayMsg exposing (PlayMsg(..))
+import Vocab.Game.GameModel exposing (Current(..), GameModel, Showing(..))
+import Vocab.Game.GameMsg exposing (GameMsg(..))
 
 
 wordCard =
@@ -30,7 +30,7 @@ actionsView d card =
         ]
 
 
-gameView : GameStats -> Html PlayMsg
+gameView : GameModel -> Html GameMsg
 gameView ({ current, countDown } as game) =
     if countDown == 0 then
         doneView game

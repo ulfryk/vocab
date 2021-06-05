@@ -33,7 +33,7 @@ const decode = value => {
 async function initApp() {
     const db = ImmortalDB.ImmortalDB
     const node = document.createElement('pre');
-    const flags = await db.get(dataKey).then(v => v || `{"cards":[],"archived":[],"creds":{}}`).then(decode);
+    const flags = await db.get(dataKey).then(v => v || `{"archived":[],"manage":{}}`).then(decode);
     document.body.replaceChild(node, document.getElementById('loading'));
     const app = Elm.Main.init({node, flags});
     app.ports.syncData.subscribe(data => {

@@ -1,6 +1,6 @@
 module Vocab.Manage.ManageMsg exposing (..)
 
-import Vocab.DTO.Card exposing (Card)
+import Vocab.Api.DTO.Card exposing (Card)
 
 
 type ManageMsg

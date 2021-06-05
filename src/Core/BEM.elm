@@ -1,6 +1,6 @@
 module Core.BEM exposing (..)
 
-import Bem exposing (element, mod, modList)
+import Bem exposing (element, modList, modifier)
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
 
@@ -13,6 +13,15 @@ type alias BemTools msg =
     , mod : ( String, Bool ) -> Attribute msg
     , modList : List ( String, Bool ) -> Attribute msg
     }
+
+mod : String -> ( String, Bool ) -> Attribute msg
+mod base ( name, active ) =
+    class <|
+        if active then
+            base ++ " " ++ modifier base name
+
+        else
+            base
 
 
 elMod : String -> String -> ( String, Bool ) -> Attribute msg

@@ -1,9 +1,9 @@
-module Vocab.DTO.GoogleSheetData exposing (..)
+module Vocab.Api.DTO.GoogleSheetData exposing (..)
 
 import Json.Decode as D exposing (Decoder)
-import Json.Decode.Pipeline exposing (optional, required)
+import Json.Decode.Pipeline exposing (required)
 import List exposing (map)
-import Vocab.DTO.Card exposing (Card)
+import Vocab.Api.DTO.Card exposing (Card)
 
 
 type alias GoogleSheetData =
