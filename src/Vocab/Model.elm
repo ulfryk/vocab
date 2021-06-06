@@ -104,11 +104,11 @@ decodeModel : D.Decoder Model
 decodeModel =
     D.succeed Model
         |> optional "cards" (D.dict (D.list cardDecoder)) initial.cards
-        |> optional "sheet" (D.oneOf [ D.maybe D.string, D.null Nothing ]) initial.sheet
+        |> optional "sheet" (D.maybe D.string) initial.sheet
         |> optional "archived" (D.map S.fromList <| D.list D.string) initial.archived
         |> optional "scope" (D.andThen scopeDecoder D.string) initial.scope
         |> optional "loading" falseDecoder initial.loading
-        |> optional "error" (D.oneOf [ D.maybe D.string, D.null Nothing ]) initial.error
+        |> optional "error" (D.maybe D.string) initial.error
         |> optional "game" decodeGameModel initial.game
         |> optional "manage" decodeManageModel initial.manage
 

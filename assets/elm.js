@@ -5777,12 +5777,7 @@ var $author$project$Vocab$Model$decodeModel = A4(
 		A4(
 			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
 			'error',
-			$elm$json$Json$Decode$oneOf(
-				_List_fromArray(
-					[
-						$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
-						$elm$json$Json$Decode$null($elm$core$Maybe$Nothing)
-					])),
+			$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
 			$author$project$Vocab$Model$initial.error,
 			A4(
 				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
@@ -5805,12 +5800,7 @@ var $author$project$Vocab$Model$decodeModel = A4(
 						A4(
 							$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
 							'sheet',
-							$elm$json$Json$Decode$oneOf(
-								_List_fromArray(
-									[
-										$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
-										$elm$json$Json$Decode$null($elm$core$Maybe$Nothing)
-									])),
+							$elm$json$Json$Decode$maybe($elm$json$Json$Decode$string),
 							$author$project$Vocab$Model$initial.sheet,
 							A4(
 								$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,

@@ -1,0 +1,37 @@
+\:root
+  --ligth: #b8d8d8
+  --mid: #7a9e9f
+  --dark: #4f6367
+  --text: #232c2d
+  --contrast: #eef5db
+  --warn: #fe5f55
+
+
+*
+  box-sizing: border-box
+
+
+html
+  background-color: var(--contrast)
+  height: 100%
+  font-family: sans-serif
+
+  @media (min-width: 796px)
+    height: auto
+
+
+body
+  height: 100%
+  margin: 0
+  padding: 0
+
+  @media (min-width: 796px)
+    height: auto
+    padding: 5vh 0
+
+
+html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label
+  color: var(--text)
+
+
+@import "./Vocab/layout"

@@ -31,7 +31,7 @@ progress m =
 layout : Model -> Html a -> Html a
 layout model content =
     div [ layoutClass.bl ]
-        [ header [ layoutClass.el "header" ]
+        [ header []
             [ h1 [ layoutClass.el "heading" ] [ text "Vocab" ]
             , h3 [ layoutClass.el "info" ] [ text "Learn the words!" ]
             ]
