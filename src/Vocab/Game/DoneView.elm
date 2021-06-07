@@ -1,4 +1,4 @@
-module Vocab.Game.DoneHtml exposing (..)
+module Vocab.Game.DoneView exposing (..)
 
 import Core.BEM exposing (block)
 import Html exposing (Attribute, Html, button, li, p, section, span, text, ul)

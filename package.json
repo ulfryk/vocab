@@ -10,7 +10,7 @@
     "debug": "elm-live src/Main.elm -u -- --output=assets/elm.js --debug",
     "test": "elm-test",
     "build": "elm make src/Main.elm --output=assets/elm.js",
-    "build-css": "node-sass src/main.sass assets/main.css"
+    "build-css": "node-sass src/Main.sass assets/main.css"
   },
   "dependencies": {
     "elm": "^0.19.1-5",

@@ -6,10 +6,8 @@
   --contrast: #eef5db
   --warn: #fe5f55
 
-
 *
   box-sizing: border-box
-
 
 html
   background-color: var(--contrast)
@@ -18,7 +16,6 @@ html
 
   @media (min-width: 796px)
     height: auto
-
 
 body
   height: 100%
@@ -29,9 +26,10 @@ body
     height: auto
     padding: 5vh 0
 
-
 html, h1, h2, h3, h4, h5, h6, p, li, figcaption, legend, label
   color: var(--text)
 
-
-@import "./Vocab/layout"
+@import "Layout"
+@import "Splash/SplashView"
+@import "Game/GameView"
+@import "Manage/ManageView"

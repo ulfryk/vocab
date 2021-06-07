@@ -1,11 +1,11 @@
-module Vocab.Game.GameViewHtml exposing (..)
+module Vocab.Game.GameView exposing (..)
 
 import Core.BEM exposing (block)
 import Html exposing (Html, button, div, p, small, span, text)
 import Html.Attributes exposing (disabled)
 import Html.Events exposing (onClick)
 import Vocab.Api.DTO.Card exposing (Card, cardId)
-import Vocab.Game.DoneHtml exposing (doneView)
+import Vocab.Game.DoneView exposing (doneView)
 import Vocab.Game.GameModel exposing (Current(..), GameModel, Showing(..))
 import Vocab.Game.GameMsg exposing (GameMsg(..))
 

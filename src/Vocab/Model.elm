@@ -11,7 +11,7 @@ import Vocab.Api.DTO.Card exposing (Card, cardDecoder, encodeCard)
 import Vocab.Game.GameModel as GameModel exposing (decodeGameModel, encodeGameModel)
 import Vocab.Manage.ManageData exposing (ManageData)
 import Vocab.Manage.ManageModel as ManageModel exposing (decodeManageModel, encodeManageModel)
-import Vocab.Splash.SplashData exposing (SplashData)
+import Vocab.Splash.SplashViewModel exposing (SplashViewModel)
 
 
 type Scope
@@ -50,8 +50,8 @@ getCards { cards, sheet } =
     withDefault [] << andThen (\s -> get s cards) <| sheet
 
 
-toSplashData : Model -> SplashData
-toSplashData ({ cards, sheet } as m) =
+toSplashViewModel : Model -> SplashViewModel
+toSplashViewModel ({ cards, sheet } as m) =
     { sheets = keys cards
     , cards = getCards m
     , selected = sheet

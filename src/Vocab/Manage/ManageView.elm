@@ -1,4 +1,4 @@
-module Vocab.Manage.ManageViewHtml exposing (..)
+module Vocab.Manage.ManageView exposing (..)
 
 import Html exposing (Attribute, Html, br, button, footer, h4, hr, input, label, section, table, tbody, td, text, th, thead, tr)
 import Html.Attributes exposing (class, placeholder, style, value)
@@ -59,7 +59,7 @@ lineClass a c =
 
 manageView : ManageData -> Html ManageMsg
 manageView { archived, cards, model } =
-    section []
+    section [ class "manage-view" ]
         [ h4 [] [ text "Edit", button [ onClick Done, style "float" "right" ] [ text "back" ] ]
         , hr [] []
         , button [ onClick Reset ] [ text "Reset" ]

@@ -1,4 +1,4 @@
-module Vocab.Splash.SplashHtml exposing (..)
+module Vocab.Splash.SplashView exposing (..)
 
 import Core.BEM exposing (block)
 import Html exposing (Html, button, div, option, select, span, text)
@@ -7,7 +7,7 @@ import Html.Events exposing (onClick, onInput)
 import List exposing (length)
 import Maybe exposing (withDefault)
 import String exposing (fromInt, isEmpty)
-import Vocab.Splash.SplashData exposing (SplashData)
+import Vocab.Splash.SplashViewModel exposing (SplashViewModel)
 import Vocab.Splash.SplashMsg exposing (SplashMsg(..))
 
 
@@ -39,7 +39,7 @@ optionsHtml sheets =
         ++ List.map (\sheet -> option [ value sheet ] [ text sheet ]) sheets
 
 
-splashView : SplashData -> Html SplashMsg
+splashView : SplashViewModel -> Html SplashMsg
 splashView { sheets, cards, selected } =
     div [ splash.bl ]
         [ div [ splash.el "selector" ]

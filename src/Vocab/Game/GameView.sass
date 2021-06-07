@@ -1,0 +1,84 @@
+@import "DoneView"
+
+.word-card
+  min-height: 80px
+  &__pair
+    padding: 30px 0
+
+.words-pair
+  display: flex
+  justify-content: center
+  &__word
+    width: 45%
+    padding: 5px 10px
+    line-height: 2em
+    font-size: 1.2em
+    border-bottom: 1px dashed var(--dark)
+    @media (min-width: 796px)
+      width: 33%
+      font-size: 1.5em
+    &--left
+      text-align: left
+    &--right
+      text-align: right
+    button
+      background-color: var(--mid)
+      border: none
+      border-radius: 4px
+      cursor: pointer
+      display: inline-block
+      font-size: inherit
+      line-height: 1.5em
+      margin: 0
+      opacity: .5
+      outline-color: var(--dark)
+      padding: 0 5px 0 5px
+      width: 80%
+      text-align: right
+      transition: opacity .3s ease
+      &:hover
+        opacity: .8
+      &:active,
+      &:focus
+        opacity: .95
+
+.word-actions
+  display: flex
+  height: 82px
+  justify-content: space-between
+  margin: 0 auto 5px
+  width: 90%
+  @media (min-width: 796px)
+    width: 66%
+  &__action
+    border: none
+    border-radius: 6px
+    cursor: pointer
+    display: inline-block
+    font-size: 1.35em
+    margin: 0
+    opacity: .9
+    outline-color: var(--dark)
+    padding: 0 20px
+    transition: opacity .3s ease
+    @media (min-width: 796px)
+      font-size: 1.6em
+    &:not(:first-child)
+      margin-left: 10px
+    small
+      opacity: .7
+    &--perfect
+      background-color: var(--contrast)
+      padding-left: 50px
+      padding-right: 50px
+    &--good
+      background-color: var(--dark)
+      color: var(--contrast)
+    &--fail
+      background-color: var(--warn)
+    &:hover
+      opacity: .95
+    &:focus,
+    &:active
+      opacity: 1
+

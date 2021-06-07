@@ -7931,16 +7931,16 @@ var $author$project$Core$BEM$block = function (cls) {
 		modList: b.modList
 	};
 };
-var $author$project$Vocab$Game$GameViewHtml$wordActions = $author$project$Core$BEM$block('word-actions');
-var $author$project$Vocab$Game$GameViewHtml$wordCard = $author$project$Core$BEM$block('word-card');
-var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
+var $author$project$Vocab$Game$GameView$wordActions = $author$project$Core$BEM$block('word-actions');
+var $author$project$Vocab$Game$GameView$wordCard = $author$project$Core$BEM$block('word-card');
+var $author$project$Vocab$Game$GameView$actionsView = F2(
 	function (d, card) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$author$project$Vocab$Game$GameViewHtml$wordCard.el('actions'),
-					$author$project$Vocab$Game$GameViewHtml$wordActions.bl
+					$author$project$Vocab$Game$GameView$wordCard.el('actions'),
+					$author$project$Vocab$Game$GameView$wordActions.bl
 				]),
 			_List_fromArray(
 				[
@@ -7953,7 +7953,7 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 							$author$project$Vocab$Game$GameMsg$Drop(
 								$author$project$Vocab$Api$DTO$Card$cardId(card))),
 							A2(
-							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
+							$author$project$Vocab$Game$GameView$wordActions.elMod,
 							'action',
 							_Utils_Tuple2('perfect', true))
 						]),
@@ -7977,7 +7977,7 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 							$author$project$Vocab$Game$GameMsg$Next(
 								$author$project$Vocab$Api$DTO$Card$cardId(card))),
 							A2(
-							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
+							$author$project$Vocab$Game$GameView$wordActions.elMod,
 							'action',
 							_Utils_Tuple2('good', true))
 						]),
@@ -8001,7 +8001,7 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 							$author$project$Vocab$Game$GameMsg$Fail(
 								$author$project$Vocab$Api$DTO$Card$cardId(card))),
 							A2(
-							$author$project$Vocab$Game$GameViewHtml$wordActions.elMod,
+							$author$project$Vocab$Game$GameView$wordActions.elMod,
 							'action',
 							_Utils_Tuple2('fail', true))
 						]),
@@ -8019,7 +8019,7 @@ var $author$project$Vocab$Game$GameViewHtml$actionsView = F2(
 				]));
 	});
 var $author$project$Vocab$Game$GameMsg$End = {$: 'End'};
-var $author$project$Vocab$Game$DoneHtml$allDone = $author$project$Core$BEM$block('all-done');
+var $author$project$Vocab$Game$DoneView$allDone = $author$project$Core$BEM$block('all-done');
 var $elm$core$Dict$sizeHelp = F2(
 	function (n, dict) {
 		sizeHelp:
@@ -8045,7 +8045,7 @@ var $elm$core$Set$size = function (_v0) {
 	return $elm$core$Dict$size(dict);
 };
 var $elm$html$Html$span = _VirtualDom_node('span');
-var $author$project$Vocab$Game$DoneHtml$count = function (stat) {
+var $author$project$Vocab$Game$DoneView$count = function (stat) {
 	return (!$elm$core$Set$size(stat)) ? $elm$html$Html$text('') : A2(
 		$elm$html$Html$span,
 		_List_Nil,
@@ -8069,7 +8069,7 @@ var $author$project$Vocab$Game$GameModel$statsLength = function (_v0) {
 };
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $author$project$Vocab$Game$DoneHtml$percent = F2(
+var $author$project$Vocab$Game$DoneView$percent = F2(
 	function (allStats, stat) {
 		return A2(
 			$elm$html$Html$Attributes$style,
@@ -8081,20 +8081,20 @@ var $author$project$Vocab$Game$DoneHtml$percent = F2(
 				($elm$core$Set$size(stat) * 100) / A3($elm$core$Basics$composeL, $elm$core$Basics$toFloat, $author$project$Vocab$Game$GameModel$statsLength, allStats)) + '%');
 	});
 var $elm$html$Html$section = _VirtualDom_node('section');
-var $author$project$Vocab$Game$DoneHtml$statsBar = $author$project$Core$BEM$block('game-stats-bar');
+var $author$project$Vocab$Game$DoneView$statsBar = $author$project$Core$BEM$block('game-stats-bar');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
-var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
+var $author$project$Vocab$Game$DoneView$doneView = function (stats) {
 	return A2(
 		$elm$html$Html$section,
 		_List_fromArray(
-			[$author$project$Vocab$Game$DoneHtml$allDone.bl]),
+			[$author$project$Vocab$Game$DoneView$allDone.bl]),
 		_List_fromArray(
 			[
 				A2(
 				$elm$html$Html$p,
 				_List_fromArray(
 					[
-						$author$project$Vocab$Game$DoneHtml$allDone.el('info')
+						$author$project$Vocab$Game$DoneView$allDone.el('info')
 					]),
 				_List_fromArray(
 					[
@@ -8103,7 +8103,7 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 				A2(
 				$elm$html$Html$ul,
 				_List_fromArray(
-					[$author$project$Vocab$Game$DoneHtml$statsBar.bl]),
+					[$author$project$Vocab$Game$DoneView$statsBar.bl]),
 				_List_fromArray(
 					[
 						A2(
@@ -8111,42 +8111,42 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 						_List_fromArray(
 							[
 								A2(
-								$author$project$Vocab$Game$DoneHtml$statsBar.elMod,
+								$author$project$Vocab$Game$DoneView$statsBar.elMod,
 								'stat',
 								_Utils_Tuple2('perfect', true)),
-								A2($author$project$Vocab$Game$DoneHtml$percent, stats, stats.perfect)
+								A2($author$project$Vocab$Game$DoneView$percent, stats, stats.perfect)
 							]),
 						_List_fromArray(
 							[
-								$author$project$Vocab$Game$DoneHtml$count(stats.perfect)
+								$author$project$Vocab$Game$DoneView$count(stats.perfect)
 							])),
 						A2(
 						$elm$html$Html$li,
 						_List_fromArray(
 							[
 								A2(
-								$author$project$Vocab$Game$DoneHtml$statsBar.elMod,
+								$author$project$Vocab$Game$DoneView$statsBar.elMod,
 								'stat',
 								_Utils_Tuple2('good', true)),
-								A2($author$project$Vocab$Game$DoneHtml$percent, stats, stats.good)
+								A2($author$project$Vocab$Game$DoneView$percent, stats, stats.good)
 							]),
 						_List_fromArray(
 							[
-								$author$project$Vocab$Game$DoneHtml$count(stats.good)
+								$author$project$Vocab$Game$DoneView$count(stats.good)
 							])),
 						A2(
 						$elm$html$Html$li,
 						_List_fromArray(
 							[
 								A2(
-								$author$project$Vocab$Game$DoneHtml$statsBar.elMod,
+								$author$project$Vocab$Game$DoneView$statsBar.elMod,
 								'stat',
 								_Utils_Tuple2('bad', true)),
-								A2($author$project$Vocab$Game$DoneHtml$percent, stats, stats.bad)
+								A2($author$project$Vocab$Game$DoneView$percent, stats, stats.bad)
 							]),
 						_List_fromArray(
 							[
-								$author$project$Vocab$Game$DoneHtml$count(stats.bad)
+								$author$project$Vocab$Game$DoneView$count(stats.bad)
 							]))
 					])),
 				A2(
@@ -8154,7 +8154,7 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Events$onClick($author$project$Vocab$Game$GameMsg$End),
-						$author$project$Vocab$Game$DoneHtml$allDone.el('action')
+						$author$project$Vocab$Game$DoneView$allDone.el('action')
 					]),
 				_List_fromArray(
 					[
@@ -8162,30 +8162,30 @@ var $author$project$Vocab$Game$DoneHtml$doneView = function (stats) {
 					]))
 			]));
 };
-var $author$project$Vocab$Game$GameViewHtml$wordPair = $author$project$Core$BEM$block('words-pair');
-var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
+var $author$project$Vocab$Game$GameView$wordPair = $author$project$Core$BEM$block('words-pair');
+var $author$project$Vocab$Game$GameView$gameView = function (game) {
 	var current = game.current;
 	var countDown = game.countDown;
 	if (!countDown) {
-		return $author$project$Vocab$Game$DoneHtml$doneView(game);
+		return $author$project$Vocab$Game$DoneView$doneView(game);
 	} else {
 		switch (current.$) {
 			case 'NoMoreCards':
-				return $author$project$Vocab$Game$DoneHtml$doneView(game);
+				return $author$project$Vocab$Game$DoneView$doneView(game);
 			case 'Answer':
 				var card = current.a;
 				return A2(
 					$elm$html$Html$div,
 					_List_fromArray(
-						[$author$project$Vocab$Game$GameViewHtml$wordCard.bl]),
+						[$author$project$Vocab$Game$GameView$wordCard.bl]),
 					_List_fromArray(
 						[
 							A2(
 							$elm$html$Html$p,
 							_List_fromArray(
 								[
-									$author$project$Vocab$Game$GameViewHtml$wordCard.el('pair'),
-									$author$project$Vocab$Game$GameViewHtml$wordPair.bl
+									$author$project$Vocab$Game$GameView$wordCard.el('pair'),
+									$author$project$Vocab$Game$GameView$wordPair.bl
 								]),
 							_List_fromArray(
 								[
@@ -8194,7 +8194,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 									_List_fromArray(
 										[
 											A2(
-											$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
+											$author$project$Vocab$Game$GameView$wordPair.elMod,
 											'word',
 											_Utils_Tuple2('left', true))
 										]),
@@ -8207,7 +8207,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 									_List_fromArray(
 										[
 											A2(
-											$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
+											$author$project$Vocab$Game$GameView$wordPair.elMod,
 											'word',
 											_Utils_Tuple2('right', true))
 										]),
@@ -8216,7 +8216,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 											$elm$html$Html$text(card.bSide)
 										]))
 								])),
-							A2($author$project$Vocab$Game$GameViewHtml$actionsView, false, card)
+							A2($author$project$Vocab$Game$GameView$actionsView, false, card)
 						]));
 			default:
 				var side = current.a;
@@ -8225,15 +8225,15 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 					return A2(
 						$elm$html$Html$div,
 						_List_fromArray(
-							[$author$project$Vocab$Game$GameViewHtml$wordCard.bl]),
+							[$author$project$Vocab$Game$GameView$wordCard.bl]),
 						_List_fromArray(
 							[
 								A2(
 								$elm$html$Html$p,
 								_List_fromArray(
 									[
-										$author$project$Vocab$Game$GameViewHtml$wordCard.el('pair'),
-										$author$project$Vocab$Game$GameViewHtml$wordPair.bl
+										$author$project$Vocab$Game$GameView$wordCard.el('pair'),
+										$author$project$Vocab$Game$GameView$wordPair.bl
 									]),
 								_List_fromArray(
 									[
@@ -8242,7 +8242,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 										_List_fromArray(
 											[
 												A2(
-												$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
+												$author$project$Vocab$Game$GameView$wordPair.elMod,
 												'word',
 												_Utils_Tuple2('left', true))
 											]),
@@ -8255,7 +8255,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 										_List_fromArray(
 											[
 												A2(
-												$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
+												$author$project$Vocab$Game$GameView$wordPair.elMod,
 												'word',
 												_Utils_Tuple2('right', true))
 											]),
@@ -8274,21 +8274,21 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 													]))
 											]))
 									])),
-								A2($author$project$Vocab$Game$GameViewHtml$actionsView, true, card)
+								A2($author$project$Vocab$Game$GameView$actionsView, true, card)
 							]));
 				} else {
 					return A2(
 						$elm$html$Html$div,
 						_List_fromArray(
-							[$author$project$Vocab$Game$GameViewHtml$wordCard.bl]),
+							[$author$project$Vocab$Game$GameView$wordCard.bl]),
 						_List_fromArray(
 							[
 								A2(
 								$elm$html$Html$p,
 								_List_fromArray(
 									[
-										$author$project$Vocab$Game$GameViewHtml$wordCard.el('pair'),
-										$author$project$Vocab$Game$GameViewHtml$wordPair.bl
+										$author$project$Vocab$Game$GameView$wordCard.el('pair'),
+										$author$project$Vocab$Game$GameView$wordPair.bl
 									]),
 								_List_fromArray(
 									[
@@ -8297,7 +8297,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 										_List_fromArray(
 											[
 												A2(
-												$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
+												$author$project$Vocab$Game$GameView$wordPair.elMod,
 												'word',
 												_Utils_Tuple2('left', true))
 											]),
@@ -8320,7 +8320,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 										_List_fromArray(
 											[
 												A2(
-												$author$project$Vocab$Game$GameViewHtml$wordPair.elMod,
+												$author$project$Vocab$Game$GameView$wordPair.elMod,
 												'word',
 												_Utils_Tuple2('right', true))
 											]),
@@ -8329,7 +8329,7 @@ var $author$project$Vocab$Game$GameViewHtml$gameView = function (game) {
 												$elm$html$Html$text(card.bSide)
 											]))
 									])),
-								A2($author$project$Vocab$Game$GameViewHtml$actionsView, true, card)
+								A2($author$project$Vocab$Game$GameView$actionsView, true, card)
 							]));
 				}
 		}
@@ -8358,10 +8358,7 @@ var $author$project$Vocab$Layout$layout = F2(
 				[
 					A2(
 					$elm$html$Html$header,
-					_List_fromArray(
-						[
-							$author$project$Vocab$Layout$layoutClass.el('header')
-						]),
+					_List_Nil,
 					_List_fromArray(
 						[
 							A2(
@@ -8441,34 +8438,34 @@ var $author$project$Vocab$Manage$ManageMsg$ToggleArchived = F2(
 	function (a, b) {
 		return {$: 'ToggleArchived', a: a, b: b};
 	});
-var $author$project$Vocab$Manage$ManageViewHtml$cardActionText = function (value) {
+var $author$project$Vocab$Manage$ManageView$cardActionText = function (value) {
 	if (value) {
 		return 'Unarchive';
 	} else {
 		return 'Archive';
 	}
 };
-var $author$project$Vocab$Manage$ManageViewHtml$cardStateText = function (value) {
+var $author$project$Vocab$Manage$ManageView$cardStateText = function (value) {
 	if (value) {
 		return 'archived: ';
 	} else {
 		return 'available: ';
 	}
 };
-var $author$project$Vocab$Manage$ManageViewHtml$isCardArchived = F2(
+var $author$project$Vocab$Manage$ManageView$isCardArchived = F2(
 	function (archived, card) {
 		return A2(
 			$elm$core$Set$member,
 			$author$project$Vocab$Api$DTO$Card$cardId(card),
 			archived);
 	});
-var $author$project$Vocab$Manage$ManageViewHtml$cardState = F2(
+var $author$project$Vocab$Manage$ManageView$cardState = F2(
 	function (archived, card) {
-		var isArchived = A2($author$project$Vocab$Manage$ManageViewHtml$isCardArchived, archived, card);
+		var isArchived = A2($author$project$Vocab$Manage$ManageView$isCardArchived, archived, card);
 		return _List_fromArray(
 			[
 				$elm$html$Html$text(
-				$author$project$Vocab$Manage$ManageViewHtml$cardStateText(isArchived)),
+				$author$project$Vocab$Manage$ManageView$cardStateText(isArchived)),
 				A2(
 				$elm$html$Html$button,
 				_List_fromArray(
@@ -8479,7 +8476,7 @@ var $author$project$Vocab$Manage$ManageViewHtml$cardState = F2(
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						$author$project$Vocab$Manage$ManageViewHtml$cardActionText(isArchived))
+						$author$project$Vocab$Manage$ManageView$cardActionText(isArchived))
 					]))
 			]);
 	});
@@ -8487,9 +8484,9 @@ var $elm$html$Html$h4 = _VirtualDom_node('h4');
 var $elm$html$Html$hr = _VirtualDom_node('hr');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$label = _VirtualDom_node('label');
-var $author$project$Vocab$Manage$ManageViewHtml$lineClass = F2(
+var $author$project$Vocab$Manage$ManageView$lineClass = F2(
 	function (a, c) {
-		return A2($author$project$Vocab$Manage$ManageViewHtml$isCardArchived, a, c) ? $elm$html$Html$Attributes$class('archived') : $elm$html$Html$Attributes$class('available');
+		return A2($author$project$Vocab$Manage$ManageView$isCardArchived, a, c) ? $elm$html$Html$Attributes$class('archived') : $elm$html$Html$Attributes$class('available');
 	});
 var $elm$html$Html$Events$alwaysStop = function (x) {
 	return _Utils_Tuple2(x, true);
@@ -8530,13 +8527,16 @@ var $elm$html$Html$th = _VirtualDom_node('th');
 var $elm$html$Html$thead = _VirtualDom_node('thead');
 var $elm$html$Html$tr = _VirtualDom_node('tr');
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
-var $author$project$Vocab$Manage$ManageViewHtml$manageView = function (_v0) {
+var $author$project$Vocab$Manage$ManageView$manageView = function (_v0) {
 	var archived = _v0.archived;
 	var cards = _v0.cards;
 	var model = _v0.model;
 	return A2(
 		$elm$html$Html$section,
-		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('manage-view')
+			]),
 		_List_fromArray(
 			[
 				A2(
@@ -8678,7 +8678,7 @@ var $author$project$Vocab$Manage$ManageViewHtml$manageView = function (_v0) {
 									$elm$html$Html$tr,
 									_List_fromArray(
 										[
-											A2($author$project$Vocab$Manage$ManageViewHtml$lineClass, archived, c)
+											A2($author$project$Vocab$Manage$ManageView$lineClass, archived, c)
 										]),
 									_List_fromArray(
 										[
@@ -8699,7 +8699,7 @@ var $author$project$Vocab$Manage$ManageViewHtml$manageView = function (_v0) {
 											A3(
 											$elm$core$Basics$composeL,
 											$elm$html$Html$td(_List_Nil),
-											$author$project$Vocab$Manage$ManageViewHtml$cardState(archived),
+											$author$project$Vocab$Manage$ManageView$cardState(archived),
 											c)
 										]));
 							},
@@ -8732,7 +8732,7 @@ var $author$project$Vocab$Splash$SplashMsg$StartEditing = {$: 'StartEditing'};
 var $author$project$Vocab$Splash$SplashMsg$StartGame = function (a) {
 	return {$: 'StartGame', a: a};
 };
-var $author$project$Vocab$Splash$SplashHtml$isEmpty = function (m) {
+var $author$project$Vocab$Splash$SplashView$isEmpty = function (m) {
 	if (m.$ === 'Just') {
 		var s = m.a;
 		return s === '';
@@ -8750,7 +8750,7 @@ var $elm$virtual_dom$VirtualDom$attribute = F2(
 var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$html$Html$Attributes$default = $elm$html$Html$Attributes$boolProperty('default');
 var $elm$html$Html$option = _VirtualDom_node('option');
-var $author$project$Vocab$Splash$SplashHtml$optionsHtml = function (sheets) {
+var $author$project$Vocab$Splash$SplashView$optionsHtml = function (sheets) {
 	return _Utils_ap(
 		_List_fromArray(
 			[
@@ -8786,22 +8786,22 @@ var $author$project$Vocab$Splash$SplashHtml$optionsHtml = function (sheets) {
 			sheets));
 };
 var $elm$html$Html$select = _VirtualDom_node('select');
-var $author$project$Vocab$Splash$SplashHtml$splash = $author$project$Core$BEM$block('splash');
-var $author$project$Vocab$Splash$SplashHtml$splashView = function (_v0) {
+var $author$project$Vocab$Splash$SplashView$splash = $author$project$Core$BEM$block('splash');
+var $author$project$Vocab$Splash$SplashView$splashView = function (_v0) {
 	var sheets = _v0.sheets;
 	var cards = _v0.cards;
 	var selected = _v0.selected;
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
-			[$author$project$Vocab$Splash$SplashHtml$splash.bl]),
+			[$author$project$Vocab$Splash$SplashView$splash.bl]),
 		_List_fromArray(
 			[
 				A2(
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$author$project$Vocab$Splash$SplashHtml$splash.el('selector')
+						$author$project$Vocab$Splash$SplashView$splash.el('selector')
 					]),
 				_List_fromArray(
 					[
@@ -8813,18 +8813,18 @@ var $author$project$Vocab$Splash$SplashHtml$splashView = function (_v0) {
 								A2($elm$core$Maybe$withDefault, '--', selected)),
 								$elm$html$Html$Events$onInput($author$project$Vocab$Splash$SplashMsg$SelectSheet),
 								A2(
-								$author$project$Vocab$Splash$SplashHtml$splash.elMod,
+								$author$project$Vocab$Splash$SplashView$splash.elMod,
 								'selector-input',
 								_Utils_Tuple2(
 									'unselected',
-									$author$project$Vocab$Splash$SplashHtml$isEmpty(selected)))
+									$author$project$Vocab$Splash$SplashView$isEmpty(selected)))
 							]),
-						$author$project$Vocab$Splash$SplashHtml$optionsHtml(sheets)),
+						$author$project$Vocab$Splash$SplashView$optionsHtml(sheets)),
 						A2(
 						$elm$html$Html$span,
 						_List_fromArray(
 							[
-								$author$project$Vocab$Splash$SplashHtml$splash.el('counter')
+								$author$project$Vocab$Splash$SplashView$splash.el('counter')
 							]),
 						_List_fromArray(
 							[
@@ -8841,7 +8841,7 @@ var $author$project$Vocab$Splash$SplashHtml$splashView = function (_v0) {
 					[
 						$elm$html$Html$Events$onClick(
 						$author$project$Vocab$Splash$SplashMsg$StartGame(10)),
-						$author$project$Vocab$Splash$SplashHtml$splash.el('action'),
+						$author$project$Vocab$Splash$SplashView$splash.el('action'),
 						$elm$html$Html$Attributes$disabled(
 						$elm$core$List$length(cards) <= 10)
 					]),
@@ -8855,7 +8855,7 @@ var $author$project$Vocab$Splash$SplashHtml$splashView = function (_v0) {
 					[
 						$elm$html$Html$Events$onClick(
 						$author$project$Vocab$Splash$SplashMsg$StartGame(30)),
-						$author$project$Vocab$Splash$SplashHtml$splash.el('action'),
+						$author$project$Vocab$Splash$SplashView$splash.el('action'),
 						$elm$html$Html$Attributes$disabled(
 						$elm$core$List$length(cards) <= 30)
 					]),
@@ -8868,7 +8868,7 @@ var $author$project$Vocab$Splash$SplashHtml$splashView = function (_v0) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Events$onClick($author$project$Vocab$Splash$SplashMsg$StartEditing),
-						$author$project$Vocab$Splash$SplashHtml$splash.el('action')
+						$author$project$Vocab$Splash$SplashView$splash.el('action')
 					]),
 				_List_fromArray(
 					[
@@ -8885,7 +8885,7 @@ var $author$project$Vocab$Model$toManageData = function (m) {
 		model: manage
 	};
 };
-var $author$project$Vocab$Model$toSplashData = function (m) {
+var $author$project$Vocab$Model$toSplashViewModel = function (m) {
 	var cards = m.cards;
 	var sheet = m.sheet;
 	return {
@@ -8907,14 +8907,14 @@ var $author$project$Vocab$View$view = function (model) {
 						A2(
 							$elm$core$Basics$composeL,
 							$elm$html$Html$map($author$project$Vocab$Msg$Basic),
-							$author$project$Vocab$Splash$SplashHtml$splashView),
-						$author$project$Vocab$Model$toSplashData,
+							$author$project$Vocab$Splash$SplashView$splashView),
+						$author$project$Vocab$Model$toSplashViewModel,
 						model);
 				case 'Playing':
 					return A3(
 						$elm$core$Basics$composeL,
 						$elm$html$Html$map($author$project$Vocab$Msg$Play),
-						$author$project$Vocab$Game$GameViewHtml$gameView,
+						$author$project$Vocab$Game$GameView$gameView,
 						model.game);
 				default:
 					return A3(
@@ -8922,7 +8922,7 @@ var $author$project$Vocab$View$view = function (model) {
 						A2(
 							$elm$core$Basics$composeL,
 							$elm$html$Html$map($author$project$Vocab$Msg$Manage),
-							$author$project$Vocab$Manage$ManageViewHtml$manageView),
+							$author$project$Vocab$Manage$ManageView$manageView),
 						$author$project$Vocab$Model$toManageData,
 						model);
 			}
