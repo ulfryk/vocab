@@ -5448,13 +5448,6 @@ var $author$project$Vocab$Game$GameModel$Question = F2(
 	function (a, b) {
 		return {$: 'Question', a: a, b: b};
 	});
-var $author$project$Vocab$Game$GameModel$extractAndDecodeCard = A2($elm$json$Json$Decode$field, 'card', $author$project$Vocab$Api$DTO$Card$cardDecoder);
-var $author$project$Vocab$Game$GameModel$andDecodeCard = function (show) {
-	return A2(
-		$elm$json$Json$Decode$map,
-		$author$project$Vocab$Game$GameModel$Question(show),
-		$author$project$Vocab$Game$GameModel$extractAndDecodeCard);
-};
 var $author$project$Vocab$Game$GameModel$ASide = {$: 'ASide'};
 var $author$project$Vocab$Game$GameModel$BSide = {$: 'BSide'};
 var $elm$json$Json$Decode$fail = _Json_fail;
@@ -5468,14 +5461,22 @@ var $author$project$Vocab$Game$GameModel$decodeShowing = function (tag) {
 			return $elm$json$Json$Decode$fail(tag + ' is not a recognized tag for Showing');
 	}
 };
-var $author$project$Vocab$Game$GameModel$extractAndDecodeShowing = A2(
-	$elm$json$Json$Decode$andThen,
-	$author$project$Vocab$Game$GameModel$decodeShowing,
-	A2($elm$json$Json$Decode$field, 'showing', $elm$json$Json$Decode$string));
+var $author$project$Vocab$Game$GameModel$extractAndDecodeCard = A2($elm$json$Json$Decode$field, 'card', $author$project$Vocab$Api$DTO$Card$cardDecoder);
 var $author$project$Vocab$Game$GameModel$chooseByType = function (ttype) {
 	switch (ttype) {
 		case 'Question':
-			return A2($elm$json$Json$Decode$andThen, $author$project$Vocab$Game$GameModel$andDecodeCard, $author$project$Vocab$Game$GameModel$extractAndDecodeShowing);
+			return A2(
+				$elm$json$Json$Decode$andThen,
+				function (show) {
+					return A2(
+						$elm$json$Json$Decode$map,
+						$author$project$Vocab$Game$GameModel$Question(show),
+						$author$project$Vocab$Game$GameModel$extractAndDecodeCard);
+				},
+				A2(
+					$elm$json$Json$Decode$andThen,
+					$author$project$Vocab$Game$GameModel$decodeShowing,
+					A2($elm$json$Json$Decode$field, 'showing', $elm$json$Json$Decode$string)));
 		case 'Answer':
 			return A2($elm$json$Json$Decode$map, $author$project$Vocab$Game$GameModel$Answer, $author$project$Vocab$Game$GameModel$extractAndDecodeCard);
 		case 'NoMoreCards':
@@ -8750,41 +8751,50 @@ var $elm$virtual_dom$VirtualDom$attribute = F2(
 var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$html$Html$Attributes$default = $elm$html$Html$Attributes$boolProperty('default');
 var $elm$html$Html$option = _VirtualDom_node('option');
-var $author$project$Vocab$Splash$SplashView$optionsHtml = function (sheets) {
-	return _Utils_ap(
-		_List_fromArray(
+var $author$project$Vocab$Splash$SplashView$optionAttrs = F2(
+	function (selected, sheet) {
+		return _Utils_eq(selected, sheet) ? _List_fromArray(
 			[
-				A2(
-				$elm$html$Html$option,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$disabled(true),
-						$elm$html$Html$Attributes$value('--'),
-						A2($elm$html$Html$Attributes$attribute, 'selected', 'selected'),
-						A2($elm$html$Html$Attributes$attribute, 'default', 'default'),
-						$elm$html$Html$Attributes$default(true)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Select Sheet')
-					]))
-			]),
-		A2(
-			$elm$core$List$map,
-			function (sheet) {
-				return A2(
+				$elm$html$Html$Attributes$value(sheet),
+				A2($elm$html$Html$Attributes$attribute, 'selected', 'selected')
+			]) : _List_fromArray(
+			[
+				$elm$html$Html$Attributes$value(sheet)
+			]);
+	});
+var $author$project$Vocab$Splash$SplashView$optionsHtml = F2(
+	function (selected, sheets) {
+		return _Utils_ap(
+			_List_fromArray(
+				[
+					A2(
 					$elm$html$Html$option,
+					_Utils_ap(
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$disabled(true),
+								A2($elm$html$Html$Attributes$attribute, 'default', 'default'),
+								$elm$html$Html$Attributes$default(true)
+							]),
+						A2($author$project$Vocab$Splash$SplashView$optionAttrs, selected, '--')),
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$value(sheet)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(sheet)
-						]));
-			},
-			sheets));
-};
+							$elm$html$Html$text('Select Sheet')
+						]))
+				]),
+			A2(
+				$elm$core$List$map,
+				function (sheet) {
+					return A2(
+						$elm$html$Html$option,
+						A2($author$project$Vocab$Splash$SplashView$optionAttrs, selected, sheet),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(sheet)
+							]));
+				},
+				sheets));
+	});
 var $elm$html$Html$select = _VirtualDom_node('select');
 var $author$project$Vocab$Splash$SplashView$splash = $author$project$Core$BEM$block('splash');
 var $author$project$Vocab$Splash$SplashView$splashView = function (_v0) {
@@ -8819,7 +8829,10 @@ var $author$project$Vocab$Splash$SplashView$splashView = function (_v0) {
 									'unselected',
 									$author$project$Vocab$Splash$SplashView$isEmpty(selected)))
 							]),
-						$author$project$Vocab$Splash$SplashView$optionsHtml(sheets)),
+						A2(
+							$author$project$Vocab$Splash$SplashView$optionsHtml,
+							A2($elm$core$Maybe$withDefault, '--', selected),
+							sheets)),
 						A2(
 						$elm$html$Html$span,
 						_List_fromArray(

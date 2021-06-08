@@ -42,11 +42,6 @@ type Current
     | NoMoreCards
 
 
-extractAndDecodeShowing : D.Decoder Showing
-extractAndDecodeShowing =
-    D.andThen decodeShowing (D.field "showing" D.string)
-
-
 extractAndDecodeCard : D.Decoder Card
 extractAndDecodeCard =
     D.field "card" cardDecoder
@@ -57,17 +52,13 @@ decodeCurrentType =
     D.field "type" D.string
 
 
-andDecodeCard : Showing -> D.Decoder Current
-andDecodeCard show =
-    extractAndDecodeCard
-        |> D.map (Question show)
-
-
 chooseByType : String -> D.Decoder Current
 chooseByType ttype =
     case ttype of
         "Question" ->
-            D.andThen andDecodeCard extractAndDecodeShowing
+            D.field "showing" D.string
+                |> D.andThen decodeShowing
+                |> D.andThen (\show -> D.map (Question show) extractAndDecodeCard)
 
         "Answer" ->
             D.map Answer extractAndDecodeCard
