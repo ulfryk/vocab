@@ -42,42 +42,19 @@ type Current
     | NoMoreCards
 
 
-
---extractAndDecodeCard : D.Decoder Card
---extractAndDecodeCard =
---    D.field "card" cardDecoder
-
-
 decodeCurrentType : D.Decoder String
 decodeCurrentType =
     D.field "type" D.string
 
 
-
---mapOver : D.Decoder a -> (a -> v) -> D.Decoder v
---mapOver decoder fn = D.map fn decoder
-
-
 chooseByType : String -> D.Decoder Current
 chooseByType ttype =
     case ttype of
-        --"Question" ->
-        --    D.field "showing" D.string
-        --        |> D.andThen decodeShowing
-        --        |> D.map Question
-        --        |> D.andThen (mapOver extractAndDecodeCard)
-        --
-        --"Question" ->
-        --    D.map2 Question
-        --        (D.andThen decodeShowing (D.field "showing" D.string))
-        --        (extractAndDecodeCard)
         "Question" ->
             D.succeed Question
                 |> required "showing" (D.andThen decodeShowing D.string)
                 |> required "card" cardDecoder
 
-        --"Answer" ->
-        --    D.map Answer extractAndDecodeCard
         "Answer" ->
             D.succeed Answer
                 |> required "card" cardDecoder
