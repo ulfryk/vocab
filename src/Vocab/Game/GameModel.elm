@@ -42,13 +42,8 @@ type Current
     | NoMoreCards
 
 
-decodeCurrentType : D.Decoder String
-decodeCurrentType =
-    D.field "type" D.string
-
-
-chooseByType : String -> D.Decoder Current
-chooseByType ttype =
+decodeCurrentByType : String -> D.Decoder Current
+decodeCurrentByType ttype =
     case ttype of
         "Question" ->
             D.succeed Question
@@ -68,7 +63,8 @@ chooseByType ttype =
 
 decodeCurrent : D.Decoder Current
 decodeCurrent =
-    D.andThen chooseByType decodeCurrentType
+    D.field "type" D.string
+        |> D.andThen decodeCurrentByType
 
 
 encodeCurrent : Current -> E.Value
