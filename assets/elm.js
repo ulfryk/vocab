@@ -5461,7 +5461,7 @@ var $author$project$Vocab$Game$GameModel$decodeShowing = function (tag) {
 			return $elm$json$Json$Decode$fail(tag + ' is not a recognized tag for Showing');
 	}
 };
-var $author$project$Vocab$Game$GameModel$chooseByType = function (ttype) {
+var $author$project$Vocab$Game$GameModel$decodeCurrentByType = function (ttype) {
 	switch (ttype) {
 		case 'Question':
 			return A3(
@@ -5485,8 +5485,10 @@ var $author$project$Vocab$Game$GameModel$chooseByType = function (ttype) {
 			return $elm$json$Json$Decode$fail('Invalid user type: ' + ttype);
 	}
 };
-var $author$project$Vocab$Game$GameModel$decodeCurrentType = A2($elm$json$Json$Decode$field, 'type', $elm$json$Json$Decode$string);
-var $author$project$Vocab$Game$GameModel$decodeCurrent = A2($elm$json$Json$Decode$andThen, $author$project$Vocab$Game$GameModel$chooseByType, $author$project$Vocab$Game$GameModel$decodeCurrentType);
+var $author$project$Vocab$Game$GameModel$decodeCurrent = A2(
+	$elm$json$Json$Decode$andThen,
+	$author$project$Vocab$Game$GameModel$decodeCurrentByType,
+	A2($elm$json$Json$Decode$field, 'type', $elm$json$Json$Decode$string));
 var $elm$core$Set$Set_elm_builtin = function (a) {
 	return {$: 'Set_elm_builtin', a: a};
 };
