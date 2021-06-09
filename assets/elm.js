@@ -5461,24 +5461,24 @@ var $author$project$Vocab$Game$GameModel$decodeShowing = function (tag) {
 			return $elm$json$Json$Decode$fail(tag + ' is not a recognized tag for Showing');
 	}
 };
-var $author$project$Vocab$Game$GameModel$extractAndDecodeCard = A2($elm$json$Json$Decode$field, 'card', $author$project$Vocab$Api$DTO$Card$cardDecoder);
 var $author$project$Vocab$Game$GameModel$chooseByType = function (ttype) {
 	switch (ttype) {
 		case 'Question':
-			return A2(
-				$elm$json$Json$Decode$andThen,
-				function (show) {
-					return A2(
-						$elm$json$Json$Decode$map,
-						$author$project$Vocab$Game$GameModel$Question(show),
-						$author$project$Vocab$Game$GameModel$extractAndDecodeCard);
-				},
-				A2(
-					$elm$json$Json$Decode$andThen,
-					$author$project$Vocab$Game$GameModel$decodeShowing,
-					A2($elm$json$Json$Decode$field, 'showing', $elm$json$Json$Decode$string)));
+			return A3(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+				'card',
+				$author$project$Vocab$Api$DTO$Card$cardDecoder,
+				A3(
+					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+					'showing',
+					A2($elm$json$Json$Decode$andThen, $author$project$Vocab$Game$GameModel$decodeShowing, $elm$json$Json$Decode$string),
+					$elm$json$Json$Decode$succeed($author$project$Vocab$Game$GameModel$Question)));
 		case 'Answer':
-			return A2($elm$json$Json$Decode$map, $author$project$Vocab$Game$GameModel$Answer, $author$project$Vocab$Game$GameModel$extractAndDecodeCard);
+			return A3(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+				'card',
+				$author$project$Vocab$Api$DTO$Card$cardDecoder,
+				$elm$json$Json$Decode$succeed($author$project$Vocab$Game$GameModel$Answer));
 		case 'NoMoreCards':
 			return $elm$json$Json$Decode$succeed($author$project$Vocab$Game$GameModel$NoMoreCards);
 		default:

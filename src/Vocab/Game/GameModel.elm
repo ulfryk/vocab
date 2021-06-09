@@ -2,7 +2,7 @@ module Vocab.Game.GameModel exposing (..)
 
 import Array as A
 import Json.Decode as D
-import Json.Decode.Pipeline exposing (optional)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as E
 import Set as S exposing (Set, empty, size)
 import Vocab.Api.DTO.Card exposing (Card, cardDecoder, encodeCard)
@@ -42,9 +42,10 @@ type Current
     | NoMoreCards
 
 
-extractAndDecodeCard : D.Decoder Card
-extractAndDecodeCard =
-    D.field "card" cardDecoder
+
+--extractAndDecodeCard : D.Decoder Card
+--extractAndDecodeCard =
+--    D.field "card" cardDecoder
 
 
 decodeCurrentType : D.Decoder String
@@ -52,16 +53,34 @@ decodeCurrentType =
     D.field "type" D.string
 
 
+
+--mapOver : D.Decoder a -> (a -> v) -> D.Decoder v
+--mapOver decoder fn = D.map fn decoder
+
+
 chooseByType : String -> D.Decoder Current
 chooseByType ttype =
     case ttype of
+        --"Question" ->
+        --    D.field "showing" D.string
+        --        |> D.andThen decodeShowing
+        --        |> D.map Question
+        --        |> D.andThen (mapOver extractAndDecodeCard)
+        --
+        --"Question" ->
+        --    D.map2 Question
+        --        (D.andThen decodeShowing (D.field "showing" D.string))
+        --        (extractAndDecodeCard)
         "Question" ->
-            D.field "showing" D.string
-                |> D.andThen decodeShowing
-                |> D.andThen (\show -> D.map (Question show) extractAndDecodeCard)
+            D.succeed Question
+                |> required "showing" (D.andThen decodeShowing D.string)
+                |> required "card" cardDecoder
 
+        --"Answer" ->
+        --    D.map Answer extractAndDecodeCard
         "Answer" ->
-            D.map Answer extractAndDecodeCard
+            D.succeed Answer
+                |> required "card" cardDecoder
 
         "NoMoreCards" ->
             D.succeed NoMoreCards
